@@ -17,7 +17,7 @@ window.onload = function () {
     secret_number = Math.floor(Math.random() * (max_value - min_value) + 1) + min_value;
 
     makeGuess = function (guessed_number) {
-        guessed_number.replace(/^0+/, ""); //tar bort eventuella inledande nollor
+        guessed_number = guessed_number.replace(/^0+/, ''); //tar bort eventuella inledande nollor
         guessed_number = parseInt(guessed_number, 10);
 
         if (guessed_number >= min_value && guessed_number <= max_value) {
