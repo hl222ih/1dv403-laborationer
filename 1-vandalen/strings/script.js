@@ -1,29 +1,31 @@
 
 
-window.onload = function() {
+window.onload = function () {
     "use strict";
+    var convertString,      //Funktion som konverterar en sträng och returnerar den. (function)
+        p,                  //Referens till DOM-noden med id="#value"
+        input,              //Referens till DOM-noden med id="#input"
+        submit;             //Referens till DOM-noden med id="#submit"
 
-    var p, input, submit, convertString;
+    convertString = function (str) {
 
-    // I denna funktion ska du skriva koden för att hantera "spelet"
-    convertString = function(str) {
-
-        var str_array, i;
+        var strArray,       //variabeln str splittad till en array (Array object).
+            i;              //loop-index. (number)
 
         if (str === "") {
             throw new Error("Skriv den text du vill konvertera i rutan!");
         }
 
-        str_array = str.split('');
+        strArray = str.split('');
 
-        for (i = 0; i < str_array.length; i++) {
-            if (str_array[i] !== str_array[i].toUpperCase()) {
-                str_array[i] = str_array[i].toUpperCase();
-            } else if (str_array[i] !== str_array[i].toLowerCase()) {
-                str_array[i] = str_array[i].toLowerCase();
+        for (i = 0; i < strArray.length; i++) {
+            if (strArray[i] !== strArray[i].toUpperCase()) {
+                strArray[i] = strArray[i].toUpperCase();
+            } else if (strArray[i] !== strArray[i].toLowerCase()) {
+                strArray[i] = strArray[i].toLowerCase();
             }
         }
-        str = str_array.join('');
+        str = strArray.join('');
         str = str.replace(/a/gi, '#'); //byt ut alla a eller A mot #
 
         return str;
@@ -37,7 +39,7 @@ window.onload = function() {
     submit = document.querySelector("#send");
 
     // Vi kopplar en eventhanterare till formulärets skickaknapp som kör en anonym funktion.
-    submit.addEventListener("click", function(e) {
+    submit.addEventListener("click", function (e) {
         var answer;
 
         e.preventDefault(); // Hindra formuläret från att skickas till servern. Vi hanterar allt på klienten.

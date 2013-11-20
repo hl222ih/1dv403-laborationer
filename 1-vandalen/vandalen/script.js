@@ -2,12 +2,12 @@ var makePerson = function (persArr) {
     "use strict"; //blidkar JSLint
 
     //deklarerar alla funktionsvariabler.
-    var all_names_array,    //alla namn i en array.
-        all_names_string,   //alla namn i en sträng.
-        all_ages,           //alla åldrar i en array.
-        min_age,            //den lägsta åldern bland alla åldrar.
-        max_age,            //den högsta åldern bland alla åldrar.
-        average_age;        //genomsnittsåldern av alla åldrar.
+    var allNamesArray,    //alla namn i en array.
+        allNamesString,   //alla namn i en sträng.
+        allAges,           //alla åldrar i en array.
+        minAge,            //den lägsta åldern bland alla åldrar.
+        maxAge,            //den högsta åldern bland alla åldrar.
+        averageAge;        //genomsnittsåldern av alla åldrar.
 
     //kontrollerar att inputvärdet innehåller rätt format och kastar annars ett undantag med relevant information. Om flera olika fel finns nämns bara det först påträffade felet.
     if (!persArr instanceof Array) {
@@ -45,40 +45,40 @@ var makePerson = function (persArr) {
     }
 
     //Använder map för att skapa en ny array motsvarande persArr, men med objektens namn.
-    all_names_array = persArr.map(function (person) {
+    allNamesArray = persArr.map(function (person) {
         return person.name;
     });
 
     //En dator med svenska locale-inställningar sorterar å ä ö korrekt och för övriga bokstäver bortses från diakriter. toLowerCase() så att inte versaler och gemener sorteras för sig.
-    all_names_array.sort(function (a, b) {
+    allNamesArray.sort(function (a, b) {
         return a.toLowerCase().localeCompare(b.toLowerCase());
     });
 
     //Lägger samman namnen från vektorn till en sträng.
-    all_names_string = all_names_array.join(', ');
+    allNamesString = allNamesArray.join(', ');
 
     //Använder map för att skapa en array motsvarande persArr, men med objektens åldrar.
-    all_ages = persArr.map(function (person) {
+    allAges = persArr.map(function (person) {
         return person.age;
     });
 
     //Math.min.apply(Math, array) känns som ett krångligt uttryck för en sådan enkel grej, men det verkar vara så man får göra...
-    min_age = Math.min.apply(Math, all_ages);
+    minAge = Math.min.apply(Math, allAges);
     //Samma för min...
-    max_age = Math.max.apply(Math, all_ages);
+    maxAge = Math.max.apply(Math, allAges);
 
     //Använder reduce för att agera på alla objekt i arrayen, i par:
-    //iteration 1: a och b: all_ages[0] och all_ages[1]
-    //iteration 2: a och b: resultat från iteration 1 och all_ages[2]
+    //iteration 1: a och b: allAges[0] och allAges[1]
+    //iteration 2: a och b: resultat från iteration 1 och allAges[2]
     //osv.
     //Delar sedan resultatet med antalet åldrar för att få ut medelvärdet.
-    average_age = all_ages.reduce(function (a, b) {
+    averageAge = allAges.reduce(function (a, b) {
         return a + b;
-    }) /  all_ages.length;
+    }) /  allAges.length;
 
     //Avrundar medelvärdet för att test-caset vill ha ett heltal.
-    average_age = Math.round(average_age);
+    averageAge = Math.round(averageAge);
 
     //Skapar och returnerar objektet med minAge, maxAge, averageAge och names.
-    return {minAge: min_age, maxAge: max_age, averageAge: average_age, names: all_names_string};
+    return {minAge: minAge, maxAge: maxAge, averageAge: averageAge, names: allNamesString};
 };

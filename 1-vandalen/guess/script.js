@@ -1,40 +1,47 @@
 //Använder JSLint och JSHint.
 //Avmarkerat varning för ++/-- och fördefiniering av browservariabler.
 //Markerat att koden är enligt ES5-standard.
-//Har kikat lite på naming conventions: http://www.j-io.org/Javascript-Naming_Conventions/.
 //Har ändrat några variabelnamn av tydlighetsskäl.
 
 window.onload = function () {
     "use strict"; //JSLint vill att den ska placeras i funktionen.
 
     //deklarerar alla variabler i början på funktionen
-    var secret_number, makeGuess, p, input, submit, min_value, max_value, number_of_guesses;
+    var secretNumber,       //det hemliga talet som ska försöka gissas (number)
+        makeGuess,          //funktion som kontrollerar gissningen och returnerar ett svar (function)
+        minValue,           //det lägsta talet som kan vara det hemliga talet
+        maxValue,           //det högsta talet som kan vara det hemliga talet
+        numberOfGuesses,    //antalet gjorda gissningar
+        p,                  //Referens till DOM-noden med id="#value"
+        input,              //Referens till DOM-noden med id="#input"
+        submit;             //Referens till DOM-noden med id="#submit"
 
-    min_value = 1; //det lägsta talet som kan vara det hemliga talet
-    max_value = 100; //det högsta talet som kan vara det hemliga talet
-    number_of_guesses = 0; //antalet gjorda gissningar
+    //utgångsvärden
+    minValue = 1;
+    maxValue = 100;
+    numberOfGuesses = 0;
 
-    secret_number = Math.floor(Math.random() * (max_value - min_value) + 1) + min_value;
+    secretNumber = Math.floor(Math.random() * (maxValue - minValue) + 1) + minValue;
 
     makeGuess = function (guessed_number) {
         guessed_number = guessed_number.replace(/^0+/, ''); //tar bort eventuella inledande nollor
         guessed_number = parseInt(guessed_number, 10);
 
-        if (guessed_number >= min_value && guessed_number <= max_value) {
+        if (guessed_number >= minValue && guessed_number <= maxValue) {
 
-            number_of_guesses++; //räknar bara upp antalet gissningar då en giltig gissning gjorts
+            numberOfGuesses++; //räknar bara upp antalet gissningar då en giltig gissning gjorts
 
-            if (guessed_number < secret_number) {
+            if (guessed_number < secretNumber) {
                 return [false, "Det hemliga talet är större än " + guessed_number + "!"];
             }
-            if (guessed_number > secret_number) {
+            if (guessed_number > secretNumber) {
                 return [false, "Det hemliga talet är mindre än " + guessed_number + "!"];
             }
-            if (guessed_number === secret_number) {
-                return [true, "Grattis du vann! Det hemliga talet var " + secret_number + " och du behövde " + number_of_guesses + " gissningar för att hitta det."];
+            if (guessed_number === secretNumber) {
+                return [true, "Grattis du vann! Det hemliga talet var " + secretNumber + " och du behövde " + numberOfGuesses + " gissningar för att hitta det."];
             }
         }
-        return [false, "Kunde inte tolka gissningen. Försök igen. Du måste ange ett tal mellan " + min_value + " och " + max_value];
+        return [false, "Kunde inte tolka gissningen. Försök igen. Du måste ange ett tal mellan " + minValue + " och " + maxValue];
 
     };
 
