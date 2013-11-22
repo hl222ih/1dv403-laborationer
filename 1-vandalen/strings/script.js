@@ -9,26 +9,24 @@ window.onload = function () {
 
     convertString = function (str) {
 
-        var strArray,       //variabeln str splittad till en array (Array object).
+        var newString = "", //den formaterade textsträngen
             i;              //loop-index. (number)
 
         if (str === "") {
             throw new Error("Skriv den text du vill konvertera i rutan!");
         }
 
-        strArray = str.split('');
-
-        for (i = 0; i < strArray.length; i++) {
-            if (strArray[i] !== strArray[i].toUpperCase()) {
-                strArray[i] = strArray[i].toUpperCase();
-            } else if (strArray[i] !== strArray[i].toLowerCase()) {
-                strArray[i] = strArray[i].toLowerCase();
+        for (i = 0; i < str.length; i++) {
+            if (/a/gi.test(str[i])) {
+                newString += '#';
+            } else if (str[i] !== str[i].toUpperCase()) {
+                newString += str[i].toUpperCase();
+            } else if (str[i] !== str[i].toLowerCase()) {
+                newString += str[i].toLowerCase();
             }
         }
-        str = strArray.join('');
-        str = str.replace(/a/gi, '#'); //byt ut alla a eller A mot #
 
-        return str;
+        return newString;
     };
     // ------------------------------------------------------------------------------
 

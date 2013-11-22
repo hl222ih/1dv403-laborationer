@@ -9,17 +9,12 @@ window.onload = function () {
     //deklarerar alla variabler i början på funktionen
     var secretNumber,       //det hemliga talet som ska försöka gissas (number)
         makeGuess,          //funktion som kontrollerar gissningen och returnerar ett svar (function)
-        minValue,           //det lägsta talet som kan vara det hemliga talet
-        maxValue,           //det högsta talet som kan vara det hemliga talet
-        numberOfGuesses,    //antalet gjorda gissningar
+        minValue = 1,       //det lägsta talet som kan vara det hemliga talet
+        maxValue = 100,     //det högsta talet som kan vara det hemliga talet
+        numberOfGuesses = 0, //antalet gjorda gissningar
         p,                  //Referens till DOM-noden med id="#value"
         input,              //Referens till DOM-noden med id="#input"
         submit;             //Referens till DOM-noden med id="#submit"
-
-    //utgångsvärden
-    minValue = 1;
-    maxValue = 100;
-    numberOfGuesses = 0;
 
     secretNumber = Math.floor(Math.random() * (maxValue - minValue) + 1) + minValue;
 
