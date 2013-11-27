@@ -1,3 +1,4 @@
+/*global Message*/
 
 function displayMessage(message) {
     "use strict";
@@ -9,10 +10,10 @@ function init() {
     var inputArea = document.getElementById("input"),
         textArea = inputArea.getElementsByTagName("textarea")[0],
         sendButton = document.getElementById("send"),
-        Message,
-        message = new Message("text");
+        message = new Message("text", new Date());
 
-    sendButton.onclick = function () { displayMessage(message.text); };
+
+    sendButton.onclick = function () { displayMessage(message.getFullDateText()); };
 }
 
 window.onload = init;
