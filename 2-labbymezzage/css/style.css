@@ -123,13 +123,14 @@ textarea {
     cursor: default;
 
     position: relative;
-    height: 68px;
+    height: 70px;
     width: 99px;
     box-shadow: 3px 2px 10px;
     z-index: 1;
     margin-left: -4px;
 }
-#send:hover {
+#send:hover, #send:focus {
+    outline: 0;
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d29105), color-stop(1, #f6b33d) );
     background:-moz-linear-gradient( center top, #d29105 5%, #f6b33d 100% );
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d29105', endColorstr='#f6b33d');
