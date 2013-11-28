@@ -22,7 +22,7 @@ body {
     scrollbar-track-color: #1C3249;
 }
 #container {
-    height: calc(100% - 102px - 30px); /* - logo height - header padding-bottom */
+    height: calc(100% - 102px - 30px);
     background-image: -webkit-gradient(
         linear,
         left top,
@@ -36,11 +36,11 @@ body {
     background-image: -ms-linear-gradient(bottom, #556270 0%, #96A7B8 100%);
     background-image: linear-gradient(to bottom, #556270 0%, #96A7B8 100%);
 }
-#content {
-    height: calc(100% - 50px - 40px - 20px); /* - half total textarea height - footer (total height)
-     - input margin-top*/
+.content {
+    height: calc(100% - 50px - 5px);
     overflow: auto;
     text-align: center;
+
 }
 footer {
     position: relative;
@@ -66,7 +66,7 @@ footer {
 -webkit-scrollbar-thumb:hover {
     background: #96A7B8;
 }
-#input {
+.input {
     height: 40px;
     text-align: center;
     margin: 20px 0 0 0;
@@ -89,7 +89,7 @@ textarea {
     border-radius: 20px 0 0 20px;
     vertical-align: top;
 }
-#send {
+.send {
 
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f6b33d), color-stop(1, #d29105) );
     background:-moz-linear-gradient( center top, #f6b33d 5%, #d29105 100% );
@@ -129,14 +129,14 @@ textarea {
     z-index: 1;
     margin-left: -4px;
 }
-#send:hover, #send:focus {
+.send:hover, .send:focus {
     outline: 0;
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d29105), color-stop(1, #f6b33d) );
     background:-moz-linear-gradient( center top, #d29105 5%, #f6b33d 100% );
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d29105', endColorstr='#f6b33d');
     background-color:#d29105;
 }
-#send:active {
+.send:active {
     position:relative;
     top:1px;
 }
@@ -158,5 +158,9 @@ textarea:focus {
     text-align: left;
     color: black;
     box-shadow: 3px 2px 4px #96A7B8;
+}
+
+.messageBoard {
+    height: calc(100% - 70px);
 }
 

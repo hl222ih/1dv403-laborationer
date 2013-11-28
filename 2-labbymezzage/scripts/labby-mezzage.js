@@ -1,22 +1,14 @@
-/*global Message*/
+/*global MessageBoard*/
 
 var messageBoard;
 
-function displayMessage(message) {
+
+function init() {
     "use strict";
-    window.alert(message);
+    var messageBoard1 = new MessageBoard(),
+        messageBoard2 = new MessageBoard();
+
+    messageBoard
 }
 
-function messageBoard() {
-    "use strict";
-    var inputArea = document.getElementById("input"),
-        textArea = inputArea.getElementsByTagName("textarea")[0],
-        sendButton = document.getElementById("send"),
-        message = new Message("text", new Date());
-
-    sendButton.onclick = function () {
-        displayMessage(message.getDateTimeText());
-    };
-}
-
-window.onload = messageBoard;
+window.onload = init;
