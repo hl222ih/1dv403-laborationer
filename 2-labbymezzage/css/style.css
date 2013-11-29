@@ -74,20 +74,22 @@ footer {
 }
 textarea {
     position: relative;
-    height: 64px;
+    height: 40px;
     width: 440px;
     display: inline-block;
     background-color: #fbd593;
     z-index: 1;
     margin: 0;
     border: 0;
-    padding: 3px 20px;
+    padding: 15px 20px 15px 20px;
     resize: none;
     color: black;
     font-weight: bold;
     box-shadow: 3px 2px 10px white;
     border-radius: 20px 0 0 20px;
     vertical-align: top;
+
+
 }
 .send {
 
@@ -148,7 +150,9 @@ textarea:focus {
 }
 
 .message {
+    position: relative;
     max-width: 500px;
+    min-height: 60px;
     margin: 10px auto;
     padding: 5px 20px;
     background-color: #d2e0e6;
@@ -160,7 +164,28 @@ textarea:focus {
     box-shadow: 3px 2px 4px #96A7B8;
 }
 
+.message p {
+    max-width: 400px;
+}
+
 .messageBoard {
+    position: relative;
     height: calc(100% - 70px);
 }
 
+.buttons {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: block;
+}
+
+.dateTime {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: block;
+    border: solid 1px pink;
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 11px;
+}

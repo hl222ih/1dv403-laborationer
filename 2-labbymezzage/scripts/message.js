@@ -6,23 +6,24 @@
 function Message(text, date) {
     "use strict";
     //endast åtkomst via getters och setters.
-    var textMessage,      //meddelandets text
-        dateOfMessage;    //meddelandets datum-objekt
+   // var textMessage,      //meddelandets text
+    //    dateOfMessage;    //meddelandets datum-objekt
 
-    textMessage = text;
-    dateOfMessage = date;
+    this.textMessage = text;
+    this.dateOfMessage = date;
 
     this.getText = function () {
-        return textMessage;
+        //return textMessage;
+        return text;
     };
-    this.setText = function (text) {
-        textMessage = text;
+    this.setText = function (value) {
+        text = value;
     };
     this.getDate = function () {
-        return dateOfMessage;
+        return date;
     };
-    this.setDate = function (date) {
-        dateOfMessage = date;
+    this.setDate = function (value) {
+        date = value;
     };
 }
 
@@ -33,7 +34,6 @@ function Message(text, date) {
  */
 var padZero = function (number) {
     "use strict";
-    window.console.log(number.toString().length);
     return (number.toString().length === 1) ? "0" + number : number.toString();
 };
 
@@ -79,9 +79,30 @@ Message.prototype.getDateTimeText = function () {
     return this.getDateText() + " " + this.getTimeText();
 };
 
-Message.prototype.render = function () {
+Message.prototype.render = function (e) {
     "use strict";
-    window.alert(this.getDateTimeText());
+    var createHere = e.target.parentNode.previousElementSibling,
+        message = document.createElement("section"),
+        buttons = document.createElement("div"),
+        button1 = document.createElement("img"),
+        button2 = document.createElement("img"),
+        text = document.createElement("p"),
+        dateTime = document.createElement("div");
+
+    message.setAttribute("class", "message");
+    buttons.setAttribute("class", "buttons");
+    button1.setAttribute("src", "images/time.png");
+    button2.setAttribute("src", "images/remove.png");
+    text.innerHTML = this.getText();
+    dateTime.setAttribute("class", "dateTime");
+    dateTime.innerHTML = this.getDateTimeText();
+
+    message.appendChild(buttons);
+    buttons.appendChild(button1);
+    buttons.appendChild(button2);
+    message.appendChild(text);
+    message.appendChild(dateTime);
+    createHere.appendChild(message);
 };
 
 

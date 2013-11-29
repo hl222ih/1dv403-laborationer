@@ -6,17 +6,19 @@
  */
 function MessageBoard() {
     "use strict";
-    var inputArea = document.getElementsByClassName("input")[0],
+    var sendButton = document.getElementsByClassName("send")[0],
+        inputArea = document.getElementsByClassName("input")[0],
         textArea = inputArea.getElementsByTagName("textarea")[0],
-        sendButton = document.getElementsByClassName("send")[0],
-        message;
+        message,
+        that = this;
 
+    this.messages = [];
     this.button = sendButton;
     sendButton.addEventListener('click', function (e) {
-        message = new Message("text", new Date());
-        message.render();
+        that.messages.push(new Message(textArea.value, new Date()));
+        that.messages[that.messages.length - 1].render(e);
+        textArea.value = "";
+        textArea.focus();
     }, false);
 
 }
-
-
