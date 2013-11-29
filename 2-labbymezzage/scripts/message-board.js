@@ -9,15 +9,14 @@ function MessageBoard() {
     var inputArea = document.getElementsByClassName("input")[0],
         textArea = inputArea.getElementsByTagName("textarea")[0],
         sendButton = document.getElementsByClassName("send")[0],
+        message;
+
+    this.button = sendButton;
+    sendButton.addEventListener('click', function (e) {
         message = new Message("text", new Date());
-
-    sendButton.onclick = function () {
-        displayMessage(message.getDateTimeText());
-    };
+        message.render();
+    }, false);
 
 }
 
-function displayMessage(message) {
-    "use strict";
-    window.alert(message);
-}
+

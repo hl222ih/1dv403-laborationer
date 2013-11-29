@@ -9,6 +9,9 @@ function Message(text, date) {
     var textMessage,      //meddelandets text
         dateOfMessage;    //meddelandets datum-objekt
 
+    textMessage = text;
+    dateOfMessage = date;
+
     this.getText = function () {
         return textMessage;
     };
@@ -30,7 +33,7 @@ function Message(text, date) {
  */
 var padZero = function (number) {
     "use strict";
-    window.console.log(number.length);
+    window.console.log(number.toString().length);
     return (number.toString().length === 1) ? "0" + number : number.toString();
 };
 
@@ -75,5 +78,11 @@ Message.prototype.getDateTimeText = function () {
     "use strict";
     return this.getDateText() + " " + this.getTimeText();
 };
+
+Message.prototype.render = function () {
+    "use strict";
+    window.alert(this.getDateTimeText());
+};
+
 
 
