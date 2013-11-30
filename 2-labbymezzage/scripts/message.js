@@ -97,7 +97,7 @@ Message.prototype.render = function (e) {
     removeButton.setAttribute("class", "removeButton");
     text.innerHTML = this.getText();
     dateTime.setAttribute("class", "dateTime");
-    dateTime.innerHTML = this.getDateTimeText();
+    dateTime.innerHTML = this.getTimeText();
 
     message.appendChild(buttons);
     buttons.appendChild(timeButton);
@@ -106,30 +106,9 @@ Message.prototype.render = function (e) {
     message.appendChild(dateTime);
     createHere.appendChild(message);
 
-    removeButton.addEventListener('click', function (e) {
-        //kontrollera först att användaren verkligen vill ta bort.
-        var nodeToRemove = e.target.parentNode.parentNode,
-            parentNodeToRemoveFrom = nodeToRemove.parentNode,
-            index = 0,  //för att räkna ut meddelandets position
-            node = nodeToRemove;  //för att räkna ut meddelandets position
+    createHere.scrollTop = createHere.scrollHeight; //så att scrollen flyttas längst ned så att det nyligen tillagda meddelandet syns.
 
-        //Alternativ 1
-        while (node.previousElementSibling !== null) {
-            node = node.previousElementSibling;
-            index++;
-        }
-        parentNodeToRemoveFrom.removeChild(nodeToRemove);
-        this.messages.splice(index, 1);
-
-        //Alternativ 2
-        //
-        //
-
-        //ta reda på vilken nod i listan den kommer ifrån
-        //ta bort detta nummer från arrayen
-        //ta bort denna nod i listan.
-    }, false);
-
+    return [timeButton, removeButton]; //måste returnera dessa så att händelsehanteraren läggs i message-board där even listan med messages ligger.
 
 };
 

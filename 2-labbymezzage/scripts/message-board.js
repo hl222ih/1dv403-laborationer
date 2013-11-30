@@ -49,13 +49,48 @@ MessageBoard.prototype.render = function () {
     container.appendChild(footer);
 
     sendButton.addEventListener('click', function (e) {
-        var message;
+        var message,
+            buttons,
+            removeButton,
+            timeButton;
 
         if (textArea.value !== "") {
             message = new Message(textArea.value, new Date());
 
             that.messages.push(message);
-            message.render(e);
+            document.getElementById("numberOfMessages").innerHTML = that.messages.length.toString();
+            buttons = message.render(e);
+            timeButton = buttons[0];
+            removeButton = buttons[1];
+
+            removeButton.addEventListener('click', function (e) {
+                //kontrollera först att användaren verkligen vill ta bort.
+                var nodeToRemove = e.target.parentNode.parentNode,
+                    parentNodeToRemoveFrom = nodeToRemove.parentNode,
+                    index = 0,  //för att räkna ut meddelandets position
+                    node = nodeToRemove;  //för att räkna ut meddelandets position
+
+                while (node.previousElementSibling !== null) {
+                    node = node.previousElementSibling;
+                    index++;
+                }
+                parentNodeToRemoveFrom.removeChild(nodeToRemove);
+                that.messages.splice(index, 1);
+                document.getElementById("numberOfMessages").innerHTML = that.messages.length.toString();
+            }, false);
+
+            timeButton.addEventListener('click', function (e) {
+                var node = e.target.parentNode.parentNode,
+                    index = 0;
+
+                while (node.previousElementSibling !== null) {
+                    index++;
+                }
+
+                window.alert("Meddelandet skickades " + that.messages[index].getDateTimeText() + ".");
+
+            }, false);
+
             textArea.value = "";
         }
 
