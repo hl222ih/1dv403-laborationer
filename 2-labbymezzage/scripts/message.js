@@ -84,25 +84,29 @@ Message.prototype.render = function (e) {
     var createHere = e.target.parentNode.previousElementSibling,
         message = document.createElement("section"),
         buttons = document.createElement("div"),
-        button1 = document.createElement("img"),
-        button2 = document.createElement("img"),
+        timeButton = document.createElement("img"),
+        removeButton = document.createElement("img"),
         text = document.createElement("p"),
         dateTime = document.createElement("div");
 
     message.setAttribute("class", "message");
     buttons.setAttribute("class", "buttons");
-    button1.setAttribute("src", "images/time.png");
-    button2.setAttribute("src", "images/remove.png");
+    timeButton.setAttribute("src", "images/time.png");
+    timeButton.setAttribute("class", "timeButton");
+    removeButton.setAttribute("src", "images/remove.png");
+    removeButton.setAttribute("class", "removeButton");
     text.innerHTML = this.getText();
     dateTime.setAttribute("class", "dateTime");
     dateTime.innerHTML = this.getDateTimeText();
 
     message.appendChild(buttons);
-    buttons.appendChild(button1);
-    buttons.appendChild(button2);
+    buttons.appendChild(timeButton);
+    buttons.appendChild(removeButton);
     message.appendChild(text);
     message.appendChild(dateTime);
     createHere.appendChild(message);
+    return removeButton;
+
 };
 
 

@@ -50,6 +50,16 @@ footer {
     padding-top: 22px;
     z-index: 0;
 }
+footer p:first-child {
+    margin-left: 5px;
+    float: left;
+}
+footer p:last-child {
+    margin-right: 15px;
+    float: right;
+    color: blue;
+    font-weight: bold;
+}
 ::-webkit-scrollbar {
     width: 14px;
 }
@@ -156,8 +166,8 @@ textarea:focus {
     margin: 10px auto;
     padding: 5px 20px;
     background-color: #d2e0e6;
-    border: 1px solid #f6b33d;
-    border-bottom: 4px double #f6b33d;
+    border: 1px solid #556270;
+    border-bottom: 4px double #556270;
     border-radius: 10px / 6px;
     text-align: left;
     color: black;
@@ -180,12 +190,53 @@ textarea:focus {
     display: block;
 }
 
+.removeButton, .timeButton {
+    padding: 2px;
+    margin: 3px;
+}
+
+.removeButton:hover {
+    box-shadow: 2px 3px 5px;
+    background-color: orangered;
+    border-radius: 3px;
+}
+
+.removeButton:active {
+    position: relative;
+    background-color: red;
+    top: 1px;
+}
+
+.timeButton:hover {
+    box-shadow: 2px 3px 5px;
+    background-color: royalblue;
+    border-radius: 3px;
+}
+
+.timeButton:active {
+    position: relative;
+    background-color: blue;
+    top: 1px;
+}
+
 .dateTime {
     position: absolute;
     right: 10px;
     bottom: 10px;
     display: block;
-    border: solid 1px pink;
     font-family: Impact, Charcoal, sans-serif;
     font-size: 11px;
+}
+
+aside {
+}
+
+aside button {
+    width: 130px;
+    display: block;
+}
+
+aside button:first-child {
+    background-color: lightgreen;
+    height: 40px;
 }
