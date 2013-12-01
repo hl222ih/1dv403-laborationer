@@ -23,10 +23,15 @@ MessageBoard.prototype.render = function () {
         sendButton = document.createElement("button"),
         existingMessageBoardNodes = document.getElementsByClassName("messageBoard"),
         count = 0,
-        that = this;
+        that = this,
+        tempAttribute;
 
     for (count = 0; count < existingMessageBoardNodes.length; count++) {
-        existingMessageBoardNodes[count].setAttribute("style", "display:none;");
+        tempAttribute = existingMessageBoardNodes[count].getAttribute("class");
+        if (!/invisible/.test(tempAttribute)) {
+            existingMessageBoardNodes[count].setAttribute("class", tempAttribute + " invisible");
+        }
+        //existingMessageBoardNodes[count].setAttribute("class", tempAttribute ? tempAttribute + " invisible" : "invisible");
     }
 
 
@@ -47,14 +52,15 @@ MessageBoard.prototype.render = function () {
     container.removeChild(footer);
     container.appendChild(messageBoardNode);
     container.appendChild(footer);
+    var send;
 
-    sendButton.addEventListener('click', function (e) {
+    send = function (e) {
         var message,
             buttons,
             removeButton,
             timeButton;
 
-        if (textArea.value !== "") {
+        if (textArea.value.trim() !== "") {
             message = new Message(textArea.value, new Date());
 
             that.messages.push(message);
@@ -70,13 +76,16 @@ MessageBoard.prototype.render = function () {
                     index = 0,  //för att räkna ut meddelandets position
                     node = nodeToRemove;  //för att räkna ut meddelandets position
 
-                while (node.previousElementSibling !== null) {
-                    node = node.previousElementSibling;
-                    index++;
+                if (window.confirm("Vill du verkligen radera meddelandet?")) {
+                    while (node.previousElementSibling !== null) {
+                        node = node.previousElementSibling;
+                        index++;
+                    }
+                    parentNodeToRemoveFrom.removeChild(nodeToRemove);
+                    that.messages.splice(index, 1);
+                    document.getElementById("numberOfMessages").innerHTML = that.messages.length.toString();
+                    textArea.focus();
                 }
-                parentNodeToRemoveFrom.removeChild(nodeToRemove);
-                that.messages.splice(index, 1);
-                document.getElementById("numberOfMessages").innerHTML = that.messages.length.toString();
             }, false);
 
             timeButton.addEventListener('click', function (e) {
@@ -96,6 +105,16 @@ MessageBoard.prototype.render = function () {
 
         textArea.focus();
 
+    };
+
+    textArea.addEventListener('keydown', function (e) {
+        if (e.keyCode === 13 && e.shiftKey !== true) {
+            send(e);
+            e.preventDefault(); //så inte en radbrytning läggs till i meddelanderutan efter det att meddelandet skickats.
+        }
+    }, false);
+    sendButton.addEventListener('click', function (e) {
+        send(e);
     }, false);
 
 };

@@ -52,7 +52,7 @@ Message.prototype.toString = function () {
  */
 Message.prototype.getHtmlText = function () {
     "use strict";
-    return this.getText().replace(/\n/g, '<br />');
+    return this.getText().replace(/[\n\r]/g, '<br />');
 };
 
 /**
@@ -95,7 +95,7 @@ Message.prototype.render = function (e) {
     timeButton.setAttribute("class", "timeButton");
     removeButton.setAttribute("src", "images/remove.png");
     removeButton.setAttribute("class", "removeButton");
-    text.innerHTML = this.getText();
+    text.innerHTML = this.getHtmlText();
     dateTime.setAttribute("class", "dateTime");
     dateTime.innerHTML = this.getTimeText();
 

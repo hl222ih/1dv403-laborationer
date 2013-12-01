@@ -1,5 +1,14 @@
 @charset "utf-8";
 
+/* Css-kod som rör gradients har skapats med css-kod som i grunden genererats av gratisverktyg på webben.
+ * Komponenten där man skriver in text och klickar på skicka-knappen har jag tweakat från sådan genererad kod
+ * för att få det önskade utseendet med bland annat textruta och knapp som sitter ihop.
+ * För att få till en scroll har jag klippt och klistrat kod. Det verkar vara stor skillnad i olika webbläsare. Det
+ * ser olika ut och koden är olika. Programmet klagar på fel i koden, men låter det vara kvar eftersom det
+ * ger viss önskad funktionalitet iallafall.
+ * Kod för att ändra muspekaren över sänd-knappen har jag också klippt och klistrat då det verkar vara olika
+ * i olika webbläsare. */
+
 * {
     margin: 0;
 }
@@ -228,6 +237,7 @@ textarea:focus {
     font-size: 11px;
 }
 
+
 aside {
     position: absolute;
     right:10px;
@@ -247,4 +257,8 @@ aside button:first-child {
 
 #numberOfMessages:before {
     content: "Antal meddelanden: ";
+}
+
+.invisible {
+    display: none;
 }
