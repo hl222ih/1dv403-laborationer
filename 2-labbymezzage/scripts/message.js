@@ -1,3 +1,5 @@
+/*...*/
+
 /**
  * @constructor Ett meddelande.
  * @param {string} text Meddelandets text.
@@ -5,23 +7,21 @@
  */
 function Message(text, date) {
     "use strict";
-    //endast åtkomst via getters och setters.
-   // var textMessage,      //meddelandets text
-    //    dateOfMessage;    //meddelandets datum-objekt
-
     this.textMessage = text;
     this.dateOfMessage = date;
 
     this.getText = function () {
-        //return textMessage;
         return text;
     };
+
     this.setText = function (value) {
         text = value;
     };
+
     this.getDate = function () {
         return date;
     };
+
     this.setDate = function (value) {
         date = value;
     };
@@ -79,11 +79,16 @@ Message.prototype.getDateTimeText = function () {
     return this.getDateText() + " " + this.getTimeText();
 };
 
+/**
+ * Skapar och skriver ut html-koden för Message. Returnerar en array med node-objekten timeButton och removeButton
+ * som behöver kopplas händelsehanterare till.
+ * @returns {Array}
+ */
 Message.prototype.render = function (e) {
     "use strict";
-    var createHere = e.target.parentNode.previousElementSibling,
-        message = document.createElement("section"),
-        buttons = document.createElement("div"),
+    var createHere = e.target.parentNode.previousElementSibling, //platsen där html-elementet ska skapas.
+        message = document.createElement("section"),             //skapar message-elementet.
+        buttons = document.createElement("div"),                 //...
         timeButton = document.createElement("img"),
         removeButton = document.createElement("img"),
         text = document.createElement("p"),
@@ -108,7 +113,7 @@ Message.prototype.render = function (e) {
 
     createHere.scrollTop = createHere.scrollHeight; //så att scrollen flyttas längst ned så att det nyligen tillagda meddelandet syns.
 
-    return [timeButton, removeButton]; //måste returnera dessa så att händelsehanteraren läggs i message-board där even listan med messages ligger.
+    return [timeButton, removeButton];
 
 };
 

@@ -12,24 +12,29 @@
 * {
     margin: 0;
 }
+
 html {
     height: 100%;
     min-height: 100%;
 }
+
 header {
     background-color: #556270;
     padding-bottom: 30px;
 }
+
 header img {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
+
 body {
     height: 100%;
     scrollbar-face-color: #556270;
     scrollbar-track-color: #1C3249;
 }
+
 #container {
     height: calc(100% - 102px - 30px);
     background-image: -webkit-gradient(
@@ -45,12 +50,14 @@ body {
     background-image: -ms-linear-gradient(bottom, #556270 0%, #96A7B8 100%);
     background-image: linear-gradient(to bottom, #556270 0%, #96A7B8 100%);
 }
+
 .content {
     height: calc(100% - 50px - 5px);
     overflow: auto;
     text-align: center;
 
 }
+
 footer {
     position: relative;
     height: 26px;
@@ -59,10 +66,12 @@ footer {
     padding-top: 22px;
     z-index: 0;
 }
+
 footer p:first-child {
     margin-left: 5px;
     float: left;
 }
+
 footer p:last-child {
     margin-right: 15px;
     float: right;
@@ -85,12 +94,16 @@ footer p:last-child {
 -webkit-scrollbar-thumb:hover {
     background: #96A7B8;
 }
+
+/* CSS för javascript-genererad HTML */
 .input {
     height: 40px;
     text-align: center;
     margin: 20px 0 0 0;
 
 }
+
+/* CSS för javascript-genererad HTML */
 textarea {
     position: relative;
     height: 40px;
@@ -110,8 +123,9 @@ textarea {
 
 
 }
-.send {
 
+/* CSS för javascript-genererad HTML */
+.send {
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f6b33d), color-stop(1, #d29105) );
     background:-moz-linear-gradient( center top, #f6b33d 5%, #d29105 100% );
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6b33d', endColorstr='#d29105');
@@ -150,6 +164,8 @@ textarea {
     z-index: 1;
     margin-left: -4px;
 }
+
+/* CSS för javascript-genererad HTML */
 .send:hover, .send:focus {
     outline: 0;
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d29105), color-stop(1, #f6b33d) );
@@ -157,17 +173,21 @@ textarea {
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d29105', endColorstr='#f6b33d');
     background-color:#d29105;
 }
+
+/* CSS för javascript-genererad HTML */
 .send:active {
     position:relative;
     top:1px;
 }
 
+/* CSS för javascript-genererad HTML */
 textarea:focus {
     outline: 0;
     border-left: 1px solid white;
     border-bottom: 1px solid white;
 }
 
+/* CSS för javascript-genererad HTML */
 .message {
     position: relative;
     max-width: 500px;
@@ -183,15 +203,18 @@ textarea:focus {
     box-shadow: 3px 2px 4px #96A7B8;
 }
 
+/* CSS för javascript-genererad HTML */
 .message p {
     max-width: 400px;
 }
 
+/* CSS för javascript-genererad HTML (utöver en första placeholder) */
 .messageBoard {
     position: relative;
     height: calc(100% - 70px);
 }
 
+/* CSS för javascript-genererad HTML */
 .buttons {
     position: absolute;
     right: 10px;
@@ -199,35 +222,41 @@ textarea:focus {
     display: block;
 }
 
+/* CSS för javascript-genererad HTML */
 .removeButton, .timeButton {
     padding: 2px;
     margin: 3px;
 }
 
+/* CSS för javascript-genererad HTML */
 .removeButton:hover {
     box-shadow: 2px 3px 5px;
     background-color: orangered;
     border-radius: 3px;
 }
 
+/* CSS för javascript-genererad HTML */
 .removeButton:active {
     position: relative;
     background-color: red;
     top: 1px;
 }
 
+/* CSS för javascript-genererad HTML */
 .timeButton:hover {
     box-shadow: 2px 3px 5px;
     background-color: royalblue;
     border-radius: 3px;
 }
 
+/* CSS för javascript-genererad HTML */
 .timeButton:active {
     position: relative;
     background-color: blue;
     top: 1px;
 }
 
+/* CSS för javascript-genererad HTML */
 .dateTime {
     position: absolute;
     right: 10px;
@@ -245,6 +274,7 @@ aside {
     z-index:1;
 }
 
+/* CSS för javascript-genererad HTML (utöver den första) */
 aside button {
     width: 130px;
     display: block;
@@ -259,6 +289,7 @@ aside button:first-child {
     content: "Antal meddelanden: ";
 }
 
+/* CSS för javascript-genererad HTML */
 .invisible {
     display: none;
 }
