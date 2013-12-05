@@ -105,6 +105,7 @@ MessageBoard.prototype.render = function () {
                     index = 0;                                 //index för att hålla reda på meddelandenoden.
 
                 while (node.previousElementSibling !== null) { //räknar ut meddelandets position i den aktuella meddelandehanteraren.
+                    node = node.previousElementSibling;
                     index++;
                 }
 
