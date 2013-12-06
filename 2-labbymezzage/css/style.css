@@ -201,6 +201,7 @@ textarea:focus {
     text-align: left;
     color: black;
     box-shadow: 3px 2px 4px #96A7B8;
+    word-wrap: break-word;
 }
 
 /* CSS för javascript-genererad HTML */
