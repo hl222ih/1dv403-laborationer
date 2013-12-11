@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+td {
+    border: solid cornflowerblue 2px;
+    border-radius: 7px;
+    padding: 10px 12px 7px 12px;
+}
+
+td:hover {
+    border: solid crimson 2px;
+}
+
+td:active {
+    position: relative;
+    top: 1px;
+    left: 1px;
+}
