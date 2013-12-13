@@ -2,24 +2,22 @@
 "use strict";
 
 window.onload = function () {
-    var Rows = 4,
-        Cols = 4,
-        imageNumbers = RandomGenerator.getPictureArray(Rows, Cols),
-        cards = [],
-        pairedCards = [],
-        currentCards = [],
-        unpairedCards = [],
-        board = document.getElementById("board"),
-        chooseImage,
-        numberOfTries = 0,
-        numberOfMatches = 0;
+    var Rows = 4, //antal rader i spelet
+        Cols = 4, //antal kolumner i spelet
+        imageNumbers = RandomGenerator.getPictureArray(Rows, Cols), //slumpar ordningen på brickorna
+        cards = [], //array med kort
+        currentCards = [], //array med de kort som vänts upp för att matchas med varandra
+        board = document.getElementById("board"),//noden där tabellen med spelet skapas.
+        chooseImage, //metod som anropas av händelsehanterare (mus eller tangentbord)
+        numberOfTries = 0, //lagrar antal försök
+        numberOfMatches = 0; //lagrar antal brickor som matchats
 
-    if ((Rows * Cols) % 2 !== 0) {
+    if ((Rows * Cols) % 2 !== 0) {  //har ingen funktion som hanterar felet, men rader/kolumner är hårdkodade och antal brickor måste rimligtvis gå jämnt upp i antal par.
         throw new Error("Spelplanen måste ha ett jämnt antal brickor, justera antaler rader och kolumner.")
     }
 
-    function Card(cardNumber, pictureNumber, isFlipped, isMatched) {
-        if (typeof pictureNumber !== "number") {
+    function Card(cardNumber, pictureNumber, isFlipped, isMatched) { //konstruktorfunktion för en bricka som håller koll på brickans nummer på spelplanen, brickans bildnummer, om brickan vänts och om brickan har matchats.
+        if (typeof pictureNumber !== "number" || typeof cardNumber !== "number") {
             throw new Error("måste vara ett nummer");
         }
         this.getFrontPictureSource = function () {
@@ -48,17 +46,15 @@ window.onload = function () {
         };
     }
 
+    //Funktion för att skapa nod-trädet med spelplanen och lägga in den i html-dokumentet.
     function renderHTMLTable() {
-        var card,
-            i,
-            j,
-            //board = document.getElementById("board"),
-            tr,
-            td,
-            a,
-            img;
-
-
+        var card, //en bricka
+            i, //för loop
+            j, //för loop
+            tr, //nod för table-row
+            td, //nod för datacell
+            a, //nod för a-tagg
+            img; //not för img-tagg
 
         for (i = 0; i < Rows; i++) {
             tr = document.createElement("tr");
@@ -80,12 +76,15 @@ window.onload = function () {
 
     renderHTMLTable();
 
+    //Funktion som används av händelsehanterarna för klick och tangentbord då spelaren vill vända på en bricka.
+    //Den triggas av musklick (mousedown för att göra att spelet upplevs lite snabbare) eller enter/mellanslag.
+    //Händelsehanteraren är kopplad till hela tabellen.
     chooseImage = function (e) {
-        var node,
-            img,
-            a,
-            cardNumber,
-            card;
+        var node, //variabel för att stega fram till a-taggen.
+            img,//aktuell img-tagg som ev. klickats.
+            a,//aktuell a-tagg som ev. klickats.
+            cardNumber,//elementets motsvarande brickas bricknummer, som motsvaras av a-taggens id-attribut.
+            card; //den bricka som motsvaras av den klickade taggen.
 
         node = e.target;
         while (node !== null && node.tagName !== "A") {
@@ -103,16 +102,16 @@ window.onload = function () {
                 cardNumber = parseInt(a.getAttribute("id"), 10);
             }
             card = cards[cardNumber - 1];
-            if (!card.getIsFlipped() && !card.getIsMatched()) {
+            if (!card.getIsFlipped() && !card.getIsMatched()) { //vill bara att något ska hända om brickorna som klickats inte redan har vänts upp eller matchats tidigare.
                 card.setIsFlipped(true);
                 img.setAttribute("src", card.getFrontPictureSource());
                 currentCards.push(card);
 
                 if (currentCards.length % 2 === 0) {
-                    setTimeout(function () {
-                        var a1 = document.getElementById(currentCards[0].getCardNumber().toString()),
+                    setTimeout(function () { //lite dubbel-kod i denna funktionen, men gick snabbare än att loopa igenom en array med två element.
+                        var a1 = document.getElementById(currentCards[0].getCardNumber().toString()),//a-taggen för den första brickan.
                             a2 = document.getElementById(currentCards[1].getCardNumber().toString()),
-                            img1 = a1.getElementsByTagName("img")[0],
+                            img1 = a1.getElementsByTagName("img")[0],//bilden för den första brickan.
                             img2 = a2.getElementsByTagName("img")[0];
 
 
@@ -129,11 +128,11 @@ window.onload = function () {
                             numberOfMatches += 2;
                         }
 
+                        currentCards.shift(); //tar bort de två parade brickorna.
                         currentCards.shift();
-                        currentCards.shift();
-                        numberOfTries++;
+                        numberOfTries++; //räknar upp antal försök
                         document.getElementById("numberOfTries").innerText = "Antal försök: " + numberOfTries.toString();
-                        if (numberOfMatches === Cols * Rows) {
+                        if (numberOfMatches === Cols * Rows) { //kontrollerar om alla brickor på spelplanen har parats.
                             document.getElementById("numberOfTries").innerHTML = "Spelet är slut. <br />" +
                                 "Grattis! Du klarade det på " + numberOfTries.toString() + " försök!";
                         }
@@ -147,7 +146,7 @@ window.onload = function () {
 
     board.addEventListener("mousedown", function (e) {
         chooseImage(e);
-    }, true);
+    }, true); //true för att inte agera på klick på board-id:t utan bara chilren till den noden.
 
     //Vänder på brickorna eller navigerar mellan dem med piltangenterna.
     board.addEventListener("keydown", function (e) {
@@ -177,5 +176,5 @@ window.onload = function () {
             }
         }
 
-    }, true);
+    }, true); //true för att inte agera på klick på board-id:t utan bara chilren till den noden.
 };
