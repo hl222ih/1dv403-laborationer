@@ -1,5 +1,15 @@
 @charset "utf-8";
 
+html, #container {
+    display: inline-block;
+    text-align: center;
+    padding-top: 25px;
+}
+
+table {
+    display: inline-block;
+    text-align: center;
+}
 a {
     display: inline-block;
     border: solid cornflowerblue 2px;
@@ -7,7 +17,8 @@ a {
     padding: 10px 12px 7px 12px;
 }
 
-a:hover {
+a:hover, a:focus {
+    outline: 0;
     border: solid crimson 2px;
 }
 
@@ -15,4 +26,10 @@ a:active {
     position: relative;
     top: 1px;
     left: 1px;
+}
+
+#numberOfTries {
+    display: inline-block;
+    padding-top: 20px;
+    font-size: 1.5em;
 }
