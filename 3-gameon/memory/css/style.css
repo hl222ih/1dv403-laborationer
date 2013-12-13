@@ -1,16 +1,17 @@
 @charset "utf-8";
 
-td {
+a {
+    display: inline-block;
     border: solid cornflowerblue 2px;
     border-radius: 7px;
     padding: 10px 12px 7px 12px;
 }
 
-td:hover {
+a:hover {
     border: solid crimson 2px;
 }
 
-td:active {
+a:active {
     position: relative;
     top: 1px;
     left: 1px;
