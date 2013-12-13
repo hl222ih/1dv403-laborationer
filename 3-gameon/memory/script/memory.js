@@ -13,7 +13,7 @@ window.onload = function () {
         numberOfMatches = 0; //lagrar antal brickor som matchats
 
     if ((Rows * Cols) % 2 !== 0) {  //har ingen funktion som hanterar felet, men rader/kolumner är hårdkodade och antal brickor måste rimligtvis gå jämnt upp i antal par.
-        throw new Error("Spelplanen måste ha ett jämnt antal brickor, justera antaler rader och kolumner.")
+        throw new Error("Spelplanen måste ha ett jämnt antal brickor, justera antaler rader och kolumner.");
     }
 
     function Card(cardNumber, pictureNumber, isFlipped, isMatched) { //konstruktorfunktion för en bricka som håller koll på brickans nummer på spelplanen, brickans bildnummer, om brickan vänts och om brickan har matchats.
@@ -25,9 +25,6 @@ window.onload = function () {
         };
         this.getBackPictureSource = function () {
             return "pics/0.png";
-        };
-        this.getPictureNumber = function () {
-            return parseInt(pictureNumber, 10);
         };
         this.getCardNumber = function () {
             return parseInt(cardNumber, 10);
