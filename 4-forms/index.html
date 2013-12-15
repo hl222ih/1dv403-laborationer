@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8" />
+    <title>Javascript - Laboration 4 - Forms</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div id="content">
+        <fieldset>
+            <legend>
+                Fyll i din betalningsplan
+            </legend>
+            <form name="payform" method="post" id="payform" action="http://voyager.lnu.se/tekinet/kurser/dtt/wp_webbteknik/process_form.php">
+                <label>Förnamn</label><input type="text" class="text" id="firstName" name="firstName" />
+                <label>Efternamn</label><input type="text" class="text" id="lastName" name="lastName" />
+                <label>Postnummer</label><input type="number" class="zipCode" id="zipCode" name="zipCode" />
+                <label>E-post</label><input type="email" class="email" id="email" name="email" />
+                <label>Prismodell</label>
+                <select name="priceModel" id="priceModel">
+                    <option>Låg</option>
+                    <option>Mellan</option>
+                    <option>Hög</option>
+                </select>
+                <button id="post">Skicka!</button>
+            </form>
+        </fieldset>
+    </div>
+    <script src="scripts/forms.js"></script>
+</body>
+</html>
