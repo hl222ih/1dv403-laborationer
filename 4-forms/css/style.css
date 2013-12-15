@@ -5,7 +5,7 @@
 }
 fieldset {
     display: block;
-    width: 400px;
+    width: 500px;
     border : 5px double mediumblue;
     padding: 25px 10px 15px 10px;
     border-radius: 10px;
@@ -24,7 +24,7 @@ legend {
 
 label {
     float: left;
-    clear: left;
+    clear: both;
     font-family: Arial, sans-serif;
     padding-left: 10px;
     padding-right: 5px;
@@ -35,6 +35,12 @@ input, select {
     float: left;
     font-family: "Lucida Console", Monaco, monospace;
     margin-left: 5px;
+}
+
+.errorText {
+    float: left;
+    color: red;
+    //font-weight: bold;
 }
 
 select {
@@ -50,5 +56,7 @@ button#submit {
 }
 
 .validated {
-    border: 2px solid green;
+    border: 2px solid blue;
 }
+
+/* fix för webkit läsare, att inte visa pilar på b
