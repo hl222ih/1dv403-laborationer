@@ -11,7 +11,7 @@
             <legend>
                 Fyll i din betalningsplan
             </legend>
-            <form name="payform" method="post" id="payform" action="http://voyager.lnu.se/tekinet/kurser/dtt/wp_webbteknik/process_form.php">
+            <form name="payForm" method="post" id="payForm" action="http://voyager.lnu.se/tekinet/kurser/dtt/wp_webbteknik/process_form.php">
                 <label>Förnamn</label><input type="text" class="text" id="firstName" name="firstName" />
                 <label>Efternamn</label><input type="text" class="text" id="lastName" name="lastName" />
                 <label>Postnummer</label><input type="number" class="zipCode" id="zipCode" name="zipCode" />
@@ -22,10 +22,10 @@
                     <option>Mellan</option>
                     <option>Hög</option>
                 </select>
-                <button id="post">Skicka!</button>
+                <button type="submit" id="submit">Skicka!</button>
             </form>
         </fieldset>
     </div>
-    <script src="scripts/forms.js"></script>
+    <script src="scripts/validator.js"></script>
 </body>
 </html>
