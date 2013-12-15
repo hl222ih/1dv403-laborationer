@@ -89,24 +89,30 @@ Message.prototype.render = function (e) {
     var createHere = e.target.parentNode.previousElementSibling, //platsen där html-elementet ska skapas.
         message = document.createElement("section"),             //skapar message-elementet.
         buttons = document.createElement("div"),                 //...
-        timeButton = document.createElement("img"),
-        removeButton = document.createElement("img"),
+        timeImg = document.createElement("img"),
+        timeButton = document.createElement("a"),
+        removeImg = document.createElement("img"),
+        removeButton = document.createElement("a"),
         text = document.createElement("p"),
         dateTime = document.createElement("div");
 
     message.setAttribute("class", "message");
     buttons.setAttribute("class", "buttons");
-    timeButton.setAttribute("src", "images/time.png");
+    timeImg.setAttribute("src", "images/time.png");
     timeButton.setAttribute("class", "timeButton");
-    removeButton.setAttribute("src", "images/remove.png");
+    timeButton.setAttribute("href", "#");
+    removeImg.setAttribute("src", "images/remove.png");
     removeButton.setAttribute("class", "removeButton");
+    removeButton.setAttribute("href", "#");
     text.innerHTML = this.getHtmlText();
     dateTime.setAttribute("class", "dateTime");
     dateTime.innerHTML = this.getTimeText();
 
     message.appendChild(buttons);
     buttons.appendChild(timeButton);
+    timeButton.appendChild(timeImg);
     buttons.appendChild(removeButton);
+    removeButton.appendChild(removeImg);
     message.appendChild(text);
     message.appendChild(dateTime);
     createHere.appendChild(message);

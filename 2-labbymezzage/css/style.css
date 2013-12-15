@@ -230,10 +230,11 @@ textarea:focus {
 }
 
 /* CSS för javascript-genererad HTML */
-.removeButton:hover {
+.removeButton:hover, .removeButton:focus {
     box-shadow: 2px 3px 5px;
     background-color: orangered;
     border-radius: 3px;
+    outline: 0;
 }
 
 /* CSS för javascript-genererad HTML */
@@ -244,11 +245,13 @@ textarea:focus {
 }
 
 /* CSS för javascript-genererad HTML */
-.timeButton:hover {
+.timeButton:hover, .timeButton:focus {
     box-shadow: 2px 3px 5px;
     background-color: royalblue;
     border-radius: 3px;
+    outline: 0;
 }
+
 
 /* CSS för javascript-genererad HTML */
 .timeButton:active {
