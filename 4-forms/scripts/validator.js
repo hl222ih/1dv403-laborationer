@@ -6,9 +6,9 @@ window.onload = function () {
         i;
 
     for (i = 0; i < inputs.length; i++) {
-        inputs[i].addEventListener('keyup', function (e) { validate(e.target); }, false);
+        inputs[i].addEventListener('keyup', function (e) { validate(e.target, false); }, false);
         inputs[i].addEventListener('blur', function (e) {
-            if (!validate(e.target)) {
+            if (!validate(e.target, true)) {
                 displayFailedValidation(e.target);
             }
         }, false);
@@ -21,11 +21,11 @@ window.onload = function () {
             errorNode,
             errorText;
 
-        if (element.id === "firstName" || element.id === "lastName") {
+        if (element.getAttribute("class") === "text") {
             errorText = "Fältet får inte vara tomt";
-        } else if (element.id === "zipCode") {
+        } else if (element.getAttribute("id") === "zipCode") {
             errorText = "Använd formatet XXXXX";
-        } else if (element.id === "email") {
+        } else if (element.getAttribute("id") === "email") {
             errorText = "Ange en giltig e-postadress";
         }
         errorNode = document.createTextNode(errorText);
@@ -35,14 +35,33 @@ window.onload = function () {
 
     }
 
+    function autoCorrectField(element, makeChanges) {
+        var newElementValue = element.value;
+
+        newElementValue = newElementValue.trim();
+
+        if (element.getAttribute("class") === "text") {
+            newElementValue = newElementValue.replace(/\s\s/g, " ");
+        } else if (element.getAttribute("id") === "zipCode") {
+            newElementValue = newElementValue.replace(/^(?:SE)? ?(\d{3})[\s\-]?(\d{2})$/, "$1$2");
+        } else if (element.getAttribute("type") === "email") {
+            newElementValue = newElementValue.replace(/(\.co)$/, "$1m");
+        }
+
+        if (makeChanges) {
+            element.value = newElementValue;
+        }
+        return newElementValue;
+    }
+
     function removeErrorMessage(element) {
         if (element.nextElementSibling.getAttribute("class") === "errorText") {
             element.parentNode.removeChild(element.nextElementSibling);
         }
     }
-    function validate(inputElement) {
+    function validate(inputElement, makeChangesToElement) {
         var type = inputElement.getAttribute("class"),
-            text = inputElement.value;
+            text = autoCorrectField(inputElement, makeChangesToElement);
 
         if (validated(text, type) === true) {
             addAttributeValueIfNotExists(inputElement, "class", "validated");
