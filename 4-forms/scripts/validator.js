@@ -3,6 +3,8 @@
 window.onload = function () {
     var form = document.getElementById("payForm"),
         inputs = form.getElementsByTagName("input"),
+        labels = form.getElementsByTagName("label"),
+        inputAndSelects = form.querySelectorAll("input, select"),
         i;
 
     for (i = 0; i < inputs.length; i++) {
@@ -15,7 +17,94 @@ window.onload = function () {
         inputs[i].addEventListener('focus', function (e) { removeErrorMessage(e.target); }, false);
     }
 
-    
+    document.getElementById("submit").addEventListener("click", function (e) {
+        var allValidated = true;
+            //fullDim = document.getElementById("fullDim");
+
+        for (i = 0; i < inputs.length; i++) {
+            if (!validate(inputs[i], true)) {
+                allValidated = false;
+            }
+        }
+
+        if (allValidated) {
+            createModalPopup();
+        }
+    }, false);
+
+
+    function createModalPopup() {
+        var header = document.createElement("h2"),
+            i,
+            div,
+            popup = document.getElementById("popup"),
+            id,
+            value,
+            fullDim = document.getElementById("fullDim"),
+            labels = form.getElementsByTagName("label"),
+            submitButton,
+            cancelButton,
+            priceModel = document.getElementById("priceModel");
+
+        fullDim.style.display = "block";
+        header.innerHTML = "Bekräfta uppgifter";
+        popup.appendChild(header);
+        for (i = 0; i < inputAndSelects.length; i++) {
+            div = document.createElement("div");
+            div.setAttribute("class", "confirm");
+            id = labels[i].innerHTML;
+            if (inputAndSelects[i].nodeName === "INPUT") {
+                value = inputAndSelects[i].value;
+            } else if (inputAndSelects[i].nodeName === "SELECT") {
+                value = inputAndSelects[i].options[inputAndSelects[i].selectedIndex].text;
+            }
+            div.innerHTML = id + ": " + value;
+            popup.appendChild(div);
+        }
+
+        submitButton = document.createElement("button");
+        submitButton.setAttribute("id", "popupSubmitButton");
+        submitButton.innerHTML = "Skicka!";
+        cancelButton = document.createElement("button");
+        cancelButton.setAttribute("id", "popupCancelButton");
+        cancelButton.innerHTML = "Avbryt";
+        popup.appendChild(submitButton);
+        popup.appendChild(cancelButton);
+        submitButton.addEventListener("click", function (e) {
+            var hello = form.submit();
+            removeModalPopup(fullDim, popup);
+            e.preventDefault();
+        }, false);
+        cancelButton.addEventListener("click", function (e) {
+            removeModalPopup(fullDim, popup);
+        }, false);
+        disableForm();
+    }
+
+    function removeModalPopup(fullDim, popup) {
+        while (popup.firstChild !== null) {
+            popup.removeChild(popup.firstChild);
+        }
+        fullDim.style.display = "none";
+        enableForm();
+    }
+
+    function enableForm() {
+        var formInputAndSelects = document.querySelectorAll("form > input, form > select"),
+            i;
+        for (i = 0; i < formInputAndSelects.length; i++) {
+            formInputAndSelects[i].removeAttribute("disabled");
+        }
+    }
+
+    function disableForm() {
+        var formInputAndSelects = document.querySelectorAll("form > input, form > select"),
+            i;
+        for (i = 0; i < formInputAndSelects.length; i++) {
+            formInputAndSelects[i].setAttribute("disabled", "disabled");
+        }
+    }
+
     function displayFailedValidation(element) {
         var divError = document.createElement("div"),
             errorNode,

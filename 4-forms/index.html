@@ -12,17 +12,22 @@
                 Fyll i din betalningsplan
             </legend>
             <form name="payForm" method="post" id="payForm" action="http://voyager.lnu.se/tekinet/kurser/dtt/wp_webbteknik/process_form.php">
-                <label>Förnamn</label><input type="text" class="text" id="firstName" name="firstName" />
+                <label>Förnamn</label><input type="text" class="text" id="firstName" name="firstName" autofocus="autofocus"/>
                 <label>Efternamn</label><input type="text" class="text" id="lastName" name="lastName" />
                 <label>Postnummer</label><input type="text" class="zipCode" id="zipCode" name="zipCode" />
                 <label>E-post</label><input type="email" class="email" id="email" name="email" />
-                <label>Prismodell</label>
+                <label>Prisplan</label>
                 <select name="priceModel" id="priceModel">
                     <option>Låg</option>
                     <option>Mellan</option>
                     <option>Hög</option>
                 </select>
-                <button type="submit" id="submit">Skicka!</button>
+                <div id="fullDim">
+                    <div id="popup">
+                       <!--javascript-genererat-->
+                    </div>
+                </div>
+                <button type="button" id="submit">Skicka!</button>
             </form>
         </fieldset>
     </div>

@@ -35,12 +35,12 @@ input, select {
     float: left;
     font-family: "Lucida Console", Monaco, monospace;
     margin-left: 5px;
+    outline: 1px solid lightblue;
 }
 
 .errorText {
     float: left;
     color: red;
-    //font-weight: bold;
 }
 
 select {
@@ -57,6 +57,26 @@ button#submit {
 
 .validated {
     border: 2px solid blue;
+    outline: 0;
 }
 
-/* fix för webkit läsare, att inte visa pilar på b
+#fullDim {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+#popup {
+    position: relative;
+    border: 1px solid pink;
+    width: 30%;
+    margin-left: -15%;
+    left: 50%;
+    top: 130px;
+    background: white;
+}
