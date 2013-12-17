@@ -5,7 +5,10 @@ window.onload = function () {
         inputs = form.getElementsByTagName("input"),
         labels = form.getElementsByTagName("label"),
         inputAndSelects = form.querySelectorAll("input, select"),
+        formSubmitButton = document.getElementById("submit"),
         i;
+
+    formSubmitButton.setAttribute("type", "button");
 
     for (i = 0; i < inputs.length; i++) {
         inputs[i].addEventListener('keyup', function (e) { validate(e.target, false); }, false);
@@ -17,11 +20,14 @@ window.onload = function () {
         inputs[i].addEventListener('focus', function (e) { removeErrorMessage(e.target); }, false);
     }
 
-    document.getElementById("submit").addEventListener("click", function (e) {
+    formSubmitButton.addEventListener("click", function (e) {
         var allValidated = true;
 
         for (i = 0; i < inputs.length; i++) {
             if (!validate(inputs[i], true)) {
+                if (allValidated) {
+                    displayFailedValidation(inputs[i]); //visa felmeddelande på första felaktiga rutan.
+                }
                 allValidated = false;
             }
         }
@@ -107,7 +113,7 @@ window.onload = function () {
 
     function displayFailedValidation(element) {
         var divError = document.createElement("div"),
-            errorNode,
+            errorTextNode,
             errorText;
 
         if (element.getAttribute("class") === "text") {
@@ -117,11 +123,12 @@ window.onload = function () {
         } else if (element.getAttribute("id") === "email") {
             errorText = "Ange en giltig e-postadress";
         }
-        errorNode = document.createTextNode(errorText);
-        divError.appendChild(errorNode);
-        divError.setAttribute("class", "errorText");
-        element.parentNode.insertBefore(divError, element.nextSibling);
-
+        errorTextNode = document.createTextNode(errorText);
+        if (element.nextElementSibling.className !== "errorText") { //för att inte upprepa ett felmeddelande som redan finns.
+            divError.appendChild(errorTextNode);
+            divError.setAttribute("class", "errorText");
+            element.parentNode.insertBefore(divError, element.nextSibling);
+        }
     }
 
     function autoCorrectField(element, makeChanges) {
@@ -186,7 +193,7 @@ window.onload = function () {
             //väääldigt många regler att ta hänsyn till, så ganska omöjligt att få till det rätt.
             //Här har jag skapat ett regex jag skapat för att få med epostadresser som:
             //börjar på en bokstav och
-            //som fortsätter med 0 eller flera bokstäver och/eller siffror )samt _) och
+            //som fortsätter med 0 eller flera bokstäver och/eller siffror (samt _) och
             //som _eventuellt_ fortsätter med en punkt och sedan en eller fler bokstäver och/eller siffror (samt _).
             //som sedan har ett @ och
             //som sedan har en eller två subdomäner (isåfall med punkt emellan)
