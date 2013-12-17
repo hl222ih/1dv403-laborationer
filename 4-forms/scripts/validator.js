@@ -19,7 +19,6 @@ window.onload = function () {
 
     document.getElementById("submit").addEventListener("click", function (e) {
         var allValidated = true;
-            //fullDim = document.getElementById("fullDim");
 
         for (i = 0; i < inputs.length; i++) {
             if (!validate(inputs[i], true)) {
@@ -44,30 +43,31 @@ window.onload = function () {
             labels = form.getElementsByTagName("label"),
             submitButton,
             cancelButton,
-            priceModel = document.getElementById("priceModel");
+            priceModel = document.getElementById("priceModel"),
+            headerText = document.createTextNode("Bekräfta uppgifter");
 
-        fullDim.style.display = "block";
-        header.innerHTML = "Bekräfta uppgifter";
+        addAttributeValueIfNotExists(fullDim, "style", "display");
+        header.appendChild(headerText);
         popup.appendChild(header);
         for (i = 0; i < inputAndSelects.length; i++) {
             div = document.createElement("div");
             div.setAttribute("class", "confirm");
-            id = labels[i].innerHTML;
+            id = labels[i].firstChild.nodeValue;
             if (inputAndSelects[i].nodeName === "INPUT") {
                 value = inputAndSelects[i].value;
             } else if (inputAndSelects[i].nodeName === "SELECT") {
                 value = inputAndSelects[i].options[inputAndSelects[i].selectedIndex].text;
             }
-            div.innerHTML = id + ": " + value;
+            div.appendChild(document.createTextNode(id + ": " + value));
             popup.appendChild(div);
         }
 
         submitButton = document.createElement("button");
         submitButton.setAttribute("id", "popupSubmitButton");
-        submitButton.innerHTML = "Skicka!";
+        submitButton.appendChild(document.createTextNode("Skicka!"));
         cancelButton = document.createElement("button");
         cancelButton.setAttribute("id", "popupCancelButton");
-        cancelButton.innerHTML = "Avbryt";
+        cancelButton.appendChild(document.createTextNode("Avbryt"));
         popup.appendChild(submitButton);
         popup.appendChild(cancelButton);
         submitButton.addEventListener("click", function (e) {
@@ -85,23 +85,23 @@ window.onload = function () {
         while (popup.firstChild !== null) {
             popup.removeChild(popup.firstChild);
         }
-        fullDim.style.display = "none";
+        removeAttributeValueIfExists(fullDim, "style", "display");
         enableForm();
     }
 
     function enableForm() {
-        var formInputAndSelects = document.querySelectorAll("form > input, form > select"),
-            i;
-        for (i = 0; i < formInputAndSelects.length; i++) {
-            formInputAndSelects[i].removeAttribute("disabled");
+        var i;
+
+        for (i = 0; i < inputAndSelects.length; i++) {
+            inputAndSelects[i].removeAttribute("disabled");
         }
     }
 
     function disableForm() {
-        var formInputAndSelects = document.querySelectorAll("form > input, form > select"),
-            i;
-        for (i = 0; i < formInputAndSelects.length; i++) {
-            formInputAndSelects[i].setAttribute("disabled", "disabled");
+        var i;
+
+        for (i = 0; i < inputAndSelects.length; i++) {
+            inputAndSelects[i].setAttribute("disabled", "disabled");
         }
     }
 

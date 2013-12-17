@@ -71,6 +71,10 @@ button#submit {
     background: rgba(0, 0, 0, 0.6);
 }
 
+#fullDim.display {
+    display: block;
+}
+
 #popup {
     position: relative;
     border: 1px solid pink;
