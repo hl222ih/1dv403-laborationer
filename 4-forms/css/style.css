@@ -47,7 +47,7 @@ select {
     margin-bottom: 15px;
 }
 
-button#submit {
+button#submitButton {
     clear: both;
     display: block;
     margin: auto;

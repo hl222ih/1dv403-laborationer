@@ -1,58 +1,70 @@
 "use strict";
 
 window.onload = function () {
-    var form = document.getElementById("payForm"),
-        inputs = form.getElementsByTagName("input"),
-        labels = form.getElementsByTagName("label"),
-        inputAndSelects = form.querySelectorAll("input, select"),
-        formSubmitButton = document.getElementById("submit"),
-        i;
+    var form = document.getElementById("payForm"), //<form>-noden
+        inputs = form.getElementsByTagName("input"), //alla input-element i <form>
+        labels = form.getElementsByTagName("label"), //alla label-element i <form>
+        inputAndSelects = form.querySelectorAll("input, select"), //alla input- och select-element i <form>
+        formSubmitButton = document.getElementById("submitButton"),//<form>-knappen som i utgångsläget är av submit-type.
+        i; //for-loop counter.
 
-    formSubmitButton.setAttribute("type", "button");
+    formSubmitButton.setAttribute("type", "button"); //denna körs bara om javascriptet är enabled, och byter då ut den befintliga submit-button mot en vanlig button som öppnar den modala popuprutan.
 
     for (i = 0; i < inputs.length; i++) {
-        inputs[i].addEventListener('keyup', function (e) { validate(e.target, false); }, false);
+        //validera respektive input-element på "keyup"
+        inputs[i].addEventListener('keyup', function (e) {
+            validate(e.target, false);
+        }, false);
+        //validera respektive input-element på "blur"
         inputs[i].addEventListener('blur', function (e) {
             if (!validate(e.target, true)) {
                 displayFailedValidation(e.target);
             }
         }, false);
-        inputs[i].addEventListener('focus', function (e) { removeErrorMessage(e.target); }, false);
+        //ta bort felmeddelande för respektive input-element på "focus"
+        inputs[i].addEventListener('focus', function (e) {
+            removeErrorMessage(e.target);
+        }, false);
     }
 
     formSubmitButton.addEventListener("click", function (e) {
-        var allValidated = true;
+        var allValidated = true; //är alla input-element validerade? sätts till false på första förekomsten av misslyckad validering
 
         for (i = 0; i < inputs.length; i++) {
+            //visa felmeddelande på första input-elementet (av potentiellt flera) felaktiga.
             if (!validate(inputs[i], true)) {
                 if (allValidated) {
-                    displayFailedValidation(inputs[i]); //visa felmeddelande på första felaktiga rutan.
+                    displayFailedValidation(inputs[i]);
                 }
                 allValidated = false;
             }
         }
-
+        //skapar och visar modal popup-ruta om alla input-element är validerade.
         if (allValidated) {
             createModalPopup();
         }
     }, false);
 
 
+    //skapar och visar modal popup-ruta
     function createModalPopup() {
-        var header = document.createElement("h2"),
-            i,
-            div,
-            popup = document.getElementById("popup"),
-            id,
-            value,
-            fullDim = document.getElementById("fullDim"),
-            labels = form.getElementsByTagName("label"),
-            submitButton,
-            cancelButton,
-            priceModel = document.getElementById("priceModel"),
-            headerText = document.createTextNode("Bekräfta uppgifter");
+        var header = document.createElement("h2"), //<header>-noden
+            i, //for-loop-counter
+            div, //generisk div för presentation av alla input id-value-par.
+            popup = document.getElementById("popup"), //popup-noden
+            id, //generisk input-id
+            value, //generisk input-value
+            fullDim = document.getElementById("fullDim"), //fullDim-noden
+            //labels = form.getElementsByTagName("label"),
+            submitButton, //popup-rutans submit-knapp
+            cancelButton, //popup-rutans avbryt-knapp
+            headerText = document.createTextNode("Bekräfta uppgifter"); //header-text
 
-        addAttributeValueIfNotExists(fullDim, "style", "display");
+
+        //sätter fullDim till class: display så att den visas.
+        addAttributeValueIfNotExists(fullDim, "class", "display");
+
+        //lägger till innehållet till popuprutan.
         header.appendChild(headerText);
         popup.appendChild(header);
         for (i = 0; i < inputAndSelects.length; i++) {
@@ -67,7 +79,6 @@ window.onload = function () {
             div.appendChild(document.createTextNode(id + ": " + value));
             popup.appendChild(div);
         }
-
         submitButton = document.createElement("button");
         submitButton.setAttribute("id", "popupSubmitButton");
         submitButton.appendChild(document.createTextNode("Skicka!"));
@@ -77,24 +88,28 @@ window.onload = function () {
         popup.appendChild(submitButton);
         popup.appendChild(cancelButton);
         submitButton.addEventListener("click", function (e) {
-            var hello = form.submit();
+            //tillgänglig gör form för att komma åt formulärets värden före submit.
+            enableForm();
+            form.submit(); //skickar iväg formuläret till php-fil.
             removeModalPopup(fullDim, popup);
             e.preventDefault();
         }, false);
-        cancelButton.addEventListener("click", function (e) {
+        cancelButton.addEventListener("click", function () {
             removeModalPopup(fullDim, popup);
         }, false);
         disableForm();
     }
 
+    //tar bort innehåll från modal popupruta och gömmer "containern"
     function removeModalPopup(fullDim, popup) {
         while (popup.firstChild !== null) {
             popup.removeChild(popup.firstChild);
         }
-        removeAttributeValueIfExists(fullDim, "style", "display");
+        removeAttributeValueIfExists(fullDim, "class", "display");
         enableForm();
     }
 
+    //gör <form>-elementets input- och selectelement åtkomliga
     function enableForm() {
         var i;
 
@@ -103,6 +118,7 @@ window.onload = function () {
         }
     }
 
+    //gör <form>-elementets input- och selectelement oåtkomliga
     function disableForm() {
         var i;
 
@@ -111,6 +127,7 @@ window.onload = function () {
         }
     }
 
+    //Visar ett felmeddelande för misslyckad validering av ett input-element.
     function displayFailedValidation(element) {
         var divError = document.createElement("div"),
             errorTextNode,
@@ -131,6 +148,8 @@ window.onload = function () {
         }
     }
 
+    //Korrigerar igenkännbara felaktiga inmatningar i input-elementens värden och returnerar den korrigerade textsträngen.
+    //Om makeChanges är true, korrigeras värdet även direkt i input-elementets värde.
     function autoCorrectField(element, makeChanges) {
         var newElementValue = element.value;
 
@@ -150,11 +169,15 @@ window.onload = function () {
         return newElementValue;
     }
 
-    function removeErrorMessage(element) {
-        if (element.nextElementSibling.getAttribute("class") === "errorText") {
-            element.parentNode.removeChild(element.nextElementSibling);
+    //tar bort felmeddelande som hör till givet input-element
+    function removeErrorMessage(inputElement) {
+        if (inputElement.nextElementSibling.getAttribute("class") === "errorText") {
+            inputElement.parentNode.removeChild(inputElement.nextElementSibling);
         }
     }
+
+    //testar om givet input-elements värde kan valideras eller ej.
+    //Om makeChangesToElement är true, görs ändringar direkt på elementets värde, om det är möjligt.
     function validate(inputElement, makeChangesToElement) {
         var type = inputElement.getAttribute("class"),
             text = autoCorrectField(inputElement, makeChangesToElement);
@@ -168,20 +191,23 @@ window.onload = function () {
         }
     }
 
+    //generell funktion som lägger till ytterligare ett värde till ett attribut, om det inte redan finns (men låter redan existerande värden finnas kvar).
     function addAttributeValueIfNotExists(element, attribute, value) {
         var myRegExp = new RegExp("\\b" + value + " ?\\b");
-        if (!myRegExp.test(element.getAttribute("class"))) {
-            element.setAttribute("class", element.getAttribute("class") + " " + value);
+        if (!myRegExp.test(element.getAttribute(attribute))) {
+            element.setAttribute(attribute, element.getAttribute(attribute) + " " + value);
         }
     }
 
+    //generell funktion som tar bort ett värde till ett attribut, om det finns (men låter ev. resterande värden finnas kvar)
     function removeAttributeValueIfExists(element, attribute, value) {
         var myRegExp = new RegExp("( " + value + "|" + value + " ?)");
-        if (myRegExp.test(element.getAttribute("class"))) {
-            element.setAttribute("class", element.getAttribute("class").replace(myRegExp, ""));
+        if (myRegExp.test(element.getAttribute(attribute))) {
+            element.setAttribute(attribute, element.getAttribute(attribute).replace(myRegExp, ""));
         }
     }
 
+    //kontrollerar om värdet kan valideras eller inte, beroende på vilken typ av validering som ska göras (text, zipCode, email).
     function validated(text, type) {
         if (/^text/.test(type)) {
             return (text.trim().length > 0);
