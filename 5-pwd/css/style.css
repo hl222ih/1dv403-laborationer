@@ -44,13 +44,13 @@ body {
     width: 100px;
     margin-left: 10px;
     box-shadow: 1px 1px 25px 4px black;
+    line-height:0;
 }
 
 .appTitleBar {
     position: relative;
+    display: inline-block;
     left: -3px;
-    right: 3px;
-    top: 0px;
     border-color: #99ADC3;
     border-style: solid;
     border-width: 2px 2px 0 2px;
@@ -60,7 +60,6 @@ body {
     font-weight: bold;
     text-indent: 10px;
     height: 20px;
-
 }
 
 .appMenuBar {
@@ -78,4 +77,22 @@ body {
 
 .appStatusBar {
     width: 100%;
+}
+
+.appTitleBar .appRemoveButtonAnchor {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}
+
+.appTitleBar .appTitleBarText {
+    display: inline-block;
+    margin: 0;
+    padding: 5px;
+    padding-top: 9px;
+}
+
+.appRemoveButton {
+    background-color: #99ADC3;
+    border: 1px solid #98ADC3;
 }
