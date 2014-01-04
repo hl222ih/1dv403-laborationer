@@ -9,6 +9,7 @@ html {
 
 body {
     height: 100%;
+    /* fri licens för bakgrundsbilden, bantad från 1,5MB till ~50kb */
     background-image: url(../images/background.jpg);
     background-repeat: repeat;
 }
@@ -31,4 +32,50 @@ body {
     background-color: rgba(175, 50, 50, 0.5);
     border-top: 2px solid rgba(200, 50, 50, 0.5);
     border-bottom: 2px solid rgba(200, 50, 50, 0.5);
+}
+
+/*
+ *=================================
+ * För Javascriptgenererad html.
+ *=================================
+ */
+.appWindow {
+    height: 100px;
+    width: 100px;
+    margin-left: 10px;
+    box-shadow: 1px 1px 25px 4px black;
+}
+
+.appTitleBar {
+    position: relative;
+    left: -3px;
+    right: 3px;
+    top: 0px;
+    border-color: #99ADC3;
+    border-style: solid;
+    border-width: 2px 2px 0 2px;
+    width: calc(100% + 6px);
+    background-color: rgba(31, 58, 88, 0.95);
+    color: #E7CDC0;
+    font-weight: bold;
+    text-indent: 10px;
+    height: 20px;
+
+}
+
+.appMenuBar {
+    width: 100%;
+}
+
+.appContent {
+    width: 100%;
+    height: calc(100% - 23px);
+    background-color: rgba(207, 165, 143, 0.85);
+    border-color: rgba(200, 50, 50, 0.6);
+    border-style: solid;
+    border-width: 0 1px 1px 1px;
+}
+
+.appStatusBar {
+    width: 100%;
 }
