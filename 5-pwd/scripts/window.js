@@ -10,25 +10,38 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar) {
         appMenuBar,
         appContent,
         appStatusBar,
-        appP;
+        appStatusBarImage,
+        appStatusBarLabel,
+        appLabel;
 
     appWindow = document.createElement('div');
     appWindow.setAttribute('class', 'appWindow');
     appWindow.setAttribute('style', 'height: ' + height + "px; width: " + width + "px;");
     appTitleBar = document.createElement('div');
     appTitleBar.setAttribute('class', 'appTitleBar');
-    appP = document.createElement('p');
-    appP.setAttribute('class', 'appTitleBarText');
-    appP.appendChild(document.createTextNode(name));
-    appTitleBar.appendChild(appP);
+    appLabel = document.createElement('label');
+    appLabel.setAttribute('class', 'appTitleBarLabel');
+    appLabel.appendChild(document.createTextNode(name));
+    appTitleBar.appendChild(appLabel);
     appRemoveButtonAnchor = document.createElement('a');
     appRemoveButtonAnchor.setAttribute('class', 'appRemoveButtonAnchor');
     appRemoveButtonAnchor.setAttribute('href', '#');
     appRemoveButtonAnchor.setAttribute('alt', 'stäng fönster');
 
     appRemoveButtonAnchor.addEventListener('click', function (e) {
-        e.target.parentNode.parentNode.parentNode.parentNode.removeChild(appWindow);
-    });
+        var currentNode = this; //this är den node användaren klickar på
+
+        e = e || event;
+
+        while (currentNode !== appWindow) {
+            currentNode = currentNode.parentNode;
+        }
+        currentNode.parentNode.removeChild(appWindow);
+
+        e.preventDefault(); //förhindra default action (dvs. att gå till den "tomma" länken "#")
+        e.stopPropagation(); //förhindra vidare event bubbling
+
+    }, false);
 
     appRemoveButton = document.createElement('img');
     appRemoveButton.setAttribute('class', 'appRemoveButton');
@@ -50,10 +63,46 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar) {
     if (hasStatusBar) {
         appStatusBar = document.createElement('div');
         appStatusBar.setAttribute('class', 'appStatusBar');
+        appStatusBarLabel = document.createElement('label');
+        appStatusBarLabel.setAttribute('class', 'appStatusBarLabel');
+        appStatusBarImage = document.createElement('img');
+        appStatusBarImage.setAttribute('src', 'images/ajax-loader.gif');
+        appStatusBarImage.style.visibility = 'hidden';
+        appStatusBar.appendChild(appStatusBarImage);
+        appStatusBar.appendChild(appStatusBarLabel);
+
+        this.setStatusBarText = function (text) {
+            while (appStatusBarLabel.firstChild) {
+                appStatusBarLabel.removeChild(appStatusBarLabel.firstChild);
+            }
+            appStatusBarLabel.appendChild(document.createTextNode(text));
+        };
+
         appWindow.appendChild(appStatusBar);
     }
 
     this.getAppWindow = function () {
         return appWindow;
+    };
+
+    this.setPosition = function (xPosition, yPosition) {
+        appWindow.style.top = xPosition + "px";
+        appWindow.style.left = yPosition + "px";
+    };
+
+    this.showWaitIcon = function () {
+        if (appStatusBarImage) {
+            appStatusBarImage.style.visibility = 'visible';
+        }
+    };
+
+    this.hideWaitIcon = function () {
+        if (appStatusBarImage) {
+            appStatusBarImage.style.visibility = 'hidden';
+        }
+    };
+
+    this.addToAppContent = function (content) {
+        appContent.appendChild(content);
     };
 };
