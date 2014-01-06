@@ -2,8 +2,9 @@
 
 var NS1DV403 = NS1DV403 || {};
 
-NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar) {
+NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconUrl) {
     var appWindow,
+        appTitleBarImage,
         appTitleBar,
         appRemoveButtonAnchor,
         appRemoveButton,
@@ -19,9 +20,13 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar) {
     appWindow.setAttribute('style', 'height: ' + height + "px; width: " + width + "px;");
     appTitleBar = document.createElement('div');
     appTitleBar.setAttribute('class', 'appTitleBar');
+    appTitleBarImage = document.createElement('img');
+    appTitleBarImage.setAttribute('src', iconUrl);
+    appTitleBarImage.setAttribute('class', 'appTitleBarIcon');
     appLabel = document.createElement('label');
     appLabel.setAttribute('class', 'appTitleBarLabel');
     appLabel.appendChild(document.createTextNode(name));
+    appTitleBar.appendChild(appTitleBarImage);
     appTitleBar.appendChild(appLabel);
     appRemoveButtonAnchor = document.createElement('a');
     appRemoveButtonAnchor.setAttribute('class', 'appRemoveButtonAnchor');

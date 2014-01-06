@@ -30,7 +30,7 @@ window.onload = function () {
     }, false);
 
     icon = document.createElement('img');
-    icon.setAttribute('src', 'images/imageviewer.png');
+    icon.setAttribute('src', 'images/imageviewer72.png');
     icon.setAttribute('class', 'icon');
     iconAnchor.appendChild(icon);
     taskbar.appendChild(iconAnchor);

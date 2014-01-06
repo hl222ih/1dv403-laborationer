@@ -6,9 +6,10 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
     var xhr = new XMLHttpRequest(),
         timeOutId,
         that = this,
-        imageInfos;
+        imageInfos,
+        imageWindows = [];
 
-    NS1DV403.Window.call(this, height, width, 'Image Viewer', hasMenuBar, true);
+    NS1DV403.Window.call(this, height, width, 'Image Viewer', hasMenuBar, true, 'images/imageviewer16.png');
 
     //hämtar bilderna
     xhr.onreadystatechange = function () {
@@ -47,25 +48,58 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
             imgNode = document.createElement('img');
             imgNode.setAttribute('class', 'thumbImage');
             imgNode.setAttribute('src', imageInfos[i].thumbURL);
-            imgNode.setAttribute('imageWidth', imageInfos[i].width.toString());
-            imgNode.setAttribute('imageHeight', imageInfos[i].height.toString());
+            imgNode.dataset.imageWidth = imageInfos[i].width.toString();
+            imgNode.dataset.imageHeight = imageInfos[i].height.toString();
+            imgNode.dataset.imageUrl = imageInfos[i].URL.toString();
             anchorNode.appendChild(imgNode);
 
             anchorNode.addEventListener('mouseenter', function (e) {
-                var currentImage = e.currentTarget.firstElementChild;
+                var currentImage = e.currentTarget.getElementsByTagName('img')[0];
 
                 e = e || event;
 
-                that.setStatusBarText('dimensions: ' + currentImage.getAttribute('imageWidth') + 'x' + currentImage.getAttribute('imageHeight') + 'px');
+                that.setStatusBarText('dimensions: ' + currentImage.dataset.imageWidth + 'x' + currentImage.dataset.imageHeight + 'px');
 
                 e.preventDefault();
                 e.stopPropagation();
 
             }, false);
             anchorNode.addEventListener('click', function (e) {
+                var currentImage = e.currentTarget.getElementsByTagName('img')[0],
+                    imageWindow,
+                    //imageWindows = [],
+                    i,
+                    point,
+                    points = [],
+                    newPositionPoint;
+
                 e = e || event;
 
-                //skapa nytt bildfönster
+                imageWindow = new NS1DV403.ImageWindow(300, 300, currentImage.dataset.imageUrl,
+                    that.getTopLeftPositionX(), that.getTopLeftPositionY());
+                imageWindows.push(imageWindow);
+
+                for (i = 0; i < imageWindows.length; i++) {
+                    point = {
+                        x: imageWindows[i].getTopLeftPositionX(),
+                        y: imageWindows[i].getTopLeftPositionY()
+                    };
+                    points.push(point);
+                }
+
+                newPositionPoint = {
+                    x: that.getTopLeftPositionX() + width + 30,
+                    y: that.getTopLeftPositionY()
+                };
+
+                while (points.some(function (point) {
+                        return (point.x === newPositionPoint.x && point.y === newPositionPoint.y);
+                    })) {
+                    newPositionPoint.x += 30;
+                    newPositionPoint.y += 30;
+                }
+
+                imageWindow.setPosition(newPositionPoint.x, newPositionPoint.y);
 
                 e.preventDefault();
                 e.stopPropagation();
