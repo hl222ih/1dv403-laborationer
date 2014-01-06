@@ -31,6 +31,7 @@ body {
 
 #taskbar {
     display: block;
+    position: relative;
     height: 70px;
     background-color: rgba(175, 50, 50, 0.5);
     border-top: 2px solid rgba(200, 50, 50, 0.5);
@@ -76,6 +77,7 @@ body {
     border-style: solid;
     border-width: 0 1px 0 1px;
     text-align: center;
+    overflow-y: auto;
 }
 
 .appStatusBar {
@@ -131,5 +133,4 @@ body {
     box-shadow: 1px 1px 25px 4px rgba(255, 255, 255, 0.6);
     vertical-align: middle;
     border-radius: 2px;
-
 }

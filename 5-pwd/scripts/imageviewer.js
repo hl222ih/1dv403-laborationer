@@ -47,12 +47,16 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
             imgNode = document.createElement('img');
             imgNode.setAttribute('class', 'thumbImage');
             imgNode.setAttribute('src', imageInfos[i].thumbURL);
+            imgNode.setAttribute('imageWidth', imageInfos[i].width.toString());
+            imgNode.setAttribute('imageHeight', imageInfos[i].height.toString());
             anchorNode.appendChild(imgNode);
 
-            anchorNode.addEventListener('click', function (e) {
+            anchorNode.addEventListener('mouseenter', function (e) {
+                var currentImage = e.currentTarget.firstElementChild;
+
                 e = e || event;
 
-                //visa information om objektet.
+                that.setStatusBarText('dimensions: ' + currentImage.getAttribute('imageWidth') + 'x' + currentImage.getAttribute('imageHeight') + 'px');
 
                 e.preventDefault();
                 e.stopPropagation();

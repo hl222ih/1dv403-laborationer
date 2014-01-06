@@ -29,9 +29,11 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar) {
     appRemoveButtonAnchor.setAttribute('alt', 'stäng fönster');
 
     appRemoveButtonAnchor.addEventListener('click', function (e) {
-        var currentNode = this; //this är den node användaren klickar på
+        var currentNode;
 
         e = e || event;
+
+        currentNode = e.currentTarget; //appRemoveButtonAnchor-noden
 
         while (currentNode !== appWindow) {
             currentNode = currentNode.parentNode;
@@ -81,13 +83,14 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar) {
         appWindow.appendChild(appStatusBar);
     }
 
+
     this.getAppWindow = function () {
         return appWindow;
     };
 
     this.setPosition = function (xPosition, yPosition) {
-        appWindow.style.top = xPosition + "px";
-        appWindow.style.left = yPosition + "px";
+        appWindow.style.left = xPosition + "px";
+        appWindow.style.top = yPosition + "px";
     };
 
     this.showWaitIcon = function () {
@@ -105,4 +108,25 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar) {
     this.addToAppContent = function (content) {
         appContent.appendChild(content);
     };
+
+    this.getTopLeftPositionX = function () {
+        return appWindow.getBoundingClientRect().left;
+    };
+
+    this.getTopLeftPositionY = function () {
+        return appWindow.getBoundingClientRect().top;
+    };
+
+
+
+    //window.alert(this.getName);
+    //if (this instanceof NS1DV403.Window) {
+        //  window.alert("yep, Window");
+        //}
+
+    //if (this instanceof NS1DV403.ImageViewer) {
+    //    window.alert("yep, ImageViewer");
+    //}
+
+
 };
