@@ -5,7 +5,6 @@ var NS1DV403 = NS1DV403 || {};
 
 window.onload = function () {
     var app,
-        //app2 = new NS1DV403.ImageViewer(300, 200, true),
         apps = [],
         desktop = document.getElementById('desktop'),
         taskbar = document.getElementById('taskbar'),

@@ -14,7 +14,10 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         appStatusBarImage,
         appStatusBarLabel,
         appLabel,
-        that = this;
+        that = this,
+        oldCursorPositionX,
+        oldCursorPositionY,
+        moveOrResizeType;
 
     appWindow = document.createElement('div');
     appWindow.setAttribute('class', 'appWindow');
@@ -103,66 +106,124 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         e.preventDefault();
     }, false);
 
-
-    var oldCursorPositionX;
-    var oldCursorPositionY;
-    var testcount = 0;
-
     appWindow.addEventListener('mousedown', function (e) {
-        var moveWindow;
+        var moveOrResizeWindow,
+            endMoveOrResizeWindow,
+            reziseWindow;
 
         e = e || event;
 
-        //if (appWindow.style.cursor === 'move') {
+        if (appWindow.style.cursor === 'move' || /^(?:[sn]?[we]|[sn])-resize$/.test(appWindow.style.cursor)) {
             oldCursorPositionX = e.clientX;
             oldCursorPositionY = e.clientY;
-        //} //
+            moveOrResizeType = appWindow.style.cursor;
+        }
 
-        // else if
-        moveWindow = function (e) {
+        //denna funktion flyttar eller ändrar storleken på fönstret beroende på vilken muspekare som visades
+        //när musknappen trycktes ned.
+        moveOrResizeWindow = function (e) {
             var leftPosition = appWindow.getBoundingClientRect().left,
-                topPosition = appWindow.getBoundingClientRect().top;
+                topPosition = appWindow.getBoundingClientRect().top,
+                rightPosition = appWindow.getBoundingClientRect().right,
+                bottomPosition = appWindow.getBoundingClientRect().bottom,
+                appWindowWidth = appWindow.getBoundingClientRect().width,
+                appWindowHeight = appWindow.getBoundingClientRect().height,
+                newLeftPosition,
+                newTopPosition,
+                newRightPosition,
+                newBottomPosition,
+                newWindowWidth,
+                newWindowHeight,
+                body = document.getElementsByTagName('body')[0],
+                bodyLeft = body.getBoundingClientRect().left + 1,
+                bodyTop = body.getBoundingClientRect().top + 1,
+                bodyRight = body.getBoundingClientRect().right - 1,
+                bodyBottom = body.getBoundingClientRect().bottom - 1;
 
             e = e || event;
 
-            if (e.which === 1) {
-
-                window.console.log("fönstret placeras");
-                if (oldCursorPositionX && oldCursorPositionY) {
-                    that.setPosition(leftPosition + e.clientX - oldCursorPositionX, topPosition + e.clientY - oldCursorPositionY);
-                }
-                window.console.log("oldCursorPositionX får nya koordinater.");
-                oldCursorPositionX = e.clientX;
-                oldCursorPositionY = e.clientY;
+            if (/^(?:move|[sn]?w-resize)$/.test(moveOrResizeType)) {
+                newLeftPosition = leftPosition + e.clientX - oldCursorPositionX;
             } else {
-                window.console.log("oldCursorPositionX sätts till noll (2)");
+                newLeftPosition = leftPosition;
+            }
+
+            if (/^(?:move|n[we]?-resize)$/.test(moveOrResizeType)) {
+                newTopPosition = topPosition + e.clientY - oldCursorPositionY;
+            } else {
+                newTopPosition = topPosition;
+            }
+
+            if (moveOrResizeType === 'move') {
+                newRightPosition = leftPosition + e.clientX - oldCursorPositionX + appWindowWidth;
+                newBottomPosition = topPosition + e.clientY - oldCursorPositionY + appWindowHeight;
+            } else {
+                if (/^[sn]?e-resize$/.test(moveOrResizeType)) {
+                    newRightPosition = rightPosition + e.clientX - oldCursorPositionX;
+                } else {
+                    newRightPosition = rightPosition;
+                }
+
+                if (/^s[ew]?-resize$/.test(moveOrResizeType)) {
+                    newBottomPosition = bottomPosition + e.clientY - oldCursorPositionY;
+                } else {
+                    newBottomPosition = bottomPosition;
+                }
+            }
+
+            //e.which === 1: kolla att vänster musknapp är nedtryckt.
+            if (e.which === 1) {
+                if (oldCursorPositionX && oldCursorPositionY) {
+                    if (newLeftPosition < bodyLeft) {
+                        newLeftPosition = bodyLeft;
+                        newRightPosition = bodyLeft + appWindowWidth;
+                    } else if (newRightPosition > bodyRight) {
+                        newLeftPosition = bodyRight - appWindowWidth;
+                        newRightPosition = bodyRight;
+                    } else {
+                        oldCursorPositionX = e.clientX;
+                    }
+                    if (newTopPosition < bodyTop) {
+                        newTopPosition = bodyTop;
+                        newBottomPosition = bodyTop + appWindowHeight;
+                    } else if (newBottomPosition > bodyBottom) {
+                        newTopPosition = bodyBottom - appWindowHeight;
+                        newBottomPosition = bodyBottom;
+                    } else {
+                        oldCursorPositionY = e.clientY;
+                    }
+                    that.resizeWindow(newLeftPosition, newTopPosition, newRightPosition, newBottomPosition);
+                }
+            } else {
+                //nollställ muspekarpositionen när vänster musknapp inte längre är nedtryckt.
                 oldCursorPositionX = undefined;
                 oldCursorPositionY = undefined;
             }
-            //e.stopPropagation();
             e.preventDefault();
 
         };
 
-        var endMoveWindow = function (e) {
+        endMoveOrResizeWindow = function (e) {
             e = e || event;
 
-            window.console.log("mouseup körs...");
-            document.removeEventListener('mousemove', moveWindow, false);
-            window.console.log("oldCursorPositionX ( " + oldCursorPositionX + " ) sätts till undefined");
+            document.removeEventListener('mousemove', moveOrResizeWindow, false);
+            document.removeEventListener('mouseup', endMoveOrResizeWindow, false);
+
             oldCursorPositionX = undefined;
             oldCursorPositionY = undefined;
+            moveOrResizeType = 'default';
             e.stopPropagation();
             e.preventDefault();
         };
-        document.addEventListener('mousemove', moveWindow, false);
 
-        document.addEventListener('mouseup', endMoveWindow, false);
+        document.addEventListener('mousemove', moveOrResizeWindow, false);
+        document.addEventListener('mouseup', endMoveOrResizeWindow, false);
 
         e.stopPropagation();
         e.preventDefault();
     }, false);
 
+    //Denna funktion sätter muspekaren till olika typer när den dras över fönstrets kanter.
     appWindow.addEventListener('mousemove', function (e) {
         var leftPosition = appWindow.getBoundingClientRect().left,
             rightPosition = appWindow.getBoundingClientRect().right,
@@ -209,26 +270,23 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         } else {
             appWindow.style.cursor = 'default';
         }
-        //e.stopPropagation();
         e.preventDefault();
     }, false);
 
-    //window.alert(this.getName);
-    //if (this instanceof NS1DV403.Window) {
-        //  window.alert("yep, Window");
-        //}
-
-    //if (this instanceof NS1DV403.ImageViewer) {
-    //    window.alert("yep, ImageViewer");
-    //}
     this.getAppWindow = function () {
         return appWindow;
     };
 
     this.setPosition = function (xPosition, yPosition) {
-        window.console.log("position satt:" + xPosition  + ":" + yPosition);
-        appWindow.style.left = xPosition + "px";
-        appWindow.style.top = yPosition + "px";
+        appWindow.style.left = xPosition + 'px';
+        appWindow.style.top = yPosition + 'px';
+    };
+
+    this.resizeWindow = function (leftPosition, topPosition, rightPosition, bottomPosition) {
+        appWindow.style.width = (rightPosition - leftPosition) + 'px';
+        appWindow.style.height = (bottomPosition - topPosition) + 'px';
+        appWindow.style.left = leftPosition + 'px';
+        appWindow.style.top = topPosition + 'px';
     };
 
     this.showWaitIcon = function () {
@@ -256,4 +314,13 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
     };
 
 
+    this.isWindowWithinDesktop = function (x, y, width, height) {
+        var body = document.getElementsByTagName('body')[0],
+            bodyTop = body.getBoundingClientRect().top,
+            bodyLeft = body.getBoundingClientRect().left,
+            bodyRight = body.getBoundingClientRect().right,
+            bodyBottom = body.getBoundingClientRect().bottom;
+
+        return !(x < bodyLeft || y < bodyTop || x + width > bodyRight || y + height > bodyBottom);
+    };
 };

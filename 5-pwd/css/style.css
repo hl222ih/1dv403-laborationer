@@ -15,6 +15,7 @@ body {
     /* fri licens för bakgrundsbilden, bantad från 1,5MB till ~50kb */
     background-image: url(../images/background.jpg);
     background-repeat: repeat;
+    overflow: hidden;
 }
 
 #desktop {
