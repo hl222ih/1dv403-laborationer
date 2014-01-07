@@ -13,7 +13,8 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         appStatusBar,
         appStatusBarImage,
         appStatusBarLabel,
-        appLabel;
+        appLabel,
+        that = this;
 
     appWindow = document.createElement('div');
     appWindow.setAttribute('class', 'appWindow');
@@ -88,12 +89,144 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         appWindow.appendChild(appStatusBar);
     }
 
+    appTitleBar.addEventListener('mouseover', function (e) {
+        e = e || event;
+        appWindow.style.cursor = 'move';
+        e.stopPropagation();
+        e.preventDefault();
+    }, false);
 
+    appLabel.addEventListener('mouseover', function (e) {
+        e = e || event;
+        appWindow.style.cursor = 'move';
+        e.stopPropagation();
+        e.preventDefault();
+    }, false);
+
+
+    var oldCursorPositionX;
+    var oldCursorPositionY;
+    var testcount = 0;
+
+    appWindow.addEventListener('mousedown', function (e) {
+        var moveWindow;
+
+        e = e || event;
+
+        //if (appWindow.style.cursor === 'move') {
+            oldCursorPositionX = e.clientX;
+            oldCursorPositionY = e.clientY;
+        //} //
+
+        // else if
+        moveWindow = function (e) {
+            var leftPosition = appWindow.getBoundingClientRect().left,
+                topPosition = appWindow.getBoundingClientRect().top;
+
+            e = e || event;
+
+            if (e.which === 1) {
+
+                window.console.log("fönstret placeras");
+                if (oldCursorPositionX && oldCursorPositionY) {
+                    that.setPosition(leftPosition + e.clientX - oldCursorPositionX, topPosition + e.clientY - oldCursorPositionY);
+                }
+                window.console.log("oldCursorPositionX får nya koordinater.");
+                oldCursorPositionX = e.clientX;
+                oldCursorPositionY = e.clientY;
+            } else {
+                window.console.log("oldCursorPositionX sätts till noll (2)");
+                oldCursorPositionX = undefined;
+                oldCursorPositionY = undefined;
+            }
+            //e.stopPropagation();
+            e.preventDefault();
+
+        };
+
+        var endMoveWindow = function (e) {
+            e = e || event;
+
+            window.console.log("mouseup körs...");
+            document.removeEventListener('mousemove', moveWindow, false);
+            window.console.log("oldCursorPositionX ( " + oldCursorPositionX + " ) sätts till undefined");
+            oldCursorPositionX = undefined;
+            oldCursorPositionY = undefined;
+            e.stopPropagation();
+            e.preventDefault();
+        };
+        document.addEventListener('mousemove', moveWindow, false);
+
+        document.addEventListener('mouseup', endMoveWindow, false);
+
+        e.stopPropagation();
+        e.preventDefault();
+    }, false);
+
+    appWindow.addEventListener('mousemove', function (e) {
+        var leftPosition = appWindow.getBoundingClientRect().left,
+            rightPosition = appWindow.getBoundingClientRect().right,
+            topPosition = appWindow.getBoundingClientRect().top,
+            bottomPosition = appWindow.getBoundingClientRect().bottom;
+
+        e = e || event;
+
+        if (e.clientX >= leftPosition && e.clientX <= leftPosition + 2) {
+            if (e.clientY >= topPosition && e.clientY <= topPosition + 20) {
+                appWindow.style.cursor = 'nw-resize';
+            }
+            if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 20) {
+                appWindow.style.cursor = 'sw-resize';
+            } else {
+                appWindow.style.cursor = 'w-resize';
+            }
+        } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition + 2) {
+            if (e.clientY >= topPosition && e.clientY <= topPosition + 20) {
+                appWindow.style.cursor = 'ne-resize';
+            } else if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 20) {
+                appWindow.style.cursor = 'se-resize';
+            } else {
+                appWindow.style.cursor = 'e-resize';
+            }
+        } else if (e.clientY >= topPosition && e.clientY <= topPosition + 2) {
+            if (e.clientX >= leftPosition && e.clientX <= leftPosition + 20) {
+                appWindow.style.cursor = 'nw-resize';
+            } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition - 16) {
+                appWindow.style.cursor = 'ne-resize';
+            } else {
+                appWindow.style.cursor = 'n-resize';
+            }
+        } else if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 2) {
+            if (e.clientX >= leftPosition && e.clientX <= leftPosition + 20) {
+                appWindow.style.cursor = 'sw-resize';
+            } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition - 16) {
+                appWindow.style.cursor = 'se-resize';
+            } else {
+                appWindow.style.cursor = 's-resize';
+            }
+        } else if (e.target === appTitleBar || e.target === appLabel || e.target === appTitleBarImage) {
+            appWindow.style.cursor = 'move';
+        } else {
+            appWindow.style.cursor = 'default';
+        }
+        //e.stopPropagation();
+        e.preventDefault();
+    }, false);
+
+    //window.alert(this.getName);
+    //if (this instanceof NS1DV403.Window) {
+        //  window.alert("yep, Window");
+        //}
+
+    //if (this instanceof NS1DV403.ImageViewer) {
+    //    window.alert("yep, ImageViewer");
+    //}
     this.getAppWindow = function () {
         return appWindow;
     };
 
     this.setPosition = function (xPosition, yPosition) {
+        window.console.log("position satt:" + xPosition  + ":" + yPosition);
         appWindow.style.left = xPosition + "px";
         appWindow.style.top = yPosition + "px";
     };
@@ -121,17 +254,6 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
     this.getTopLeftPositionY = function () {
         return appWindow.getBoundingClientRect().top;
     };
-
-
-
-    //window.alert(this.getName);
-    //if (this instanceof NS1DV403.Window) {
-        //  window.alert("yep, Window");
-        //}
-
-    //if (this instanceof NS1DV403.ImageViewer) {
-    //    window.alert("yep, ImageViewer");
-    //}
 
 
 };

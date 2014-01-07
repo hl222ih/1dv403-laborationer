@@ -71,4 +71,10 @@ window.onload = function () {
         app.setPosition(newPositionPoint.x, newPositionPoint.y);
 
     };
+
+    document.addEventListener('selectstart', function (e) {
+        e.preventDefault();
+        return false;
+    }, false);
+
 };

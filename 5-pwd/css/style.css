@@ -68,7 +68,7 @@ body {
 
 .appContent {
     width: 100%;
-    height: calc(100% - 23px);
+    height: calc(100% - 44px);
     background-color: rgba(207, 165, 143, 0.85);
     border-color: rgba(200, 50, 50, 0.6);
     border-style: solid;
