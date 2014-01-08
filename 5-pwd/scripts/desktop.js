@@ -4,7 +4,7 @@
 var NS1DV403 = NS1DV403 || {};
 
 window.onload = function () {
-    var app,
+    var app = null,
         apps = [],
         desktop = document.getElementById('desktop'),
         taskbar = document.getElementById('taskbar'),
@@ -12,6 +12,12 @@ window.onload = function () {
         icon,
         iconAnchor,
         setWindowPosition;
+
+    function createImageViewer() {
+        app = new NS1DV403.ImageViewer(300, 400, true);
+        apps.push(app);
+        desktop.appendChild(app.getAppWindow());
+    }
 
     if (window.localStorage.lastTime) {
         var date = new Date(parseInt(window.localStorage.lastTime));
@@ -25,9 +31,7 @@ window.onload = function () {
 
     iconAnchor.addEventListener('click', function (e) {
         e = e || event;
-        app = new NS1DV403.ImageViewer(300, 400, true);
-        apps.push(app);
-        desktop.appendChild(app.getAppWindow());
+        createImageViewer();
         setWindowPosition(app);
         e.stopPropagation();
         e.preventDefault();
@@ -84,24 +88,17 @@ window.onload = function () {
     };
 
     if (window.localStorage.windowsPositionData) {
-        var storedWindowdataData = JSON.parse(window.localStorage.windowsPositionData);
+        var storedWindowData = JSON.parse(window.localStorage.windowsPositionData),
+            i;
 
-        app = new NS1DV403.ImageViewer(300, 400, true);
-        apps.push(app);
-        desktop.appendChild(app.getAppWindow());
-        app.resizeWindow(storedWindowdataData.w, storedWindowdataData,n, storedWindowdataData.e, storedWindowdataData.s);
-        app.setZPosition();
-        //fortsätt här
-        createImageViewer()
-        e.stopPropagation();
-        e.preventDefault();
-    }
-
-    createImageViewer = function() {
-        app = new NS1DV403.ImageViewer(300, 400, true);
-        apps.push(app);
-        desktop.appendChild(app.getAppWindow());
-        setWindowPosition(app);
+        for (i = 0; i < storedWindowData.length; i++) {
+            if (storedWindowData[i].type === 'ImageViewer') {
+                createImageViewer();
+            }
+            app.resizeWindow(storedWindowData[i].w, storedWindowData[i].n, storedWindowData[i].e, storedWindowData[i].s);
+            //sätter z-index korrekt, men sen ändras det igen, jag vet inte varför.
+            app.setZPosition(storedWindowData[i].z);
+        }
     }
 
     document.addEventListener('selectstart', function (e) {
@@ -110,12 +107,12 @@ window.onload = function () {
     }, false);
 
     window.addEventListener('beforeunload', function (e) {
-        var desktopState,
-            i,
-            positionData = {},
+        var i,
+            positionData,
             allPositionData = [];
 
-        for (i = 0; i < apps; i++) {
+        for (i = 0; i < apps.length; i++) {
+            positionData = {};
             positionData.w = apps[i].getLeftPosition();
             positionData.n = apps[i].getTopPosition();
             positionData.e = apps[i].getRightPosition();

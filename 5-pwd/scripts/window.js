@@ -196,16 +196,16 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
             //e.which === 1: kolla att vänster musknapp är nedtryckt.
             if (e.which === 1) {
                 if (oldCursorPositionX && oldCursorPositionY) {
-                    window.console.log("newLeft:" + newLeftPosition + " newTop:" + newTopPosition + " newRight: " + newRightPosition + " newBottom:" + newBottomPosition);
+//                    window.console.log("newLeft:" + newLeftPosition + " newTop:" + newTopPosition + " newRight: " + newRightPosition + " newBottom:" + newBottomPosition);
                     if (newLeftPosition < bodyLeft) {
                         newLeftPosition = bodyLeft;
                         newRightPosition = bodyLeft + appWindowWidth;
-                    } else if (newLeftPosition > newRightPosition - MinWidth) {
+                    } else if (newLeftPosition > rightPosition - MinWidth) {
                         newLeftPosition = rightPosition - MinWidth;
                     } else if (newRightPosition > bodyRight) {
                         newLeftPosition = bodyRight - appWindowWidth;
                         newRightPosition = bodyRight;
-                    } else if (newRightPosition < newLeftPosition + MinWidth) {
+                    } else if (newRightPosition < leftPosition + MinWidth) {
                         newRightPosition = leftPosition + MinWidth;
                     } else {
                         oldCursorPositionX = e.clientX;
@@ -214,12 +214,20 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
                         newTopPosition = bodyTop;
                         newBottomPosition = bodyTop + appWindowHeight;
                     } else if (newTopPosition > newBottomPosition - MinHeight) {
-                        newTopPosition = bottomPosition - MinHeight;
+                        if (newBottomPosition < bottomPosition) { //förminskar uppåt
+                            newBottomPosition = bottomPosition;
+                        } else { //förminskar nedåt
+                            newTopPosition = bottomPosition - MinHeight;
+                        }
                     } else if (newBottomPosition > bodyBottom) {
                         newTopPosition = bodyBottom - appWindowHeight;
                         newBottomPosition = bodyBottom;
                     } else if (newBottomPosition < newTopPosition + MinHeight) {
-                        newBottomPosition = topPosition + MinHeight;
+                        if (newTopPosition < topPosition) { //förminskar nedåt
+                            newTopPosition = topPosition;
+                        } else { //förminskar uppåt
+                            newBottomPosition = topPosition + MinHeight;
+                        }
                     } else {
                         oldCursorPositionY = e.clientY;
                     }
@@ -349,6 +357,10 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
 
     this.getZPosition = function () {
         return appWindow.style.zIndex;
+    };
+
+    this.setZPosition = function (zIndex) {
+        appWindow.style.zIndex = zIndex;
     };
 
     this.getRightPosition = function () {
