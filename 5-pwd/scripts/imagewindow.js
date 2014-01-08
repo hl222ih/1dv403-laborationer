@@ -20,4 +20,8 @@ NS1DV403.ImageWindow = function (height, width, url) {
     anchorNode.appendChild(imgNode);
     this.addToAppContent(anchorNode);
     desktop.appendChild(appWindow);
+
+    this.getType = function () {
+        return 'ImageWindow';
+    }
 };

@@ -88,15 +88,15 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
 
                 for (i = 0; i < imageWindows.length; i++) {
                     point = {
-                        x: imageWindows[i].getTopLeftPositionX(),
-                        y: imageWindows[i].getTopLeftPositionY()
+                        x: imageWindows[i].getLeftPosition(),
+                        y: imageWindows[i].getTopPosition()
                     };
                     points.push(point);
                 }
 
                 newPositionPoint = {
-                    x: that.getTopLeftPositionX() + width + 30,
-                    y: that.getTopLeftPositionY()
+                    x: that.getLeftPosition() + width + 30,
+                    y: that.getTopPosition()
                 };
 
                 while (points.some(function (point) {
@@ -122,5 +122,9 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
             that.addToAppContent(anchorNode);
         }
     }
+
+    this.getType = function () {
+        return 'ImageViewer';
+    };
 
 };

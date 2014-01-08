@@ -54,8 +54,8 @@ window.onload = function () {
 
         for (i = 0; i < apps.length; i++) {
             point = {
-                x: apps[i].getTopLeftPositionX(),
-                y: apps[i].getTopLeftPositionY()
+                x: apps[i].getLeftPosition(),
+                y: apps[i].getTopPosition()
             };
             appPoints.push(point);
         }
@@ -83,13 +83,49 @@ window.onload = function () {
 
     };
 
+    if (window.localStorage.windowsPositionData) {
+        var storedWindowdataData = JSON.parse(window.localStorage.windowsPositionData);
+
+        app = new NS1DV403.ImageViewer(300, 400, true);
+        apps.push(app);
+        desktop.appendChild(app.getAppWindow());
+        app.resizeWindow(storedWindowdataData.w, storedWindowdataData,n, storedWindowdataData.e, storedWindowdataData.s);
+        app.setZPosition();
+        //fortsätt här
+        createImageViewer()
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
+    createImageViewer = function() {
+        app = new NS1DV403.ImageViewer(300, 400, true);
+        apps.push(app);
+        desktop.appendChild(app.getAppWindow());
+        setWindowPosition(app);
+    }
+
     document.addEventListener('selectstart', function (e) {
         e.preventDefault();
         return false;
     }, false);
 
     window.addEventListener('beforeunload', function (e) {
-        var desktopState;
+        var desktopState,
+            i,
+            positionData = {},
+            allPositionData = [];
+
+        for (i = 0; i < apps; i++) {
+            positionData.w = apps[i].getLeftPosition();
+            positionData.n = apps[i].getTopPosition();
+            positionData.e = apps[i].getRightPosition();
+            positionData.s = apps[i].getBottomPosition();
+            positionData.z = apps[i].getZPosition();
+            positionData.type = apps[i].getType();
+            allPositionData.push(positionData);
+        }
+
+        window.localStorage.windowsPositionData = JSON.stringify(allPositionData);
         window.localStorage.lastTime = Date.now();
     }, false);
 };
