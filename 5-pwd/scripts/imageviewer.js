@@ -64,20 +64,27 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
                 e.stopPropagation();
 
             }, false);
+
             anchorNode.addEventListener('click', function (e) {
                 var currentImage = e.currentTarget.getElementsByTagName('img')[0],
                     imageWindow,
-                    //imageWindows = [],
                     i,
                     point,
                     points = [],
-                    newPositionPoint;
+                    newPositionPoint,
+                    body = document.getElementsByTagName('body')[0],
+                    bodyHeight = body.getBoundingClientRect().height,
+                    bodyWidth = body.getBoundingClientRect().width,
+                    imageWindowHeight,
+                    imageWindowWidth;
 
                 e = e || event;
 
-                imageWindow = new NS1DV403.ImageWindow(300, 300, currentImage.dataset.imageUrl,
-                    that.getTopLeftPositionX(), that.getTopLeftPositionY());
+                imageWindow = new NS1DV403.ImageWindow(300, 300, currentImage.dataset.imageUrl);
                 imageWindows.push(imageWindow);
+
+                imageWindowHeight = imageWindow.getAppWindow().getBoundingClientRect().height;
+                imageWindowWidth = imageWindow.getAppWindow().getBoundingClientRect().width;
 
                 for (i = 0; i < imageWindows.length; i++) {
                     point = {
@@ -97,6 +104,13 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
                     })) {
                     newPositionPoint.x += 30;
                     newPositionPoint.y += 30;
+                    if (bodyHeight < newPositionPoint.y + imageWindowHeight) {
+                        newPositionPoint.y = 0;
+                    }
+                    if (bodyWidth < newPositionPoint.x + imageWindowWidth) {
+                        newPositionPoint.x = 0;
+                        newPositionPoint.y = 0;
+                    }
                 }
 
                 imageWindow.setPosition(newPositionPoint.x, newPositionPoint.y);

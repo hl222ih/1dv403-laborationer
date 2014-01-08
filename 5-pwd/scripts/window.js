@@ -17,7 +17,8 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         that = this,
         oldCursorPositionX,
         oldCursorPositionY,
-        moveOrResizeType;
+        moveOrResizeType,
+        appStatusBarResizeIcon;
 
     appWindow = document.createElement('div');
     appWindow.setAttribute('class', 'appWindow');
@@ -90,21 +91,38 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         };
 
         appWindow.appendChild(appStatusBar);
+
+
+        appStatusBarResizeIcon = document.createElement('img');
+        appStatusBarResizeIcon.setAttribute('class', 'appStatusBarResizeIcon');
+        appStatusBarResizeIcon.setAttribute('src', 'images/expand38x40.png');
+        appStatusBar.appendChild(appStatusBarResizeIcon);
     }
 
-    appTitleBar.addEventListener('mouseover', function (e) {
-        e = e || event;
-        appWindow.style.cursor = 'move';
-        e.stopPropagation();
-        e.preventDefault();
+    appWindow.addEventListener('click', function (e) {
+        that.moveToTop();
     }, false);
 
-    appLabel.addEventListener('mouseover', function (e) {
-        e = e || event;
-        appWindow.style.cursor = 'move';
-        e.stopPropagation();
-        e.preventDefault();
-    }, false);
+    //appStatusBarResizeIcon.addEventListener('mouseover', function (e) {
+        // e = e || event;
+        // appWindow.style.cursor = 'se-resize';
+        //e.stopPropagation();
+        //     e.preventDefault();
+   // }, false);
+
+    //  appTitleBar.addEventListener('mouseover', function (e) {
+    //     e = e || event;
+    //     appWindow.style.cursor = 'move';
+    //     e.stopPropagation();
+    //     e.preventDefault();
+    // }, false);
+
+//    appLabel.addEventListener('mouseover', function (e) {
+    //  e = e || event;
+    //       appWindow.style.cursor = 'move';
+    //   e.stopPropagation();
+    //    e.preventDefault();
+    // }, false);
 
     appWindow.addEventListener('mousedown', function (e) {
         var moveOrResizeWindow,
@@ -112,6 +130,8 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
             reziseWindow;
 
         e = e || event;
+
+        that.moveToTop();
 
         if (appWindow.style.cursor === 'move' || /^(?:[sn]?[we]|[sn])-resize$/.test(appWindow.style.cursor)) {
             oldCursorPositionX = e.clientX;
@@ -267,6 +287,8 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
             }
         } else if (e.target === appTitleBar || e.target === appLabel || e.target === appTitleBarImage) {
             appWindow.style.cursor = 'move';
+        } else if (e.target === appStatusBarResizeIcon) {
+            appWindow.style.cursor = 'se-resize';
         } else {
             appWindow.style.cursor = 'default';
         }
@@ -274,6 +296,7 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
     }, false);
 
     this.getAppWindow = function () {
+        this.moveToTop();
         return appWindow;
     };
 
@@ -313,14 +336,21 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         return appWindow.getBoundingClientRect().top;
     };
 
+    this.moveToTop = function () {
+        var windows = document.getElementsByClassName('appWindow'),
+            currentTopZIndex = 0,
+            i;
 
-    this.isWindowWithinDesktop = function (x, y, width, height) {
-        var body = document.getElementsByTagName('body')[0],
-            bodyTop = body.getBoundingClientRect().top,
-            bodyLeft = body.getBoundingClientRect().left,
-            bodyRight = body.getBoundingClientRect().right,
-            bodyBottom = body.getBoundingClientRect().bottom;
+        for (i = 0; i < windows.length; i++) {
+            if (windows[i].style.zIndex > currentTopZIndex) {
+                currentTopZIndex = parseInt(windows[i].style.zIndex, 10);
+            }
+        }
 
-        return !(x < bodyLeft || y < bodyTop || x + width > bodyRight || y + height > bodyBottom);
+        appWindow.style.zIndex = currentTopZIndex + 1;
+        window.console.log(appWindow.style.zIndex);
     };
+
+    this.savedAppWindow = appWindow;
+
 };
