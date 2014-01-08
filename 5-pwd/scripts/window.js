@@ -191,24 +191,34 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
                 }
             }
 
+            var MinWidth = 240;
+            var MinHeight = 240;
             //e.which === 1: kolla att vänster musknapp är nedtryckt.
             if (e.which === 1) {
+                if (newLeftPosition < bodyLeft) {
+                    newLeftPosition = bodyLeft;
+                    newRightPosition = bodyLeft + appWindowWidth;
+                } else if (newLeftPosition > rightPosition - MinWidth) {
+                    newLeftPosition = rightPosition - MinWidth;
+                } else if (newRightPosition > bodyRight) {
+                    newLeftPosition = bodyRight - appWindowWidth;
+                    newRightPosition = bodyRight;
+                } else if (newRightPosition < leftPosition + MinWidth) {
+                    newRightPosition = leftPosition + MinWidth;
+                } else {
+                    oldCursorPositionX = e.clientX;
+                }
                 if (oldCursorPositionX && oldCursorPositionY) {
-                    if (newLeftPosition < bodyLeft) {
-                        newLeftPosition = bodyLeft;
-                        newRightPosition = bodyLeft + appWindowWidth;
-                    } else if (newRightPosition > bodyRight) {
-                        newLeftPosition = bodyRight - appWindowWidth;
-                        newRightPosition = bodyRight;
-                    } else {
-                        oldCursorPositionX = e.clientX;
-                    }
                     if (newTopPosition < bodyTop) {
                         newTopPosition = bodyTop;
                         newBottomPosition = bodyTop + appWindowHeight;
+                    } else if (newTopPosition > bottomPosition - MinHeight) {
+                        newTopPosition = bottomPosition - MinHeight;
                     } else if (newBottomPosition > bodyBottom) {
                         newTopPosition = bodyBottom - appWindowHeight;
                         newBottomPosition = bodyBottom;
+                    } else if (newBottomPosition < topPosition + MinHeight) {
+                        newBottomPosition = topPosition + MinHeight;
                     } else {
                         oldCursorPositionY = e.clientY;
                     }
@@ -350,7 +360,4 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         appWindow.style.zIndex = currentTopZIndex + 1;
         window.console.log(appWindow.style.zIndex);
     };
-
-    this.savedAppWindow = appWindow;
-
 };
