@@ -286,11 +286,10 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
 
         e = e || event;
 
-        if (e.clientX >= leftPosition && e.clientX <= leftPosition + 2) {
+        if (e.clientX >= leftPosition && e.clientX <= leftPosition + 4) {
             if (e.clientY >= topPosition && e.clientY <= topPosition + 20) {
                 appWindow.style.cursor = 'nw-resize';
-            }
-            if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 20) {
+            } else if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 20) {
                 appWindow.style.cursor = 'sw-resize';
             } else {
                 appWindow.style.cursor = 'w-resize';
@@ -298,12 +297,12 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition + 2) {
             if (e.clientY >= topPosition && e.clientY <= topPosition + 20) {
                 appWindow.style.cursor = 'ne-resize';
-            } else if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 20) {
+            } else if (e.clientY <= bottomPosition + 4 && e.clientY >= bottomPosition - 20) {
                 appWindow.style.cursor = 'se-resize';
             } else {
                 appWindow.style.cursor = 'e-resize';
             }
-        } else if (e.clientY >= topPosition && e.clientY <= topPosition + 2) {
+        } else if (e.clientY >= topPosition && e.clientY <= topPosition + 4) {
             if (e.clientX >= leftPosition && e.clientX <= leftPosition + 20) {
                 appWindow.style.cursor = 'nw-resize';
             } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition - 16) {
@@ -311,7 +310,7 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
             } else {
                 appWindow.style.cursor = 'n-resize';
             }
-        } else if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 2) {
+        } else if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 4) {
             if (e.clientX >= leftPosition && e.clientX <= leftPosition + 20) {
                 appWindow.style.cursor = 'sw-resize';
             } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition - 16) {

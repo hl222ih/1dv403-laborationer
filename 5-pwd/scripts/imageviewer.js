@@ -23,7 +23,7 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
                 imageInfos = JSON.parse(xhr.responseText);
                 renderImages();
             } else {
-                window.alert("Läsfel, status: " + xhr.status);
+                window.alert("Kunde inte hämtas: " + xhr.status);
             }
             that.getAppWindow().style.cursor = "default";
         }
