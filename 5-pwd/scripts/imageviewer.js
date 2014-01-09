@@ -7,7 +7,9 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
         timeOutId,
         that = this,
         imageInfos,
-        imageWindows = [];
+        imageWindows = [],
+        greatestThumbWidth = 0,
+        greatestThumbHeight = 0;
 
     NS1DV403.Window.call(this, height, width, 'Image Viewer', hasMenuBar, true, 'images/imageviewer16.png');
 
@@ -42,6 +44,15 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
             imgNode;
 
         for (i = 0; i < imageInfos.length; i++) {
+            if (greatestThumbHeight < imageInfos[i].thumbHeight) {
+                greatestThumbHeight = imageInfos[i].thumbHeight;
+            }
+
+            if (greatestThumbWidth < imageInfos[i].thumbWidth) {
+                greatestThumbWidth = imageInfos[i].thumbWidth;
+            }
+        }
+        for (i = 0; i < imageInfos.length; i++) {
             anchorNode = document.createElement('a');
             anchorNode.setAttribute('class', 'thumbImageAnchor');
             anchorNode.setAttribute('href', '#');
@@ -51,6 +62,17 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
             imgNode.dataset.imageWidth = imageInfos[i].width.toString();
             imgNode.dataset.imageHeight = imageInfos[i].height.toString();
             imgNode.dataset.imageUrl = imageInfos[i].URL.toString();
+            if ((imageInfos[i].thumbWidth / imageInfos[i].thumbHeight) > (greatestThumbWidth / greatestThumbHeight)) {
+                imgNode.style.width = greatestThumbWidth + 'px';
+                imgNode.style.height = greatestThumbWidth / (imageInfos[i].thumbWidth / imageInfos[i].thumbHeight) + 'px';
+            } else {
+                imgNode.style.height = greatestThumbHeight + 'px';
+                imgNode.style.width = greatestThumbHeight * (imageInfos[i].thumbWidth / imageInfos[i].thumbHeight) + 'px';
+            }
+            imgNode.style.marginLeft = (greatestThumbWidth - parseFloat(imgNode.style.width.replace('px', ''))) / 2 + 12 + 'px';
+            imgNode.style.marginRight = imgNode.style.marginLeft;
+            imgNode.style.marginTop = (greatestThumbHeight - parseFloat(imgNode.style.height.replace('px', ''))) / 2 + 12 + 'px';
+            imgNode.style.marginBottom = imgNode.style.marginTop;
             anchorNode.appendChild(imgNode);
 
             anchorNode.addEventListener('mouseenter', function (e) {

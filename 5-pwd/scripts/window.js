@@ -196,17 +196,32 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
             //e.which === 1: kolla att vänster musknapp är nedtryckt.
             if (e.which === 1) {
                 if (oldCursorPositionX && oldCursorPositionY) {
-//                    window.console.log("newLeft:" + newLeftPosition + " newTop:" + newTopPosition + " newRight: " + newRightPosition + " newBottom:" + newBottomPosition);
+                    window.console.log("newLeft:" + newLeftPosition + " newTop:" + newTopPosition + " newRight: " + newRightPosition + " newBottom:" + newBottomPosition);
+                    if (newLeftPosition > leftPosition + 100) {
+                        var breakHere = "";
+                    }
                     if (newLeftPosition < bodyLeft) {
                         newLeftPosition = bodyLeft;
                         newRightPosition = bodyLeft + appWindowWidth;
-                    } else if (newLeftPosition > rightPosition - MinWidth) {
-                        newLeftPosition = rightPosition - MinWidth;
+                    } else if (newLeftPosition > newRightPosition - MinWidth) {
+                    //} else if (newLeftPosition > rightPosition - MinWidth) {
+                        if (newRightPosition < rightPosition) { //förminskar vänster
+                            newRightPosition = rightPosition;
+                        } else { //förminskar höger
+                            newLeftPosition = rightPosition - MinWidth;
+                        }
+                        //newLeftPosition = rightPosition - MinWidth;
                     } else if (newRightPosition > bodyRight) {
                         newLeftPosition = bodyRight - appWindowWidth;
                         newRightPosition = bodyRight;
-                    } else if (newRightPosition < leftPosition + MinWidth) {
-                        newRightPosition = leftPosition + MinWidth;
+                    } else if (newRightPosition < newLeftPosition + MinWidth) {
+                    //} else if (newRightPosition < leftPosition + MinWidth) {
+                        if (newLeftPosition < leftPosition) { //förminskar vänster
+                            newLeftPosition = leftPosition;
+                        } else { //förminskar höger
+                            newRightPosition = leftPosition + MinWidth;
+                        }
+                        //newRightPosition = leftPosition + MinWidth;
                     } else {
                         oldCursorPositionX = e.clientX;
                     }

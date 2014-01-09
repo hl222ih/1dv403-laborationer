@@ -19,29 +19,57 @@ window.onload = function () {
         desktop.appendChild(app.getAppWindow());
     }
 
-    if (window.localStorage.lastTime) {
-        var date = new Date(parseInt(window.localStorage.lastTime));
-        window.alert('Välkommen tillbaka! (senast besökt: ' + date.toLocaleString() + ')');
+    function createRssReader() {
+        app = new NS1DV403.RssReader(400, 250);
+        apps.push(app);
+        desktop.appendChild(app.getAppWindow());
     }
 
-    iconAnchor = document.createElement('a');
-    iconAnchor.setAttribute('href', '#');
-    iconAnchor.setAttribute('class', 'iconAnchor');
-    iconAnchor.setAttribute('title', 'ImageViewer');
+    if (window.localStorage.lastTime) {
+        var date = new Date(parseInt(window.localStorage.lastTime));
+        //window.alert('Välkommen tillbaka! (senast besökt: ' + date.toLocaleString() + ')');
+    }
 
-    iconAnchor.addEventListener('click', function (e) {
+
+
+    var imageViewerEventHandler,
+        createTaskBarElement,
+        rssReaderEventHandler;
+
+    imageViewerEventHandler = function (e) {
         e = e || event;
         createImageViewer();
         setWindowPosition(app);
         e.stopPropagation();
         e.preventDefault();
-    }, false);
+    };
 
-    icon = document.createElement('img');
-    icon.setAttribute('src', 'images/imageviewer72.png');
-    icon.setAttribute('class', 'icon');
-    iconAnchor.appendChild(icon);
-    taskbar.appendChild(iconAnchor);
+    rssReaderEventHandler = function (e) {
+        e = e || event;
+        createRssReader();
+        setWindowPosition(app);
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+    createTaskBarElement = function (url, appName, func) {
+        iconAnchor = document.createElement('a');
+        iconAnchor.setAttribute('href', '#');
+        iconAnchor.setAttribute('class', 'iconAnchor');
+        iconAnchor.setAttribute('title', appName);
+
+        iconAnchor.addEventListener('click', func, false);
+
+        icon = document.createElement('img');
+        icon.setAttribute('src', url);
+        icon.setAttribute('class', 'icon');
+        iconAnchor.appendChild(icon);
+        taskbar.appendChild(iconAnchor);
+    };
+
+    createTaskBarElement('images/imageviewer72.png', 'Image Viewer', imageViewerEventHandler);
+    createTaskBarElement('images/rss72.png', 'RSS Reader', rssReaderEventHandler);
+
 
     setWindowPosition = function (app) {
         var appWindow = app.getAppWindow(),
@@ -94,6 +122,8 @@ window.onload = function () {
         for (i = 0; i < storedWindowData.length; i++) {
             if (storedWindowData[i].type === 'ImageViewer') {
                 createImageViewer();
+            } else if (storedWindowData[i].type === 'RssReader') {
+                createRssReader();
             }
             app.resizeWindow(storedWindowData[i].w, storedWindowData[i].n, storedWindowData[i].e, storedWindowData[i].s);
             //sätter z-index korrekt, men sen ändras det igen, jag vet inte varför.
@@ -119,7 +149,9 @@ window.onload = function () {
             positionData.s = apps[i].getBottomPosition();
             positionData.z = apps[i].getZPosition();
             positionData.type = apps[i].getType();
-            allPositionData.push(positionData);
+            if (!(positionData.w === 0 && positionData.n === 0 && positionData.e === 0 && positionData.s === 0)) {
+                allPositionData.push(positionData);
+            }
         }
 
         window.localStorage.windowsPositionData = JSON.stringify(allPositionData);
