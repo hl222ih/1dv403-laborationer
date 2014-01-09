@@ -6,9 +6,6 @@ NS1DV403.RssReader = function (height, width) {
     var xhr = new XMLHttpRequest(),
         timeOutId,
         that = this;
-       // contentDiv = this.getAppWindow().getElementsByClassName('appContent');
-
-    //contentDiv.style.
 
     NS1DV403.Window.call(this, height, width, 'RSS Reader', true, true, 'images/rss16.png');
 

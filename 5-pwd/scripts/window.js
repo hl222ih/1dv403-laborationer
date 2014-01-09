@@ -37,6 +37,7 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
     appRemoveButtonAnchor.setAttribute('class', 'appRemoveButtonAnchor');
     appRemoveButtonAnchor.setAttribute('href', '#');
     appRemoveButtonAnchor.setAttribute('alt', 'stäng fönster');
+    appRemoveButtonAnchor.setAttribute('title', 'stäng appen');
 
     appRemoveButtonAnchor.addEventListener('click', function (e) {
         var currentNode;
@@ -98,31 +99,9 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         appStatusBarResizeIcon.setAttribute('src', 'images/expand38x40.png');
         appStatusBar.appendChild(appStatusBarResizeIcon);
     }
-
     appWindow.addEventListener('click', function (e) {
         that.moveToTop();
     }, false);
-
-    //appStatusBarResizeIcon.addEventListener('mouseover', function (e) {
-        // e = e || event;
-        // appWindow.style.cursor = 'se-resize';
-        //e.stopPropagation();
-        //     e.preventDefault();
-   // }, false);
-
-    //  appTitleBar.addEventListener('mouseover', function (e) {
-    //     e = e || event;
-    //     appWindow.style.cursor = 'move';
-    //     e.stopPropagation();
-    //     e.preventDefault();
-    // }, false);
-
-//    appLabel.addEventListener('mouseover', function (e) {
-    //  e = e || event;
-    //       appWindow.style.cursor = 'move';
-    //   e.stopPropagation();
-    //    e.preventDefault();
-    // }, false);
 
     appWindow.addEventListener('mousedown', function (e) {
         var moveOrResizeWindow,
@@ -204,24 +183,20 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
                         newLeftPosition = bodyLeft;
                         newRightPosition = bodyLeft + appWindowWidth;
                     } else if (newLeftPosition > newRightPosition - MinWidth) {
-                    //} else if (newLeftPosition > rightPosition - MinWidth) {
                         if (newRightPosition < rightPosition) { //förminskar vänster
                             newRightPosition = rightPosition;
                         } else { //förminskar höger
                             newLeftPosition = rightPosition - MinWidth;
                         }
-                        //newLeftPosition = rightPosition - MinWidth;
                     } else if (newRightPosition > bodyRight) {
                         newLeftPosition = bodyRight - appWindowWidth;
                         newRightPosition = bodyRight;
                     } else if (newRightPosition < newLeftPosition + MinWidth) {
-                    //} else if (newRightPosition < leftPosition + MinWidth) {
                         if (newLeftPosition < leftPosition) { //förminskar vänster
                             newLeftPosition = leftPosition;
                         } else { //förminskar höger
                             newRightPosition = leftPosition + MinWidth;
                         }
-                        //newRightPosition = leftPosition + MinWidth;
                     } else {
                         oldCursorPositionX = e.clientX;
                     }

@@ -11,7 +11,7 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
         greatestThumbWidth = 0,
         greatestThumbHeight = 0;
 
-    NS1DV403.Window.call(this, height, width, 'Image Viewer', hasMenuBar, true, 'images/imageviewer16.png');
+    NS1DV403.Window.call(this, height, width, 'Image Viewer', false, true, 'images/imageviewer16.png');
 
     //hämtar bilderna
     xhr.onreadystatechange = function () {
@@ -102,7 +102,7 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
 
                 e = e || event;
 
-                imageWindow = new NS1DV403.ImageWindow(300, 300, currentImage.dataset.imageUrl);
+                imageWindow = new NS1DV403.ImageWindow(currentImage.dataset.imageHeight, currentImage.dataset.imageWidth, currentImage.dataset.imageUrl);
                 imageWindows.push(imageWindow);
 
                 imageWindowHeight = imageWindow.getAppWindow().getBoundingClientRect().height;
