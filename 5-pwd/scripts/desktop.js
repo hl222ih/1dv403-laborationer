@@ -97,6 +97,14 @@ window.onload = function () {
             y: 110
         };
 
+        if (app.getType() === 'RssReader') {
+            newPositionPoint.x = 130;
+        } else if (app.getType() === 'Memory') {
+            newPositionPoint.x = 130;
+        } else if (app.getType() === 'LabbyMezzage') {
+            newPositionPoint.x = 130;
+        }
+
         while (appPoints.some(function (point) {
                 return (point.x === newPositionPoint.x && point.y === newPositionPoint.y);
             })) {

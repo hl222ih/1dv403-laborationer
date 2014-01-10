@@ -5,9 +5,12 @@ var NS1DV403 = NS1DV403 || {};
 NS1DV403.RssReader = function (height, width) {
     var xhr = new XMLHttpRequest(),
         timeOutId,
-        that = this;
+        that = this,
+        menuElement;
 
-    NS1DV403.Window.call(this, height, width, 'RSS Reader', true, true, 'images/rss16.png');
+    menuElement = createMenu();
+
+    NS1DV403.Window.call(this, height, width, 'RSS Reader', true, true, 'images/rss16.png', menuElement);
 
 
     xhr.onreadystatechange = function () {
@@ -34,6 +37,7 @@ NS1DV403.RssReader = function (height, width) {
                     var rssLinkAnchor; //= document.createElement('a');
                     rssLinkAnchor = feedMessageDivs[i].getElementsByTagName('a')[0] || document.createElement('a');
                     rssLinkAnchor.setAttribute('class', 'rssLink');
+                    rssLinkAnchor.setAttribute('target', '_blank');
                     var rssMessageDiv = document.createElement('div');
                     rssMessageDiv.setAttribute('class', 'rssMessage');
                     rssMessageDiv.innerHTML = feedMessages[i].match(/(<p>(?:.|\r?\n)*?<\/p>)/)[0];
@@ -65,4 +69,42 @@ NS1DV403.RssReader = function (height, width) {
         return 'RssReader';
     };
 
+    function createMenu() {
+        
+        //Menyn-strukturen ser ut så här:
+        //Menyn består av ett ul-element (menuHead) med ett eller flera li-element(menuTopItem) som är menyrubrikerna.
+        //Varje menybrubrik består av en rubriktext samt ett ul-element (menuBody) med noll eller flera
+        //li-element (menuMiddleItem) samt det nedersta li-element (menuBottomItem).
+        //I denna desktop-app används bara en rubrik, men det går att använda flera - se isåfall bara till att appfönstrets
+        //minsta bredd ökas så att menyn alltid får plats.
+        //Dessa li-element innehåller var sin text.
+        //Alla li- och ul-element har tilldelats ett klassattribut med samma värde som variabelnamnen för CSS-styling.
+
+        var menuHead = document.createElement('ul');
+        menuHead.setAttribute('class', 'menuHead');
+
+        var menuItemTop = document.createElement('li');
+        menuItemTop.setAttribute('class', 'menuItemTop');
+        menuItemTop.appendChild(document.createTextNode("Inställningar"));
+
+        var menuBody = document.createElement('ul');
+        menuBody.setAttribute('class', 'menuBody');
+        var menuItemMiddle1 = document.createElement('li');
+        menuItemMiddle1.appendChild(document.createTextNode("Uppdateringsintervall..."));
+        menuItemMiddle1.setAttribute('class', 'menuItemMiddle');
+        var menuItemMiddle2 = document.createElement('li');
+        menuItemMiddle2.setAttribute('class', 'menuItemMiddle');
+        menuItemMiddle2.appendChild(document.createTextNode("Välj källa..."));
+        var menuItemBottom = document.createElement('li');
+        menuItemBottom.setAttribute('class', 'menuItemBottom');
+        menuItemBottom.appendChild(document.createTextNode("Uppdatera nu"));
+
+        menuHead.appendChild(menuItemTop);
+        menuItemTop.appendChild(menuBody);
+        menuBody.appendChild(menuItemMiddle1);
+        menuBody.appendChild(menuItemMiddle2);
+        menuBody.appendChild(menuItemBottom);
+
+        return menuHead;
+    }
 };

@@ -2,7 +2,7 @@
 
 var NS1DV403 = NS1DV403 || {};
 
-NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconUrl) {
+NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconUrl, menuElements) {
     var appWindow,
         appTitleBarImage,
         appTitleBar,
@@ -66,6 +66,7 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
     if (hasMenuBar) {
         appMenuBar = document.createElement('div');
         appMenuBar.setAttribute('class', 'appMenuBar');
+        appMenuBar.appendChild(menuElements);
         appWindow.appendChild(appMenuBar);
     }
 
@@ -175,7 +176,6 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
             //e.which === 1: kolla att vänster musknapp är nedtryckt.
             if (e.which === 1) {
                 if (oldCursorPositionX && oldCursorPositionY) {
-                    window.console.log("newLeft:" + newLeftPosition + " newTop:" + newTopPosition + " newRight: " + newRightPosition + " newBottom:" + newBottomPosition);
                     if (newLeftPosition > leftPosition + 100) {
                         var breakHere = "";
                     }
