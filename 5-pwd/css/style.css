@@ -53,6 +53,7 @@ body {
 }
 
 .appTitleBar {
+
     display: inline-block;
     border-color: #99ADC3;
     border-style: solid;
@@ -68,13 +69,16 @@ body {
     width: 100%;
     height: 20px;
     background-color: #99ADC3;
-    border: 2px solid #99ADC3;
+    border-top: 2px solid rgba(31, 58, 88, 0.95);
+    border-left: 2px solid #99ADC3;
+    border-right: 2px solid #99ADC3;
+    border-bottom: 2px solid rgba(31, 58, 88, 0.95);
     overflow: hidden;
 }
 
 .appContent, .appWindowContent {
     width: 100%;
-    height: calc(100% - 24px);
+    /*height: calc(100% - 48px);*/
     background-color: rgba(207, 165, 143, 0.85);
     border-color: rgba(200, 50, 50, 0.6);
     border-style: solid;
@@ -156,9 +160,10 @@ body {
     text-align: left;
     margin: 14px;
     border: 3px solid #7B4B47;
-    background-color: rgba(255, 255, 255, 0.35);;
+    background-color: rgba(255, 255, 255, 0.35);
     border-radius: 8px;
     box-shadow: 1px 1px 25px 4px rgba(255, 255, 255, 0.6);
+    display: block;
 }
 
 .rssHeading {
@@ -169,6 +174,7 @@ body {
     color: #E7CDC0;
     text-indent: 10px;
     word-wrap: break-word;
+    display: block;
 
 }
 
@@ -184,41 +190,67 @@ body {
 }
 
 .rssMessage {
+    display: block;
     font-size: 12px;
     margin: 10px;
     word-wrap: break-word;
 }
 
+.rssIntervalSetting, .rssFeedSetting {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 72px);
+    background-color: #99ADC3;
+    top: 48px;
+    border-left: 2px solid rgba(31, 58, 88, 0.95);
+    border-right: 2px solid rgba(31, 58, 88, 0.95);
+    display: none;
+}
 
+.rssSelect {
+    padding: 2px;
+    margin: 20px;
+    display: block;
+}
 
 .menuBody {
     display: block;
     padding: 0;
+    margin-top: 2px;
+}
 
+.rssForm {
+    display: block;
+    padding: 20px;
 }
 
 .menuItemTop {
     display: inline-block;
     max-width: 150px;
     padding-left: 20px;
-
+    line-height: 1.1;
+    padding-top: 1px;
 }
 
 
-/*.menuItemTop:hover,*/
+.menuItemMiddle:hover, .menuItemBottom:hover {
+    background-color: rgba(31, 58, 88, 0.95);
+    color: white;
+}
+
 .menuItemMiddle, .menuItemBottom {
-    display: inline-block;
+    display: none;
+    /* ändras av javascript till display: inline-block vid mouseenter */
     border-left: 2px solid rgba(31, 58, 88, 0.95);
     border-right: 2px solid rgba(31, 58, 88, 0.95);
     background-color: #99ADC3;
     min-height: 20px;
     min-width: 150px;
-    margin-left: 0;
     padding-left: 0;
-}
-
-.menuItemMiddle {
-
+    padding-top: 3px;
+    vertical-align: 2px;
+    text-indent: 2px;
+    margin-left: -10px;
 }
 
 .menuItemBottom {
@@ -232,4 +264,12 @@ body {
     padding-left: 0;
     max-width: 340px;
     min-width: 340px;
+}
+
+.rssRadioLabel {
+    display: block;
+    /*width: calc(100% - 100px);*/
+    /*border: 1px solid black;*/
+    line-height: 1.5;
+
 }

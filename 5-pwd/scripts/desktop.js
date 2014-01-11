@@ -20,7 +20,9 @@ window.onload = function () {
     }
 
     function createRssReader() {
-        app = new NS1DV403.RssReader(400, 250);
+        app = new NS1DV403.RssReader(400, 350);
+        app.updateRssFeed(); //ok
+        //app.updateRssFeed('https://news.google.se/news/feeds?pz=1&cf=all&ned=sv_se&hl=sv&topic=t&output=rss'); //failed = "Cannot read RSS data file."
         apps.push(app);
         desktop.appendChild(app.getAppWindow());
     }
@@ -100,9 +102,9 @@ window.onload = function () {
         if (app.getType() === 'RssReader') {
             newPositionPoint.x = 130;
         } else if (app.getType() === 'Memory') {
-            newPositionPoint.x = 130;
+            newPositionPoint.x = 230;
         } else if (app.getType() === 'LabbyMezzage') {
-            newPositionPoint.x = 130;
+            newPositionPoint.x = 330;
         }
 
         while (appPoints.some(function (point) {
@@ -120,7 +122,7 @@ window.onload = function () {
         }
 
         app.setPosition(newPositionPoint.x, newPositionPoint.y);
-
+        app.moveToTop();
     };
 
     if (window.localStorage.windowsPositionData) {
@@ -134,7 +136,7 @@ window.onload = function () {
                 createRssReader();
             }
             app.resizeWindow(storedWindowData[i].w, storedWindowData[i].n, storedWindowData[i].e, storedWindowData[i].s);
-            //sätter z-index korrekt, men sen ändras det igen, jag vet inte varför.
+            //sätter z-index korrekt, men sen ändras det igen, den uppdateras _igen_ senare i koden nånstans.
             app.setZPosition(storedWindowData[i].z);
         }
     }

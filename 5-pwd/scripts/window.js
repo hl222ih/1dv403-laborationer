@@ -36,7 +36,6 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
     appRemoveButtonAnchor = document.createElement('a');
     appRemoveButtonAnchor.setAttribute('class', 'appRemoveButtonAnchor');
     appRemoveButtonAnchor.setAttribute('href', '#');
-    appRemoveButtonAnchor.setAttribute('alt', 'stäng fönster');
     appRemoveButtonAnchor.setAttribute('title', 'stäng appen');
 
     appRemoveButtonAnchor.addEventListener('click', function (e) {
@@ -100,6 +99,15 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         appStatusBarResizeIcon.setAttribute('src', 'images/expand38x40.png');
         appStatusBar.appendChild(appStatusBarResizeIcon);
     }
+
+    if (hasStatusBar && hasMenuBar) {
+        appContent.style.height = 'calc(100% - 72px)';
+    } else if (hasStatusBar || hasMenuBar) {
+        appContent.style.height = 'calc(100% - 48px)';
+    } else {
+        appContent.style.height = 'calc(100% - 24px)';
+    }
+
     appWindow.addEventListener('click', function (e) {
         that.moveToTop();
     }, false);
@@ -249,15 +257,19 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         document.addEventListener('mouseup', endMoveOrResizeWindow, false);
 
         e.stopPropagation();
-        e.preventDefault();
+        //e.preventDefault(); Denna måste vara inaktiverad så att man kan klicka i inställningar.
     }, false);
 
     //Denna funktion sätter muspekaren till olika typer när den dras över fönstrets kanter.
     appWindow.addEventListener('mousemove', function (e) {
-        var leftPosition = appWindow.getBoundingClientRect().left,
-            rightPosition = appWindow.getBoundingClientRect().right,
-            topPosition = appWindow.getBoundingClientRect().top,
-            bottomPosition = appWindow.getBoundingClientRect().bottom;
+        //var leftPosition = appWindow.getBoundingClientRect().left,
+        //    rightPosition = appWindow.getBoundingClientRect().right,
+        //    topPosition = appWindow.getBoundingClientRect().top,
+        //    bottomPosition = appWindow.getBoundingClientRect().bottom;
+        var leftPosition = appWindow.offsetLeft,
+            rightPosition = appWindow.offsetLeft + appWindow.offsetWidth,
+            topPosition = appWindow.offsetTop,
+            bottomPosition = appWindow.offsetTop + appWindow.offsetHeight;
 
         e = e || event;
 
@@ -304,7 +316,6 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
     }, false);
 
     this.getAppWindow = function () {
-        this.moveToTop();
         return appWindow;
     };
 
@@ -334,6 +345,12 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
 
     this.addToAppContent = function (content) {
         appContent.appendChild(content);
+    };
+
+    this.clearAppContent = function () {
+        while (appContent.firstChild) {
+            appContent.removeChild(appContent.firstChild);
+        }
     };
 
     this.getLeftPosition = function () {
