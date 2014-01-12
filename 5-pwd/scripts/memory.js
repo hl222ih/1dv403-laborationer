@@ -164,6 +164,7 @@ NS1DV403.Memory = function (height, width) {
 
     board.addEventListener("mousedown", function (e) {
         chooseImage(e);
+        e.preventDefault();
     }, true); //true för att inte agera på klick på board-id:t utan bara children till den noden.
 
     //Vänder på brickorna eller navigerar mellan dem med piltangenterna.
