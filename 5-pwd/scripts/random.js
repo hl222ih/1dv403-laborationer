@@ -1,6 +1,8 @@
-//Denna metod kom färdig från labbuppgift 3-gameon.
+//Denna metod kom färdig från labbuppgift 3-gameon, korrigerar den lite.
 
-var RandomGenerator = {
+var NS1DV403 = NS1DV403 || {};
+
+NS1DV403.RandomGenerator = {
 
     /*
      Denna metod tar antalet rader och columner som inparameter.

@@ -5,13 +5,13 @@ var NS1DV403 = NS1DV403 || {};
 NS1DV403.Memory = function (height, width) {
     var that = this;
 
-    NS1DV403.Window.call(this, height, width, 'Memory', false, true, 'images/memory64.png');
+    var menuElement = createMenu();
 
-    that.setStatusBarText("Spela med piltangenterna och mellanslag!");
+    NS1DV403.Window.call(this, height, width, 'Memory', true, true, 'images/memory64.png', menuElement);
 
-    var Rows = 4, //antal rader i spelet
-        Cols = 4, //antal kolumner i spelet
-        imageNumbers = RandomGenerator.getPictureArray(Rows, Cols), //slumpar ordningen på brickorna
+    var rowsOfImages = 4, //antal rader i spelet
+        colsOfImages = 4, //antal kolumner i spelet
+        imageNumbers = NS1DV403.RandomGenerator.getPictureArray(rowsOfImages, colsOfImages), //slumpar ordningen på brickorna
         cards = [], //array med kort
         currentCards = [], //array med de kort som vänts upp för att matchas med varandra
         //board = document.getElementById("board"),//noden där tabellen med spelet skapas.
@@ -20,7 +20,7 @@ NS1DV403.Memory = function (height, width) {
         numberOfTries = 0, //lagrar antal försök
         numberOfMatches = 0; //lagrar antal brickor som matchats
 
-    if ((Rows * Cols) % 2 !== 0) {  //har ingen funktion som hanterar felet, men rader/kolumner är hårdkodade och antal brickor måste rimligtvis gå jämnt upp i antal par.
+    if ((rowsOfImages * colsOfImages) % 2 !== 0) {  //har ingen funktion som hanterar felet, men rader/kolumner är hårdkodade och antal brickor måste rimligtvis gå jämnt upp i antal par.
         throw new Error("Spelplanen måste ha ett jämnt antal brickor, justera antaler rader och kolumner.");
     }
 
@@ -52,7 +52,7 @@ NS1DV403.Memory = function (height, width) {
     }
 
     //Funktion för att skapa nod-trädet med spelplanen och lägga in den i html-dokumentet.
-    function renderHTMLTable() {
+    var renderHTMLTable = function (cols, rows) {
         var card, //en bricka
             i, //för loop
             j, //för loop
@@ -67,19 +67,20 @@ NS1DV403.Memory = function (height, width) {
         table.appendChild(thead);
         table.appendChild(tbody);
 
-        for (i = 0; i < Rows; i++) {
+        for (i = 0; i < rows; i++) {
             tr = document.createElement("tr");
-            for (j = 0; j < Cols; j++) {
+            for (j = 0; j < cols; j++) {
                 td = document.createElement("td");
                 a = document.createElement("a");
-                a.setAttribute("class", (i * Cols + j + 1).toString());
+                a.setAttribute("class", (i * cols + j + 1).toString());
                 a.setAttribute("href", "#");
                 img = document.createElement("img");
-                cards.push(new Card(i * Cols + j + 1, imageNumbers[i * Cols + j], false, false));
+                cards.push(new Card(i * cols + j + 1, imageNumbers[i * cols + j], false, false));
                 img.setAttribute("src", cards[cards.length - 1].getBackPictureSource());
                 a.appendChild(img);
                 td.appendChild(a);
                 tr.appendChild(td);
+                td.style.width = 80 / parseInt(cols, 10) + '%';
             }
             //board.appendChild(tr);
 
@@ -87,10 +88,20 @@ NS1DV403.Memory = function (height, width) {
         }
 
         table.setAttribute('class', 'memoryBoard');
+        that.clearAppContent();
         that.addToAppContent(table);
-    }
+    };
 
-    renderHTMLTable();
+
+    this.createNewGame = function (cols, rows) {
+        imageNumbers = NS1DV403.RandomGenerator.getPictureArray(rowsOfImages, colsOfImages);
+        cards = [];
+        currentCards = [];
+        numberOfTries = 0;
+        numberOfMatches = 0;
+        renderHTMLTable(colsOfImages, rowsOfImages);
+        that.setStatusBarText("Spela med piltangenterna och mellanslag!");
+    };
 
     //Funktion som används av händelsehanterarna för klick och tangentbord då spelaren vill vända på en bricka.
     //Den triggas av musklick (mousedown för att göra att spelet upplevs lite snabbare) eller enter/mellanslag.
@@ -150,7 +161,7 @@ NS1DV403.Memory = function (height, width) {
                         numberOfTries++; //räknar upp antal försök
                         //document.getElementById("numberOfTries").innerText = "Antal försök: " + numberOfTries.toString();
                         that.setStatusBarText("Antal försök: " + numberOfTries.toString());
-                        if (numberOfMatches === Cols * Rows) { //kontrollerar om alla brickor på spelplanen har parats.
+                        if (numberOfMatches === colsOfImages * rowsOfImages) { //kontrollerar om alla brickor på spelplanen har parats.
                             //document.getElementById("numberOfTries").innerHTML = "Spelet är slut. <br />" +
                             that.setStatusBarText("Grattis! Resultatet blev " + numberOfTries.toString() + " försök!");
                             //"Grattis! Du klarade det på " + numberOfTries.toString() + " försök!";
@@ -161,6 +172,91 @@ NS1DV403.Memory = function (height, width) {
 
         }
     };
+    function createMenu() {
+
+        var menuHead = document.createElement('ul');
+        menuHead.setAttribute('class', 'menuHead');
+
+        var menuItemTop = document.createElement('li');
+        menuItemTop.setAttribute('class', 'menuItemTop');
+        menuItemTop.appendChild(document.createTextNode("Inställningar"));
+
+        var menuBody = document.createElement('ul');
+        menuBody.setAttribute('class', 'menuBody');
+        var menuItemMiddle1 = document.createElement('li');
+        menuItemMiddle1.appendChild(document.createTextNode("Börja om..."));
+        menuItemMiddle1.setAttribute('class', 'menuItemMiddle');
+        menuItemMiddle1.dataset.rows = 4;
+        menuItemMiddle1.dataset.cols = 4;
+
+        var getNewMenuItem = function (cols, rows) {
+            var menuItem = document.createElement('li');
+            menuItem.setAttribute('class', 'menuItemMiddle');
+            menuItem.appendChild(document.createTextNode('Antal bilder ' + cols + ' x ' + rows));
+            menuItem.dataset.rows = rows;
+            menuItem.dataset.cols = cols;
+            return menuItem;
+        };
+
+        var menuItems = [
+            getNewMenuItem(3, 2),
+            getNewMenuItem(4, 3),
+            getNewMenuItem(4, 4),
+            getNewMenuItem(5, 4),
+            getNewMenuItem(6, 4),
+            getNewMenuItem(6, 5)
+        ];
+
+        menuItems[menuItems.length - 1].setAttribute('class', 'menuItemBottom'); //sista är bottom
+
+
+        menuHead.appendChild(menuItemTop);
+        menuItemTop.appendChild(menuBody);
+        menuBody.appendChild(menuItemMiddle1);
+        menuBody.appendChild(menuItems[0]);
+        menuBody.appendChild(menuItems[1]);
+        menuBody.appendChild(menuItems[2]);
+        menuBody.appendChild(menuItems[3]);
+        menuBody.appendChild(menuItems[4]);
+        menuBody.appendChild(menuItems[5]);
+
+
+        menuItemTop.addEventListener('mouseenter', function (e) {
+            var allMenuItems = menuItemTop.querySelectorAll('.menuItemMiddle, .menuItemBottom'),
+                i;
+
+            for (i = 0; i < allMenuItems.length; i++) {
+                allMenuItems[i].style.display = 'inline-block';
+            }
+        }, false);
+
+        menuItemTop.addEventListener('mouseleave', function (e) {
+            var allMenuItems = menuItemTop.querySelectorAll('.menuItemMiddle, .menuItemBottom'),
+                i;
+
+            for (i = 0; i < allMenuItems.length; i++) {
+                allMenuItems[i].style.display = 'none';
+            }
+        }, false);
+
+        menuItemTop.addEventListener('click', function (e) {
+            var allMenuItems = menuItemTop.querySelectorAll('.menuItemMiddle, .menuItemBottom'),
+                i;
+            if (e.target.dataset.rows && e.target.dataset.cols) {
+                rowsOfImages = parseInt(e.target.dataset.rows, 10);
+                colsOfImages = parseInt(e.target.dataset.cols, 10);
+                menuItemMiddle1.dataset.rows = rowsOfImages;
+                menuItemMiddle1.dataset.cols = colsOfImages;
+                that.createNewGame(colsOfImages, rowsOfImages);
+            }
+            for (i = 0; i < allMenuItems.length; i++) {
+                allMenuItems[i].style.display = 'none';
+            }
+
+        }, true);
+
+        return menuHead;
+    }
 
     board.addEventListener("mousedown", function (e) {
         chooseImage(e);
@@ -180,18 +276,18 @@ NS1DV403.Memory = function (height, width) {
             }
         } else if (e.keyCode === 38) { //uppil
             imageNumber = parseInt(e.target.getAttribute("class"), 10);
-            if (imageNumber > Cols) {
-                that.getAppWindow().getElementsByClassName((imageNumber - Cols).toString())[0].focus();
+            if (imageNumber > colsOfImages) {
+                that.getAppWindow().getElementsByClassName((imageNumber - colsOfImages).toString())[0].focus();
             }
         } else if (e.keyCode === 39) { //högerpil
             imageNumber = parseInt(e.target.getAttribute("class"), 10);
-            if (imageNumber !== Cols * Rows) {
+            if (imageNumber !== colsOfImages * rowsOfImages) {
                 that.getAppWindow().getElementsByClassName((imageNumber + 1).toString())[0].focus();
             }
         } else if (e.keyCode === 40) { //nedpil
             imageNumber = parseInt(e.target.getAttribute("class"), 10);
-            if (imageNumber <= Cols * Rows - Cols) {
-                that.getAppWindow().getElementsByClassName((imageNumber + Cols).toString())[0].focus();
+            if (imageNumber <= colsOfImages * rowsOfImages - colsOfImages) {
+                that.getAppWindow().getElementsByClassName((imageNumber + colsOfImages).toString())[0].focus();
             }
         }
 

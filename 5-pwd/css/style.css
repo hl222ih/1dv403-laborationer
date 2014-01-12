@@ -74,6 +74,7 @@ body {
     border-right: 2px solid #99ADC3;
     border-bottom: 2px solid rgba(31, 58, 88, 0.95);
     overflow: hidden;
+    font-size: 16px;
 }
 
 .appContent, .appWindowContent {
@@ -101,6 +102,7 @@ body {
     background-color: #99ADC3;
     border: 2px solid rgba(31, 58, 88, 0.95);
     overflow: hidden;
+    font-size: 14px;
 }
 
 .appTitleBar .appRemoveButtonAnchor {
@@ -307,7 +309,7 @@ tr {
 td {
     display: inline-block;
     width: 20%;
-    margin: 2px 3px;
+    margin: 2px 4px;
 }
 
 table img {
