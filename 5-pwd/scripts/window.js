@@ -119,9 +119,12 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
 
         e = e || event;
 
-        if (appWindow.style.cursor === 'move' || /^(?:[sn]?[we]|[sn])-resize$/.test(appWindow.style.cursor)) {
+        if (appWindow.style.cursor === 'pointer' || /^(?:[sn]?[we]|[sn])-resize$/.test(appWindow.style.cursor)) {
             oldCursorPositionX = e.clientX;
             oldCursorPositionY = e.clientY;
+            if (appWindow.style.cursor === 'pointer') {
+                appWindow.style.cursor = 'move';
+            }
             moveOrResizeType = appWindow.style.cursor;
         }
 
@@ -272,45 +275,50 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
             bottomPosition = appWindow.offsetTop + appWindow.offsetHeight;
 
         e = e || event;
-
-        if (e.clientX >= leftPosition && e.clientX <= leftPosition + 4) {
-            if (e.clientY >= topPosition && e.clientY <= topPosition + 20) {
-                appWindow.style.cursor = 'nw-resize';
-            } else if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 20) {
-                appWindow.style.cursor = 'sw-resize';
-            } else {
-                appWindow.style.cursor = 'w-resize';
-            }
-        } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition + 2) {
-            if (e.clientY >= topPosition && e.clientY <= topPosition + 20) {
-                appWindow.style.cursor = 'ne-resize';
-            } else if (e.clientY <= bottomPosition + 4 && e.clientY >= bottomPosition - 20) {
+        if (e.which !== 1) {
+            if (e.clientX >= leftPosition && e.clientX <= leftPosition + 4) {
+                if (e.clientY >= topPosition && e.clientY <= topPosition + 20) {
+                    appWindow.style.cursor = 'nw-resize';
+                } else if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 20) {
+                    appWindow.style.cursor = 'sw-resize';
+                } else {
+                    appWindow.style.cursor = 'w-resize';
+                }
+            } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition + 2) {
+                if (e.clientY >= topPosition && e.clientY <= topPosition + 20) {
+                    appWindow.style.cursor = 'ne-resize';
+                } else if (e.clientY <= bottomPosition + 4 && e.clientY >= bottomPosition - 20) {
+                    appWindow.style.cursor = 'se-resize';
+                } else {
+                    appWindow.style.cursor = 'e-resize';
+                }
+            } else if (e.clientY >= topPosition && e.clientY <= topPosition + 4) {
+                if (e.clientX >= leftPosition && e.clientX <= leftPosition + 20) {
+                    appWindow.style.cursor = 'nw-resize';
+                } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition - 16) {
+                    appWindow.style.cursor = 'ne-resize';
+                } else {
+                    appWindow.style.cursor = 'n-resize';
+                }
+            } else if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 4) {
+                if (e.clientX >= leftPosition && e.clientX <= leftPosition + 20) {
+                    appWindow.style.cursor = 'sw-resize';
+                } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition - 16) {
+                    appWindow.style.cursor = 'se-resize';
+                } else {
+                    appWindow.style.cursor = 's-resize';
+                }
+            } else if (e.target === appTitleBar || e.target === appLabel || e.target === appTitleBarImage) {
+                if (e.which === 1) {
+                    appWindow.style.cursor = 'move';
+                } else {
+                    appWindow.style.cursor = 'pointer';
+                }
+            } else if (e.target === appStatusBarResizeIcon) {
                 appWindow.style.cursor = 'se-resize';
             } else {
-                appWindow.style.cursor = 'e-resize';
+                appWindow.style.cursor = 'default';
             }
-        } else if (e.clientY >= topPosition && e.clientY <= topPosition + 4) {
-            if (e.clientX >= leftPosition && e.clientX <= leftPosition + 20) {
-                appWindow.style.cursor = 'nw-resize';
-            } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition - 16) {
-                appWindow.style.cursor = 'ne-resize';
-            } else {
-                appWindow.style.cursor = 'n-resize';
-            }
-        } else if (e.clientY <= bottomPosition && e.clientY >= bottomPosition - 4) {
-            if (e.clientX >= leftPosition && e.clientX <= leftPosition + 20) {
-                appWindow.style.cursor = 'sw-resize';
-            } else if (e.clientX <= rightPosition + 4 && e.clientX  >= rightPosition - 16) {
-                appWindow.style.cursor = 'se-resize';
-            } else {
-                appWindow.style.cursor = 's-resize';
-            }
-        } else if (e.target === appTitleBar || e.target === appLabel || e.target === appTitleBarImage) {
-            appWindow.style.cursor = 'move';
-        } else if (e.target === appStatusBarResizeIcon) {
-            appWindow.style.cursor = 'se-resize';
-        } else {
-            appWindow.style.cursor = 'default';
         }
         e.preventDefault();
     }, false);

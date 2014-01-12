@@ -1,3 +1,9 @@
+//memory64.png Murid Rahhal - http://blog.sfaranda.com Free for commercial use (Include link to authors website)
+//labby64.png Murid Rahhal - http://blog.sfaranda.com Free for commercial use (Include link to authors website)
+//rss64.png Maja Bencic - http://www.fritula.hr Creative Commons 3.0
+//rss32.png Maja Bencic - http://www.fritula.hr Creative Commons 3.0
+//0.png chrisbanks2 - http://chrisbanks2.deviantart.com CC Attribution-Noncommercial-No Derivate 3.0
+//alla andra bilder helt fria eller helt fria för personligt bruk
 "use strict";
 
 //namnrymd för desktop-applikationen
@@ -27,6 +33,18 @@ window.onload = function () {
         desktop.appendChild(app.getAppWindow());
     }
 
+    function createMemory() {
+        app = new NS1DV403.Memory(320, 278);
+        apps.push(app);
+        desktop.appendChild(app.getAppWindow());
+    }
+
+    function createLabbyMezzage() {
+        app = new NS1DV403.LabbyMezzage(450, 300);
+        apps.push(app);
+        desktop.appendChild(app.getAppWindow());
+    }
+
     if (window.localStorage.lastTime) {
         var date = new Date(parseInt(window.localStorage.lastTime));
         //window.alert('Välkommen tillbaka! (senast besökt: ' + date.toLocaleString() + ')');
@@ -36,7 +54,9 @@ window.onload = function () {
 
     var imageViewerEventHandler,
         createTaskBarElement,
-        rssReaderEventHandler;
+        rssReaderEventHandler,
+        memoryEventHandler,
+        labbyMezzageEventHandler;
 
     imageViewerEventHandler = function (e) {
         e = e || event;
@@ -49,6 +69,22 @@ window.onload = function () {
     rssReaderEventHandler = function (e) {
         e = e || event;
         createRssReader();
+        setWindowPosition(app);
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+    memoryEventHandler = function (e) {
+        e = e || event;
+        createMemory();
+        setWindowPosition(app);
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+    labbyMezzageEventHandler = function (e) {
+        e = e || event;
+        createLabbyMezzage();
         setWindowPosition(app);
         e.stopPropagation();
         e.preventDefault();
@@ -70,7 +106,9 @@ window.onload = function () {
     };
 
     createTaskBarElement('images/imageviewer72.png', 'Image Viewer', imageViewerEventHandler);
-    createTaskBarElement('images/rss72.png', 'RSS Reader', rssReaderEventHandler);
+    createTaskBarElement('images/rss64.png', 'RSS Reader', rssReaderEventHandler);
+    createTaskBarElement('images/memory64.png', 'Memory', memoryEventHandler);
+    createTaskBarElement('images/labby64.png', 'Labby Mezzage', labbyMezzageEventHandler);
 
 
     setWindowPosition = function (app) {
@@ -134,9 +172,13 @@ window.onload = function () {
                 createImageViewer();
             } else if (storedWindowData[i].type === 'RssReader') {
                 createRssReader();
+            } else if (storedWindowData[i].type === 'LabbyMezzage') {
+                createLabbyMezzage();
+            } else if (storedWindowData[i].type === 'Memory') {
+                createMemory();
             }
+
             app.resizeWindow(storedWindowData[i].w, storedWindowData[i].n, storedWindowData[i].e, storedWindowData[i].s);
-            //sätter z-index korrekt, men sen ändras det igen, den uppdateras _igen_ senare i koden nånstans.
             app.setZPosition(storedWindowData[i].z);
         }
     }

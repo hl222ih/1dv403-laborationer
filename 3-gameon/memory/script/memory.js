@@ -21,10 +21,10 @@ window.onload = function () {
             throw new Error("måste vara ett nummer");
         }
         this.getFrontPictureSource = function () {
-            return "pics/" + pictureNumber + ".png";
+            return "memory/" + pictureNumber + ".png";
         };
         this.getBackPictureSource = function () {
-            return "pics/0.png";
+            return "memory/0.png";
         };
         this.getCardNumber = function () {
             return parseInt(cardNumber, 10);

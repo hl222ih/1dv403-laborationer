@@ -30,9 +30,9 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
     };
 
     timeOutId = setTimeout(function () {
-        that.setStatusBarText("hämtar miniatyrbilder...");
+        that.setStatusBarText('hämtar miniatyrbilder...');
         that.showWaitIcon();
-        that.getAppWindow().style.cursor = "wait";
+        that.getAppWindow().style.cursor = 'progress';
     }, 300);
 
     xhr.open('get', 'http://homepage.lnu.se/staff/tstjo/labbyServer/imgviewer/', true);
@@ -122,7 +122,7 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
                 };
 
                 while (points.some(function (point) {
-                        return (point.x === newPositionPoint.x && point.y === newPositionPoint.y);
+                        return (point.x === newPositionPoint.x); // && point.y === newPositionPoint.y);
                     })) {
                     newPositionPoint.x += 30;
                     newPositionPoint.y += 30;
@@ -136,7 +136,7 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
                 }
 
                 imageWindow.setPosition(newPositionPoint.x, newPositionPoint.y);
-
+                imageWindow.moveToTop();
                 e.preventDefault();
                 e.stopPropagation();
 

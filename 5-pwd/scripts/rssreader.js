@@ -11,7 +11,7 @@ NS1DV403.RssReader = function (height, width) {
 
     menuElement = createMenu();
 
-    NS1DV403.Window.call(this, height, width, 'RSS Reader', true, true, 'images/rss16.png', menuElement);
+    NS1DV403.Window.call(this, height, width, 'RSS Reader', true, true, 'images/rss32.png', menuElement);
 
     createSettingsDiv();
 
@@ -351,6 +351,6 @@ NS1DV403.RssReader = function (height, width) {
         that.updateRssFeed();
         intervalId = setInterval( function () {
             that.updateRssFeed();
-        }, parseInt(minutes, 10) * 6000); //måste ändras till 60000 igen, använder bara 6000 för testningssyfte
+        }, parseInt(minutes, 10) * 60000);
     };
 };
