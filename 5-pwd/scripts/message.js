@@ -116,7 +116,7 @@ NS1DV403.Message.prototype.render = function (e) {
 
     createHere.scrollTop = createHere.scrollHeight; //så att scrollen flyttas längst ned så att det nyligen tillagda meddelandet syns.
 
-    return [timeButton, removeButton];
+    //return [timeButton, removeButton];
 
 };
 

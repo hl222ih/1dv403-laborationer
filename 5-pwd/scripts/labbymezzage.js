@@ -25,28 +25,22 @@ NS1DV403.LabbyMezzage = function (height, width) {
  * Skapar och skriver ut html-koden för MessageBoard.
  */
 NS1DV403.LabbyMezzage.prototype.render = function () {
-    var container = document.getElementById("container"),//html-dokumentets container-node.
+    //var container = document.getElementById("container"),//html-dokumentets container-node.
+    var container = this.getAppWindow(),
         messageBoardNode = document.createElement("div"),//skapar ett node-träd för en ny meddelandehanterare.
         content = document.createElement("div"),         //...
         input = document.createElement("div"),
         textArea = document.createElement("textarea"),
         sendButton = document.createElement("button"),
-        existingMessageBoardNodes = document.getElementsByClassName("messageBoard"), //en array med alla meddelarehanterare-noder.
+        //existingMessageBoardNodes = document.getElementsByClassName("messageBoard"), //en array med alla meddelarehanterare-noder.
         count,          //för användning i loopar.
         that = this,    //för användning av yttre variabler i closure
         tempAttribute,  //för att kunna göra ändringar i elementets attribut med hänsyn till den information som redan finns i elementets attribut.
         footer,         //html-dokumentets footer-node.
         send;           //funktion för att "skicka meddelande", skapar meddelandet, lägger till händelsehanterare, skriver ut det, med mera.
 
-    for (count = 0; count < existingMessageBoardNodes.length; count++) {
-        tempAttribute = existingMessageBoardNodes[count].getAttribute("class");
-        if (!/invisible/.test(tempAttribute)) {
-            existingMessageBoardNodes[count].setAttribute("class", tempAttribute + " invisible");
-        }
-    }
-
     //skapar attribut för de skapade elementen
-    messageBoardNode.setAttribute("class", "messageBoard");
+    //messageBoardNode.setAttribute("class", "messageBoard");
     content.setAttribute("class", "content");
     input.setAttribute("class", "input");
     textArea.setAttribute("autofocus", "autofocus");
@@ -77,49 +71,7 @@ NS1DV403.LabbyMezzage.prototype.render = function () {
 
         if (textArea.value.trim() !== "") {
             message = new NS1DV403.Message(textArea.value, new Date());
-
-            that.messages.push(message);
-            document.getElementById("numberOfMessages").innerHTML = that.messages.length.toString();
-            buttons = message.render(e); //skriver ut det nyligen skapade meddelandet i html-dokumentet. Fångar knapparna i dessa meddelanden så att händelsehanterare kan kopplas till dem.
-            timeButton = buttons[0];
-            removeButton = buttons[1];
-
-            /**
-             * Händelsehanterare för klick det nyligen skapade meddelandets radera-knapp.
-             */
-            removeButton.addEventListener('click', function (e) {
-                var nodeToRemove = e.target.parentNode.parentNode,    //noden som ska tas bort
-                    parentNodeToRemoveFrom = nodeToRemove.parentNode, //föräldern till noden som ska tas bort
-                    index = 0,                                        //för att räkna ut meddelandets position
-                    node = nodeToRemove;                              //för att räkna ut meddelandets position
-
-                if (window.confirm("Vill du verkligen radera meddelandet?")) { //kontrollerar om användaren verkligen vill radera meddelandet. Annars görs ingenting.
-                    while (node.previousElementSibling !== null) {
-                        node = node.previousElementSibling;
-                        index++;  //räknar ut meddelande-nodens position.
-                    }
-                    parentNodeToRemoveFrom.removeChild(nodeToRemove); //tar bort meddelande-noden från html-dokumentet.
-                    that.messages.splice(index, 1);  //tar bort meddelandet från arrayen på angiven position.
-                    document.getElementById("numberOfMessages").innerHTML = that.messages.length.toString();
-                    textArea.focus();
-                }
-            }, false);
-
-            /**
-             * Händelsehanterare för det nyligen skapade meddelandets tid-knapp.
-             */
-            timeButton.addEventListener('click', function (e) {
-                var node = e.target.parentNode.parentNode,     //den meddelande-node som innehåller den aktuella tid-knappen.
-                    index = 0;                                 //index för att hålla reda på meddelandenoden.
-
-                while (node.previousElementSibling !== null) { //räknar ut meddelandets position i den aktuella meddelandehanteraren.
-                    node = node.previousElementSibling;
-                    index++;
-                }
-
-                window.alert("Meddelandet skickades " + that.messages[index].getDateTimeText() + ".");
-
-            }, false);
+            //message ska skickas till servern.
 
             textArea.value = ""; //tömmer textarea-elementet.
         }
