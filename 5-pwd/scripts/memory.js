@@ -172,6 +172,7 @@ NS1DV403.Memory = function (height, width) {
 
         }
     };
+
     function createMenu() {
 
         var menuHead = document.createElement('ul');

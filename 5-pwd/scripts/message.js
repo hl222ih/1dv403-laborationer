@@ -6,12 +6,16 @@ var NS1DV403 = NS1DV403 || {};
 
 /**
  * @constructor Ett meddelande.
+ * @param {string} id Meddelandets id.
  * @param {string} text Meddelandets text.
+ * @param {string} author Meddelandets författare.
  * @param {Date} date Meddelandets datum.
  */
-NS1DV403.Message = function (text, date) {
+NS1DV403.Message = function (id, text, author, date) {
     this.textMessage = text;
     this.dateOfMessage = date;
+    this.id = id;
+    this.author = author;
 
     this.getText = function () {
         return text;
@@ -28,12 +32,11 @@ NS1DV403.Message = function (text, date) {
     this.setDate = function (value) {
         date = value;
     };
-
 };
 
 
 /**
- * "Privat" hjälpfunktion för att skapa korrekt tid- och datum format med inledande nolla.
+ * Hjälpfunktion för att skapa korrekt tid- och datum format med inledande nolla.
  * @param number {number|string}
  * @returns {string} Om det inskickade argumentet är ett tecken långt, det inskickade argumentet med "0" framför, annars, det inskickade argumentet.
  */
@@ -80,43 +83,35 @@ NS1DV403.Message.prototype.getDateTimeText = function () {
 /**
  * Skapar och skriver ut html-koden för Message. Returnerar en array med node-objekten timeButton och removeButton
  * som behöver kopplas händelsehanterare till.
- * @returns {Array}
+ * @returns {HTMLElement}
  */
-NS1DV403.Message.prototype.render = function (e) {
-    var createHere = e.target.parentNode.previousElementSibling, //platsen där html-elementet ska skapas.
-        message = document.createElement("section"),             //skapar message-elementet.
-        buttons = document.createElement("div"),                 //...
-        timeImg = document.createElement("img"),
-        timeButton = document.createElement("a"),
-        removeImg = document.createElement("img"),
-        removeButton = document.createElement("a"),
+NS1DV403.Message.prototype.getMessageNode = function () {
+    var message = document.createElement("section"),
+        header = document.createElement("div"),
+        body = document.createElement("div"),
         text = document.createElement("p"),
-        dateTime = document.createElement("div");
+        dateTime = document.createElement("div"),
+        author = document.createElement('span');
 
-    message.setAttribute("class", "message");
-    buttons.setAttribute("class", "buttons");
-    timeImg.setAttribute("src", "images/time.png");
-    timeButton.setAttribute("class", "timeButton");
-    timeButton.setAttribute("href", "#");
-    removeImg.setAttribute("src", "images/remove.png");
-    removeButton.setAttribute("class", "removeButton");
-    removeButton.setAttribute("href", "#");
-    text.innerHTML = this.getHtmlText();
-    dateTime.setAttribute("class", "dateTime");
-    dateTime.innerHTML = this.getTimeText();
+    message.setAttribute('class', 'messageSection');
+    header.setAttribute('class', 'messageHeader');
+    body.setAttribute('class', 'messageBody');
+    text.setAttribute('class', 'messageText');
+    author.setAttribute('class', 'messageAuthor');
+    dateTime.setAttribute('class', 'messageDateTime');
 
-    message.appendChild(buttons);
-    buttons.appendChild(timeButton);
-    timeButton.appendChild(timeImg);
-    buttons.appendChild(removeButton);
-    removeButton.appendChild(removeImg);
-    message.appendChild(text);
-    message.appendChild(dateTime);
-    createHere.appendChild(message);
+    message.dataset.id = this.id;
+    text.appendChild(document.createTextNode(this.getHtmlText()));
+    author.appendChild(document.createTextNode(this.author));
+    dateTime.appendChild(document.createTextNode(this.getDateTimeText()));
 
-    createHere.scrollTop = createHere.scrollHeight; //så att scrollen flyttas längst ned så att det nyligen tillagda meddelandet syns.
+    header.appendChild(author);
+    header.appendChild(dateTime);
+    body.appendChild(text);
+    message.appendChild(header);
+    message.appendChild(body);
 
-    //return [timeButton, removeButton];
+    return message;
 
 };
 

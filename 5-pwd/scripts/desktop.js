@@ -146,7 +146,8 @@ window.onload = function () {
             newPositionPoint.x = 330;
         }
 
-        while (appPoints.some(function (point) {
+        var count = 0;
+        while (count <= 100 && appPoints.some(function (point) {
                 return (point.x === newPositionPoint.x && point.y === newPositionPoint.y);
             })) {
             newPositionPoint.x += 30;
@@ -158,6 +159,13 @@ window.onload = function () {
                 newPositionPoint.x = 0;
                 newPositionPoint.y = 0;
             }
+
+            count++;
+            if (count === 100) {
+                newPositionPoint.y = 30;
+                newPositionPoint.x = documentWidth / 2;
+            }
+
         }
 
         app.setPosition(newPositionPoint.x, newPositionPoint.y);

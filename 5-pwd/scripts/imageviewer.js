@@ -120,8 +120,8 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
                     x: bodyWidth / 2,
                     y: 30
                 };
-
-                while (points.some(function (point) {
+                var count = 0;
+                while (count <= 100 && points.some(function (point) {
                         return (Math.round(point.x) === Math.round(newPositionPoint.x) && Math.round(point.y) === Math.round(newPositionPoint.y));
                     })) {
                     newPositionPoint.x += 30;
@@ -131,7 +131,11 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
                     }
                     if (bodyWidth < newPositionPoint.x + imageWindowWidth) {
                         newPositionPoint.x = 0;
-                        newPositionPoint.y = 0;
+                    }
+                    count++;
+                    if (count === 100) {
+                        newPositionPoint.y = 30;
+                        newPositionPoint.x = bodyWidth / 2;
                     }
                 }
 

@@ -254,7 +254,7 @@ body {
     border-right: 2px solid rgba(31, 58, 88, 0.95);
     background-color: #99ADC3;
     min-height: 20px;
-    min-width: 150px;
+    min-width: 170px;
     padding-left: 0;
     padding-top: 3px;
     vertical-align: 2px;
@@ -290,7 +290,7 @@ body {
 td a {
     display: block;
     border: solid cornflowerblue 2px;
-    border-radius: 20%;
+    border-radius: 22%;
     width: 100%;
     background-color: #7B4B47;
     text-align: center;
@@ -324,4 +324,199 @@ td a:active {
     position: relative;
     top: 1px;
     left: 1px;
+}
+
+.messageSection {
+    border: 3px solid green;
+}
+.messageSection:nth-of-type(even) .messageBody {
+    margin-left: 50px;
+}
+.messageSection:nth-of-type(odd) .messageBody {
+    margin-right: 50px;
+}
+
+.messageHeader {
+    border: 1px solid red;
+
+}
+
+.messageBody {
+   display: block;
+}
+
+.messageText {
+
+    border: 1px solid pink;
+}
+
+.messageAuthor {
+    border: 1px solid orange;
+
+}
+
+.messageDateTime {
+    border: 1px solid black;
+}
+
+.input {
+    width: 100%;
+    border-left: 2px solid rgba(200, 50, 50, 0.6);
+    border-right: 2px solid rgba(200, 50, 50, 0.6);
+
+}
+textarea {
+    position: relative;
+    height: 40px;
+    width: calc(100% - 109px);
+    display: inline-block;
+    background-color: #D4DBE3;
+    margin: 0;
+    padding: 5px 15px 5px 15px;
+    resize: none;
+    color: black;
+    font-weight: bold;
+    vertical-align: top;
+    border: 0;
+    font-size: 11px;
+
+}
+
+textarea:hover, textarea:focus, textarea:active {
+    background-color: white;
+}
+
+.send {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #1f3258), color-stop(1, #5874AC) );
+    background:-moz-linear-gradient( center top, #f6b33d 5%, #d29105 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6b33d', endColorstr='#d29105');
+    text-indent:0;
+    border: none;
+    display:inline-block;
+    color:#ffffff;
+    font-family: Arial sans-serif;
+    font-size:15px;
+    font-weight:bold;
+    font-style:normal;
+    line-height:47px;
+    text-decoration:none;
+    text-align:center;
+    text-shadow:1px 1px 0 black;
+    padding: 0;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+
+    position: relative;
+    height: 50px;
+    width: 79px;
+    /*box-shadow: 3px 2px 10px;
+    z-index: 1;*/
+    /*margin-left: -4px;*/
+}
+
+.send:hover, .send:focus {
+    outline: 0;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5874AC), color-stop(1, #1f3258) );
+    background:-moz-linear-gradient( center top, #5874AC 5%, #1f3258 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1f3258', endColorstr='#5874AC');
+    background-color:#d29105;
+    border: none;
+}
+
+.send:active {
+    position:relative;
+    line-height:48px;
+}
+
+textarea:focus {
+    outline: 0;
+    /*border-left: 1px solid white;
+    border-bottom: 1px solid white;*/
+}
+
+
+/*pratbubblorna i grunden skapade med http://html-generator.weebly.com/css-speech-bubble-generator.html*/
+/*sedan har jag tweakat utifrån det*/
+.messageSection:nth-of-type(odd) .messageBody
+{
+    position: relative;
+    width: 250px;
+    height: 120px;
+    padding: 0px;
+    background: #FFFFFF;
+    border: #7B4B47 solid 2px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.messageSection:nth-of-type(odd) .messageBody:after
+{
+    content: "";
+    position: absolute;
+    top: 74px;
+    right: -19px;
+    border-style: solid;
+    border-width: 11px 0 11px 19px;
+    border-color: transparent #FFFFFF;
+    display: block;
+    width: 0;
+}
+
+.messageSection:nth-of-type(odd) .messageBody:before
+{
+    content: "";
+    position: absolute;
+    top: 73px;
+    left: 252px;
+    border-style: solid;
+    border-width: 12px 0 12px 20px;
+    border-color: transparent #7B4B47;
+    display: block;
+    width: 0;
+}
+
+.messageSection:nth-of-type(even) .messageBody
+{
+    position: relative;
+    width: 250px;
+    height: 120px;
+    padding: 0px;
+    background: #FFFFFF;
+    border: #7B4B47 solid 2px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.messageSection:nth-of-type(even) .messageBody:after
+{
+    content: "";
+    position: absolute;
+    top: 74px;
+    left: -19px;
+    border-style: solid;
+    border-width: 11px 19px 11px 0;
+    border-color: transparent #FFFFFF;
+    display: block;
+    width: 0;
+}
+
+.messageSection:nth-of-type(even) .messageBody:before
+{
+    content: "";
+    position: absolute;
+    top: 73px;
+    left: -22px;
+    border-style: solid;
+    border-width: 12px 20px 12px 0;
+    border-color: transparent #7B4B47;
+    display: block;
+    width: 0;
 }
