@@ -184,12 +184,9 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
 
             var MinWidth = 240;
             var MinHeight = 240;
-            //e.which === 1: kolla att vänster musknapp är nedtryckt, e.buttons === 1 i IE (alltså, Trident. Har inte gjort nån djupdykning här, kollade bara lite snabbt på).
+            //e.which === 1: kolla att vänster musknapp är nedtryckt, e.buttons === 1 i IE (alltså, Trident. Har inte gjort nån djupdykning här, kollade bara lite på http://www.useragentstring.com/ o försökte se vad som skilde webläsarna åt).
             if ((/Trident/.test(navigator.userAgent) && e.buttons === 1) || (!/Trident/.test(navigator.userAgent) && (e.which === 1))) {
                 if (oldCursorPositionX && oldCursorPositionY) {
-                    if (newLeftPosition > leftPosition + 100) {
-                        var breakHere = "";
-                    }
                     if (newLeftPosition < bodyLeft) {
                         newLeftPosition = bodyLeft;
                         newRightPosition = bodyLeft + appWindowWidth;

@@ -117,12 +117,12 @@ NS1DV403.ImageViewer = function (height, width, hasMenuBar) {
                 }
 
                 newPositionPoint = {
-                    x: that.getLeftPosition() + width + 30,
-                    y: that.getTopPosition()
+                    x: bodyWidth / 2,
+                    y: 30
                 };
 
                 while (points.some(function (point) {
-                        return (point.x === newPositionPoint.x); // && point.y === newPositionPoint.y);
+                        return (Math.round(point.x) === Math.round(newPositionPoint.x) && Math.round(point.y) === Math.round(newPositionPoint.y));
                     })) {
                     newPositionPoint.x += 30;
                     newPositionPoint.y += 30;

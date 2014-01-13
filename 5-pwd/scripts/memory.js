@@ -213,13 +213,9 @@ NS1DV403.Memory = function (height, width) {
         menuHead.appendChild(menuItemTop);
         menuItemTop.appendChild(menuBody);
         menuBody.appendChild(menuItemMiddle1);
-        menuBody.appendChild(menuItems[0]);
-        menuBody.appendChild(menuItems[1]);
-        menuBody.appendChild(menuItems[2]);
-        menuBody.appendChild(menuItems[3]);
-        menuBody.appendChild(menuItems[4]);
-        menuBody.appendChild(menuItems[5]);
-
+        for (var i = 0; i < menuItems.length; i++) {
+            menuBody.appendChild(menuItems[i]);
+        }
 
         menuItemTop.addEventListener('mouseenter', function (e) {
             var allMenuItems = menuItemTop.querySelectorAll('.menuItemMiddle, .menuItemBottom'),
