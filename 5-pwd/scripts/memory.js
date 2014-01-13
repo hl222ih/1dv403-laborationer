@@ -80,7 +80,7 @@ NS1DV403.Memory = function (height, width) {
                 a.appendChild(img);
                 td.appendChild(a);
                 tr.appendChild(td);
-                td.style.width = 80 / parseInt(cols, 10) + '%';
+                td.style.width = 72 / parseInt(cols, 10) + '%';
             }
             //board.appendChild(tr);
 

@@ -34,7 +34,7 @@ window.onload = function () {
     }
 
     function createMemory() {
-        app = new NS1DV403.Memory(336, 266);
+        app = new NS1DV403.Memory(346, 276);
         app.createNewGame(4, 4);
         apps.push(app);
         desktop.appendChild(app.getAppWindow());
