@@ -2,6 +2,9 @@
 
 var NS1DV403 = NS1DV403 || {};
 
+/**
+ * @constructor En meddelandehanterare.
+ */
 NS1DV403.LabbyMezzage = function (height, width) {
     var that = this;
 
@@ -11,28 +14,17 @@ NS1DV403.LabbyMezzage = function (height, width) {
         return 'LabbyMezzage';
     };
 
-};
-
-
-/*global Message*/
-
-/**
- * @constructor En meddelandehanterare.
- */
-function MessageBoard() {
-    "use strict";
     var sendButton,
         textArea;
 
     this.messages = [];
     this.render();
-}
+};
 
 /**
  * Skapar och skriver ut html-koden för MessageBoard.
  */
-MessageBoard.prototype.render = function () {
-    "use strict";
+NS1DV403.LabbyMezzage.prototype.render = function () {
     var container = document.getElementById("container"),//html-dokumentets container-node.
         messageBoardNode = document.createElement("div"),//skapar ett node-träd för en ny meddelandehanterare.
         content = document.createElement("div"),         //...
@@ -84,7 +76,7 @@ MessageBoard.prototype.render = function () {
             timeButton;
 
         if (textArea.value.trim() !== "") {
-            message = new Message(textArea.value, new Date());
+            message = new NS1DV403.Message(textArea.value, new Date());
 
             that.messages.push(message);
             document.getElementById("numberOfMessages").innerHTML = that.messages.length.toString();
