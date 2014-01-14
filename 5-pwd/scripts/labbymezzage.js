@@ -49,7 +49,6 @@ NS1DV403.LabbyMezzage = function (height, width) {
         menuBody.appendChild(menuItemMiddle2);
         menuBody.appendChild(menuItemBottom);
 
-
         menuItemTop.addEventListener('mouseenter', function (e) {
             var allMenuItems = menuItemTop.querySelectorAll('.menuItemMiddle, .menuItemBottom'),
                 i;
@@ -124,6 +123,9 @@ NS1DV403.LabbyMezzage = function (height, width) {
                         id = messages[i].getElementsByTagName('id')[0];
                         text = messages[i].getElementsByTagName('text')[0];
                         author = messages[i].getElementsByTagName('author')[0];
+                        if (author.textContent === '') {
+                            author.textContent = 'Anonym';
+                        }
                         time = messages[i].getElementsByTagName('time')[0];
                         var dateTime = new Date(parseInt(time.textContent, 10));
                         var message = new NS1DV403.Message(id.textContent, text.textContent, author.textContent, dateTime);

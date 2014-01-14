@@ -13,7 +13,7 @@ html {
 body {
     height: 100%;
     /* fri licens för bakgrundsbilden, bantad från 1,5MB till ~50kb */
-    background-image: url(../images/background.jpg);
+    background-image: url('../images/background.jpg');
     background-repeat: repeat;
     overflow: hidden;
 }
@@ -208,9 +208,9 @@ body {
 .rssIntervalSetting, .rssFeedSetting {
     position: absolute;
     width: 100%;
-    height: calc(100% - 72px);
+    height: calc(100% - 71px);
     background-color: #99ADC3;
-    top: 48px;
+    top: 47px;
     border-left: 2px solid rgba(31, 58, 88, 0.95);
     border-right: 2px solid rgba(31, 58, 88, 0.95);
     display: none;
@@ -239,6 +239,8 @@ body {
     padding-left: 20px;
     line-height: 1.1;
     padding-top: 1px;
+    z-index: 1000000;
+    position:absolute;
 }
 
 
@@ -327,36 +329,77 @@ td a:active {
 }
 
 .messageSection {
-    border: 3px solid green;
-}
-.messageSection:nth-of-type(even) .messageBody {
-    margin-left: 50px;
-}
-.messageSection:nth-of-type(odd) .messageBody {
-    margin-right: 50px;
+    clear: both;
 }
 
 .messageHeader {
-    border: 1px solid red;
-
+    width: 80px;
+    height: 70px;
+    vertical-align: text-bottom;
 }
 
+.messageSection:nth-of-type(odd) .messageHeader {
+    float: right;
+}
+
+.messageSection:nth-of-type(even) .messageHeader {
+    float: left;
+
+}
 .messageBody {
-   display: block;
+    display: block;
+    background-color: rgba(255, 255, 255, 0.80);
 }
 
 .messageText {
-
-    border: 1px solid pink;
+    padding: 3px;
+    font-size: 13px;
+    word-wrap: break-word;
 }
 
 .messageAuthor {
-    border: 1px solid orange;
+    display: block;
+    position: relative;
+    background-image: url('../images/user128.png');
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position:center;
+    width: 90px;
+    min-height: 50px;
+    max-height: 100px;
+    vertical-align: text-bottom;
+    word-wrap: break-word;
 
 }
 
+.messageAuthorName {
+    position: absolute;
+    top: 48px;
+    font-size: 11px;
+    color: #2B7DA2;
+    width: 100%;
+}
+
+.messageSection:nth-of-type(odd) .messageAuthor{
+    float: right;
+}
+
+.messageSection:nth-of-type(even) .messageAuthor{
+    float: left;
+}
+
 .messageDateTime {
-    border: 1px solid black;
+    font-size: 11px;
+}
+
+.messageSection:nth-of-type(odd) .messageDateTime {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.messageSection:nth-of-type(even) .messageDateTime {
+    text-align: right;
+    padding-right: 10px;
 }
 
 .input {
@@ -383,7 +426,7 @@ textarea {
 }
 
 textarea:hover, textarea:focus, textarea:active {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.90);
 }
 
 .send {
@@ -436,8 +479,6 @@ textarea:hover, textarea:focus, textarea:active {
 
 textarea:focus {
     outline: 0;
-    /*border-left: 1px solid white;
-    border-bottom: 1px solid white;*/
 }
 
 
@@ -446,25 +487,24 @@ textarea:focus {
 .messageSection:nth-of-type(odd) .messageBody
 {
     position: relative;
-    width: 250px;
-    height: 120px;
-    padding: 0px;
-    background: #FFFFFF;
+    width: calc(100% - 100px);
+    min-height: 55px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.80);
     border: #7B4B47 solid 2px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
     border-radius: 10px;
+    float: left;
 }
 
 .messageSection:nth-of-type(odd) .messageBody:after
 {
     content: "";
     position: absolute;
-    top: 74px;
-    right: -19px;
+    top: 25px;
+    right: -18px;
     border-style: solid;
     border-width: 11px 0 11px 19px;
-    border-color: transparent #FFFFFF;
+    border-color: transparent rgba(255, 255, 255, 0.90);
     display: block;
     width: 0;
 }
@@ -473,8 +513,8 @@ textarea:focus {
 {
     content: "";
     position: absolute;
-    top: 73px;
-    left: 252px;
+    top: 24px;
+    right: -21px;
     border-style: solid;
     border-width: 12px 0 12px 20px;
     border-color: transparent #7B4B47;
@@ -485,25 +525,27 @@ textarea:focus {
 .messageSection:nth-of-type(even) .messageBody
 {
     position: relative;
-    width: 250px;
-    height: 120px;
+    /*width: 250px;*/
+    width: calc(100% - 100px);
+    min-height: 55px;
     padding: 0px;
-    background: #FFFFFF;
+    background: rgba(255, 255, 255, 0.80);
     border: #7B4B47 solid 2px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
     border-radius: 10px;
+    float: right;
 }
 
 .messageSection:nth-of-type(even) .messageBody:after
 {
     content: "";
     position: absolute;
-    top: 74px;
-    left: -19px;
+    top: 25px;
+    /*top: 74px;*/
+    /*top: calc(100% - 66px);*/
+    left: -18px;
     border-style: solid;
     border-width: 11px 19px 11px 0;
-    border-color: transparent #FFFFFF;
+    border-color: transparent rgba(255, 255, 255, 0.90);
     display: block;
     width: 0;
 }
@@ -512,8 +554,10 @@ textarea:focus {
 {
     content: "";
     position: absolute;
-    top: 73px;
-    left: -22px;
+    top: 24px;
+    /*top: calc(100% - 67px);*/
+    /*top: 73px;*/
+    left: -21px;
     border-style: solid;
     border-width: 12px 20px 12px 0;
     border-color: transparent #7B4B47;

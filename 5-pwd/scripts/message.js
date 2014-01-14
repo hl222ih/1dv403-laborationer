@@ -91,25 +91,32 @@ NS1DV403.Message.prototype.getMessageNode = function () {
         body = document.createElement("div"),
         text = document.createElement("p"),
         dateTime = document.createElement("div"),
-        author = document.createElement('span');
+        author = document.createElement('div'),
+        authorName = document.createElement('div');
+        //img = document.createElement('img');
 
     message.setAttribute('class', 'messageSection');
     header.setAttribute('class', 'messageHeader');
     body.setAttribute('class', 'messageBody');
     text.setAttribute('class', 'messageText');
     author.setAttribute('class', 'messageAuthor');
+    authorName.setAttribute('class', 'messageAuthorName');
     dateTime.setAttribute('class', 'messageDateTime');
+    //img.setAttribute('src', 'images/user128.png');
 
     message.dataset.id = this.id;
     text.appendChild(document.createTextNode(this.getHtmlText()));
-    author.appendChild(document.createTextNode(this.author));
+    author.appendChild(authorName);
+    //author.appendChild(img);
+    authorName.appendChild(document.createTextNode(this.author));
     dateTime.appendChild(document.createTextNode(this.getDateTimeText()));
 
+
     header.appendChild(author);
-    header.appendChild(dateTime);
+    body.appendChild(dateTime);
     body.appendChild(text);
-    message.appendChild(header);
     message.appendChild(body);
+    message.appendChild(header);
 
     return message;
 
