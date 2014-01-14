@@ -205,7 +205,7 @@ body {
     word-wrap: break-word;
 }
 
-.rssIntervalSetting, .rssFeedSetting, .labbyInterValSetting, .labbyNumberSetting{
+.rssIntervalSetting, .rssFeedSetting, .labbyIntervalSetting, .labbyNumberSetting{
     position: absolute;
     width: 100%;
     height: calc(100% - 71px);

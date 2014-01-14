@@ -174,9 +174,9 @@ NS1DV403.LabbyMezzage = function (height, width) {
         if (intervalId) {
             clearInterval(intervalId);
         }
-        that.updateRssFeed();
+        that.updateMessages();
         intervalId = setInterval( function () {
-            that.updateRssFeed();
+            that.updateMessages();
         }, parseFloat(minutes) * 60000);
     };
 

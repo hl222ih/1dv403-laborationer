@@ -144,6 +144,7 @@ window.onload = function () {
             newPositionPoint.x = 230;
         } else if (app.getType() === 'LabbyMezzage') {
             newPositionPoint.x = 330;
+            newPositionPoint.y = 10;
         }
 
         var count = 0;
