@@ -318,6 +318,6 @@ NS1DV403.RssReader = function (height, width) {
         that.updateRssFeed();
         intervalId = setInterval(function () {
             that.updateRssFeed();
-        }, parseInt(minutes, 10) * 60000);
+        }, parseInt(minutes, 10) * 3000);
     };
 };

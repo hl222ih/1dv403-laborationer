@@ -395,6 +395,4 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
 
         appWindow.style.zIndex = currentTopZIndex + 1;
     };
-
-
 };
