@@ -15,9 +15,6 @@ NS1DV403.RssReader = function (height, width) {
 
     createSettingsDiv();
 
-    //tillfällig
-    //this.updateRssFeed('http://feeds.idg.se/idg/vzzs');
-
     this.getType = function () {
         return 'RssReader';
     };

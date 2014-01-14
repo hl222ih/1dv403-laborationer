@@ -49,6 +49,9 @@ NS1DV403.LabbyMezzage = function (height, width) {
         var menuItemMiddle2 = document.createElement('li');
         menuItemMiddle2.setAttribute('class', 'menuItemMiddle');
         menuItemMiddle2.appendChild(document.createTextNode("Antal meddelanden..."));
+        var menuItemMiddle3 = document.createElement('li');
+        menuItemMiddle3.setAttribute('class', 'menuItemMiddle');
+        menuItemMiddle3.appendChild(document.createTextNode("Välj Alias..."));
         var menuItemBottom = document.createElement('li');
         menuItemBottom.setAttribute('class', 'menuItemBottom');
         menuItemBottom.appendChild(document.createTextNode("Uppdatera nu"));
@@ -57,6 +60,7 @@ NS1DV403.LabbyMezzage = function (height, width) {
         menuItemTop.appendChild(menuBody);
         menuBody.appendChild(menuItemMiddle1);
         menuBody.appendChild(menuItemMiddle2);
+        menuBody.appendChild(menuItemMiddle3);
         menuBody.appendChild(menuItemBottom);
 
         menuItemTop.addEventListener('mouseenter', function (e) {
@@ -83,9 +87,15 @@ NS1DV403.LabbyMezzage = function (height, width) {
             div.style.display = 'block';
         }, false);
 
-        //välj källa
+        //välj antal meddelanden
         menuItemMiddle2.addEventListener('click', function (e) {
             var div = that.getAppWindow().getElementsByClassName('labbyNumberSetting')[0];
+            div.style.display = 'block';
+        }, false);
+
+        //välj alias
+        menuItemMiddle3.addEventListener('click', function (e) {
+            var div = that.getAppWindow().getElementsByClassName('labbyAliasSetting')[0];
             div.style.display = 'block';
         }, false);
 
@@ -148,6 +158,8 @@ NS1DV403.LabbyMezzage = function (height, width) {
                         var messageNode = message.getMessageNode();
                         that.addToAppContent(messageNode);
                     }
+
+                    that.setStatusBarText('Senast uppdaterad: ' + new Date().toLocaleString());
 
                     var appContent = that.getAppWindow().getElementsByClassName('appContent')[0];
                     appContent.scrollTop = appContent.scrollHeight;
@@ -219,7 +231,7 @@ NS1DV403.LabbyMezzage = function (height, width) {
         var labbyNumberSettingDiv = document.createElement('div');
         labbyNumberSettingDiv.setAttribute('class', 'labbyNumberSetting');
         labbyForm = document.createElement('form');
-        labbyForm.setAttribute('class', 'rssForm');
+        labbyForm.setAttribute('class', 'labbyForm');
 
         var labbyRadio = document.createElement('input');
         labbyRadio.setAttribute('type', 'radio');
@@ -269,10 +281,10 @@ NS1DV403.LabbyMezzage = function (height, width) {
 
         labbyRadio = document.createElement('input');
         labbyRadio.setAttribute('type', 'radio');
-        labbyRadio.setAttribute('class', 'rssRadio');
-        labbyRadio.setAttribute('name', 'rssRadioGroup');
+        labbyRadio.setAttribute('class', 'labbyRadio');
+        labbyRadio.setAttribute('name', 'labbyRadioGroup');
         labbyRadioLabel = document.createElement('label');
-        labbyRadioLabel.setAttribute('class', 'rssRadioLabel');
+        labbyRadioLabel.setAttribute('class', 'labbyRadioLabel');
         labbyRadio.setAttribute('value', '0');
         labbyRadioLabel.appendChild(labbyRadio);
         labbyRadioLabel.appendChild(document.createTextNode('Alla meddelanden'));
@@ -305,6 +317,38 @@ NS1DV403.LabbyMezzage = function (height, width) {
         }, false);
 
         that.getAppWindow().appendChild(labbyNumberSettingDiv);
+
+
+        var labbyAliasSettingDiv = document.createElement('div');
+        labbyAliasSettingDiv.setAttribute('class', 'labbyAliasSetting');
+
+        labbyForm = document.createElement('form');
+        labbyForm.setAttribute('class', 'labbyForm');
+        var labbyAliasTextBox = document.createElement('input', 'labbyAliasTextBox');
+        labbyAliasTextBox.setAttribute('type', 'text');
+        labbyForm.appendChild(labbyAliasTextBox);
+
+        var labbyAliasSettingButton = document.createElement('button');
+        labbyAliasSettingButton.appendChild(document.createTextNode('Välj'));
+        labbyForm.appendChild(labbyAliasSettingButton);
+
+        labbyAliasSettingDiv.appendChild(labbyForm);
+
+
+        labbyAliasSettingButton.addEventListener('click', function (e) {
+            var i = 0;
+
+            e = e || event;
+
+            e.stopPropagation();
+            e.preventDefault();
+
+            window.localStorage.name = labbyAliasTextBox.value;
+            labbyAliasSettingDiv.style.display = 'none';
+
+        }, false);
+
+        that.getAppWindow().appendChild(labbyAliasSettingDiv);
 
     }
 
@@ -351,20 +395,28 @@ NS1DV403.LabbyMezzage.prototype.render = function () {
     //container.appendChild(footer);
 
     /**
-     * Funktion för att skapa ett meddelande och sedan skriva ut det. Anropas av händelsehanterare.
+     * Funktion för att skapa och skicka iväg ett meddelande och sedan anropa en uppdatering från servern. Anropas av händelsehanterare.
      * @param e Händelsen som triggade.
      */
     send = function (e) {
         var message,
-            buttons,
-            removeButton,
-            timeButton;
+            author,
+            xhr = new XMLHttpRequest();
 
         if (textArea.value.trim() !== "") {
-            message = new NS1DV403.Message(textArea.value, new Date());
-            //message ska skickas till servern.
-
+            message = textArea.value.trim();
+            if (window.localStorage.name) {
+                author = window.localStorage.name;
+            } else {
+                author = 'Anonym';
+            }
             textArea.value = ""; //tömmer textarea-elementet.
+
+            xhr.open('post', 'http://homepage.lnu.se/staff/tstjo/labbyserver/setMessage.php', true);
+            var formData = new FormData();
+            formData.append('username', author);
+            formData.append('text', message);
+            xhr.send(formData);
         }
 
         textArea.focus(); //sätter fokus till textarea-elementet.

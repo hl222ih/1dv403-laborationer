@@ -42,6 +42,7 @@ window.onload = function () {
 
     function createLabbyMezzage() {
         app = new NS1DV403.LabbyMezzage(450, 300);
+        app.updateMessages();
         apps.push(app);
         desktop.appendChild(app.getAppWindow());
     }
