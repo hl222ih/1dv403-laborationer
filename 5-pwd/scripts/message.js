@@ -102,13 +102,11 @@ NS1DV403.Message.prototype.getMessageNode = function () {
     author.setAttribute('class', 'messageAuthor');
     authorName.setAttribute('class', 'messageAuthorName');
     dateTime.setAttribute('class', 'messageDateTime');
-    //img.setAttribute('src', 'images/user128.png');
 
     message.dataset.id = this.id;
     //text.appendChild(document.createTextNode(this.getHtmlText())); //visar inte radbrytningar korrekt...
-    text.innerHTML = this.getHtmlText(); //men detta känns inte heller riktigt säkert... hmm loopa igenom texten o parsa i textnoder och br-element, eller vad? 
+    text.innerHTML = this.getHtmlText(); //men detta känns inte heller riktigt säkert... hmm loopa igenom texten o parsa i textnoder och br-element, eller vad?
     author.appendChild(authorName);
-    //author.appendChild(img);
     authorName.appendChild(document.createTextNode(this.author));
     dateTime.appendChild(document.createTextNode(this.getDateTimeText()));
 

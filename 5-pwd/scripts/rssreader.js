@@ -38,6 +38,15 @@ NS1DV403.RssReader = function (height, width) {
             currentRssFeedUrl = url;
         }
         xhr.onreadystatechange = function () {
+            var feedMessages,
+                feedMessageDivs,
+                i,
+                rssItemDiv,
+                rssHeadingDiv,
+                rssLinkAnchor,
+                rssMessageDiv,
+                rssMessages;
+
             if (xhr.readyState === 4) {
                 if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
                     that.setStatusBarText("");
@@ -46,34 +55,32 @@ NS1DV403.RssReader = function (height, width) {
 
                     that.clearAppContent();
 
-                    var responseDiv = document.createElement('div');
-                    var feedMessages;
                     feedMessages = xhr.responseText.match(/((?:<h2)(?:.|\r?\n)*?)(?=<h2)/g);
-                    var feedMessageDivs = feedMessages.map( function (msg) {
+                    feedMessageDivs = feedMessages.map( function (msg) {
                         var div,
-                            elements;
+                            elements,
+                            j;
+
                         div = document.createElement('div');
                         div.innerHTML = msg;
                         elements = div.querySelectorAll('*');
-                        for (var i = 0; i < elements.length; i++) {
+                        for (i = 0; i < elements.length; i++) {
                             elements[i].removeAttribute('style');
                         }
                         return div;
                     });
-                    for (var i = 0; i < feedMessageDivs.length; i++) {
-                        var rssItemDiv = document.createElement('div');
+                    for (i = 0; i < feedMessageDivs.length; i++) {
+                        rssItemDiv = document.createElement('div');
                         rssItemDiv.setAttribute('class', 'rssItem');
-                        var rssHeadingDiv = document.createElement('h2');
+                        rssHeadingDiv = document.createElement('h2');
                         rssHeadingDiv.setAttribute('class', 'rssHeading');
                         rssHeadingDiv.innerHTML = feedMessageDivs[i].getElementsByTagName('h2')[0].innerHTML || '';
-                        var rssLinkAnchor; //= document.createElement('a');
                         rssLinkAnchor = feedMessageDivs[i].getElementsByTagName('a')[0] || document.createElement('a');
-
                         rssLinkAnchor.setAttribute('class', 'rssLink');
                         rssLinkAnchor.setAttribute('target', '_blank');
-                        var rssMessageDiv = document.createElement('div');
+                        rssMessageDiv = document.createElement('div');
                         rssMessageDiv.setAttribute('class', 'rssMessage');
-                        var rssMessages = feedMessageDivs[i].innerHTML.match(/(<p>(?:.|\r?\n)*<\/p>)/);
+                        rssMessages = feedMessageDivs[i].innerHTML.match(/(<p>(?:.|\r?\n)*<\/p>)/);
                         if (rssMessages) {
                             rssMessageDiv.innerHTML = rssMessages[0];
                         } else {
@@ -82,11 +89,6 @@ NS1DV403.RssReader = function (height, width) {
                         rssItemDiv.appendChild(rssHeadingDiv);
                         rssItemDiv.appendChild(rssLinkAnchor);
                         rssItemDiv.appendChild(rssMessageDiv);
-
-                        //raw för debug
-                        //responseDiv.innerHTML = xhr.responseText;
-                        //that.addToAppContent(responseDiv);
-                        //---
 
                         that.addToAppContent(rssItemDiv);
                         that.setStatusBarText('Senast uppdaterad: ' + new Date().toLocaleString());
@@ -105,7 +107,6 @@ NS1DV403.RssReader = function (height, width) {
         }, 300);
 
         xhr.open('get', 'http://homepage.lnu.se/staff/tstjo/labbyServer/rssproxy/' +
-            //'?url=' + encodeURIComponent('http://www.dn.se/m/rss/senaste-nytt'), true);
             '?url=' + encodeURIComponent(url), true);
         xhr.send(null);
 
@@ -122,22 +123,29 @@ NS1DV403.RssReader = function (height, width) {
         //Dessa li-element innehåller var sin text.
         //Alla li- och ul-element har tilldelats ett klassattribut med samma värde som variabelnamnen för CSS-styling.
 
-        var menuHead = document.createElement('ul');
+        var menuHead,
+            menuItemTop,
+            menuBody,
+            menuItemMiddle1,
+            menuItemMiddle2,
+            menuItemBottom;
+
+        menuHead = document.createElement('ul');
         menuHead.setAttribute('class', 'menuHead');
 
-        var menuItemTop = document.createElement('li');
+        menuItemTop = document.createElement('li');
         menuItemTop.setAttribute('class', 'menuItemTop');
         menuItemTop.appendChild(document.createTextNode("Inställningar"));
 
-        var menuBody = document.createElement('ul');
+        menuBody = document.createElement('ul');
         menuBody.setAttribute('class', 'menuBody');
-        var menuItemMiddle1 = document.createElement('li');
+        menuItemMiddle1 = document.createElement('li');
         menuItemMiddle1.appendChild(document.createTextNode("Uppdateringsintervall..."));
         menuItemMiddle1.setAttribute('class', 'menuItemMiddle');
-        var menuItemMiddle2 = document.createElement('li');
+        menuItemMiddle2 = document.createElement('li');
         menuItemMiddle2.setAttribute('class', 'menuItemMiddle');
         menuItemMiddle2.appendChild(document.createTextNode("Välj källa..."));
-        var menuItemBottom = document.createElement('li');
+        menuItemBottom = document.createElement('li');
         menuItemBottom.setAttribute('class', 'menuItemBottom');
         menuItemBottom.appendChild(document.createTextNode("Uppdatera nu"));
 
@@ -146,7 +154,6 @@ NS1DV403.RssReader = function (height, width) {
         menuBody.appendChild(menuItemMiddle1);
         menuBody.appendChild(menuItemMiddle2);
         menuBody.appendChild(menuItemBottom);
-
 
         menuItemTop.addEventListener('mouseenter', function (e) {
             var allMenuItems = menuItemTop.querySelectorAll('.menuItemMiddle, .menuItemBottom'),
@@ -195,15 +202,20 @@ NS1DV403.RssReader = function (height, width) {
     }
 
     function createSettingsDiv() {
-        var rssIntervalSettingDiv = document.createElement('div');
+        var rssIntervalSettingDiv = document.createElement('div'),
+            rssIntervalSettingButton = document.createElement('button'),
+            rssLabel = document.createElement('label'),
+            rssForm = document.createElement('form'),
+            rssSelect = document.createElement('select'),
+            rssFeedSettingDiv,
+            addRadioOptionToRssForm,
+            rssTextBox,
+            rssFeedSettingButton;
+
         rssIntervalSettingDiv.setAttribute('class', 'rssIntervalSetting');
-        var rssIntervalSettingButton = document.createElement('button');
         rssIntervalSettingButton.appendChild(document.createTextNode('Välj'));
-        var rssLabel = document.createElement('label');
         rssLabel.appendChild(document.createTextNode('Välj uppdateringsintervall: '));
-        var rssForm = document.createElement('form');
         rssForm.setAttribute('class', 'rssForm');
-        var rssSelect = document.createElement('select');
         rssSelect.setAttribute('class', 'rssSelect');
 
         rssSelect.options.add(new Option('5 minuter', '5'));
@@ -230,84 +242,42 @@ NS1DV403.RssReader = function (height, width) {
 
         that.getAppWindow().appendChild(rssIntervalSettingDiv);
 
-        var rssFeedSettingDiv = document.createElement('div');
+        rssFeedSettingDiv = document.createElement('div');
         rssFeedSettingDiv.setAttribute('class', 'rssFeedSetting');
         rssForm = document.createElement('form');
         rssForm.setAttribute('class', 'rssForm');
 
-        var rssRadio = document.createElement('input');
-        rssRadio.setAttribute('type', 'radio');
-        rssRadio.setAttribute('class', 'rssRadio');
-        rssRadio.setAttribute('name', 'rssRadioGroup');
-        var rssRadioLabel = document.createElement('label');
-        rssRadioLabel.setAttribute('class', 'rssRadioLabel');
-        rssRadio.setAttribute('value', 'http://feeds.idg.se/idg/vzzs');
-        rssRadioLabel.appendChild(rssRadio);
-        rssRadioLabel.appendChild(document.createTextNode('IDG.se Nyheter'));
-        rssForm.appendChild(rssRadioLabel);
+        addRadioOptionToRssForm = function (url, optionText, checked) {
+            var rssRadio,
+                rssRadioLabel;
 
+            rssRadio = document.createElement('input');
+            rssRadio.setAttribute('type', 'radio');
+            rssRadio.setAttribute('class', 'rssRadio');
+            rssRadio.setAttribute('name', 'rssRadioGroup');
+            rssRadioLabel = document.createElement('label');
+            rssRadioLabel.setAttribute('class', 'rssRadioLabel');
+            rssRadio.setAttribute('value', url);
+            rssRadioLabel.appendChild(rssRadio);
+            rssRadioLabel.appendChild(document.createTextNode(optionText));
+            rssForm.appendChild(rssRadioLabel);
+            if (checked === true) {
+                rssRadio.setAttribute('checked', 'true');
+            }
+        };
 
-        rssRadio = document.createElement('input');
-        rssRadio.setAttribute('type', 'radio');
-        rssRadio.setAttribute('class', 'rssRadio');
-        rssRadio.setAttribute('name', 'rssRadioGroup');
-        rssRadioLabel = document.createElement('label');
-        rssRadioLabel.setAttribute('class', 'rssRadioLabel');
-        rssRadio.setAttribute('value', 'http://www.dn.se/m/rss/senaste-nytt');
-        rssRadioLabel.appendChild(rssRadio);
-        rssRadioLabel.appendChild(document.createTextNode('Dagens Nyheter'));
-        rssForm.appendChild(rssRadioLabel);
-        rssRadio.setAttribute('checked', 'true');
+        addRadioOptionToRssForm('http://feeds.idg.se/idg/vzzs', 'IDG.se Nyheter');
+        addRadioOptionToRssForm('http://www.dn.se/m/rss/senaste-nytt', 'Dagens Nyheter', true);
+        addRadioOptionToRssForm('http://feeds.feedburner.com/SenasteFilmerna?format=xml', 'Senaste Filmerna');
+        addRadioOptionToRssForm('http://rss.computerworld.com/computerworld/news/feed?format=xml', 'ComputerWorld');
+        addRadioOptionToRssForm('http://www.aftonbladet.se/senastenytt/ttnyheter/inrikes/rss.xml', 'Aftonbladet');
+        addRadioOptionToRssForm('egen', 'Eget RSS-flöde enligt nedan...');
 
-        rssRadio = document.createElement('input');
-        rssRadio.setAttribute('type', 'radio');
-        rssRadio.setAttribute('class', 'rssRadio');
-        rssRadio.setAttribute('name', 'rssRadioGroup');
-        rssRadioLabel = document.createElement('label');
-        rssRadioLabel.setAttribute('class', 'rssRadioLabel');
-        rssRadio.setAttribute('value', 'http://feeds.feedburner.com/SenasteFilmerna?format=xml');
-        rssRadioLabel.appendChild(rssRadio);
-        rssRadioLabel.appendChild(document.createTextNode('Senaste Filmerna'));
-        rssForm.appendChild(rssRadioLabel);
-
-        rssRadio = document.createElement('input');
-        rssRadio.setAttribute('type', 'radio');
-        rssRadio.setAttribute('class', 'rssRadio');
-        rssRadio.setAttribute('name', 'rssRadioGroup');
-        rssRadioLabel = document.createElement('label');
-        rssRadioLabel.setAttribute('class', 'rssRadioLabel');
-        rssRadio.setAttribute('value', 'http://rss.computerworld.com/computerworld/news/feed?format=xml');
-        rssRadioLabel.appendChild(rssRadio);
-        rssRadioLabel.appendChild(document.createTextNode('ComputerWorld'));
-        rssForm.appendChild(rssRadioLabel);
-
-        rssRadio = document.createElement('input');
-        rssRadio.setAttribute('type', 'radio');
-        rssRadio.setAttribute('class', 'rssRadio');
-        rssRadio.setAttribute('name', 'rssRadioGroup');
-        rssRadioLabel = document.createElement('label');
-        rssRadioLabel.setAttribute('class', 'rssRadioLabel');
-        rssRadio.setAttribute('value', 'http://www.aftonbladet.se/senastenytt/ttnyheter/inrikes/rss.xml');
-        rssRadioLabel.appendChild(rssRadio);
-        rssRadioLabel.appendChild(document.createTextNode('Aftonbladet'));
-        rssForm.appendChild(rssRadioLabel);
-
-        rssRadio = document.createElement('input');
-        rssRadio.setAttribute('type', 'radio');
-        rssRadio.setAttribute('class', 'rssRadio');
-        rssRadio.setAttribute('name', 'rssRadioGroup');
-        rssRadioLabel = document.createElement('label');
-        rssRadioLabel.setAttribute('class', 'rssRadioLabel');
-        rssRadio.setAttribute('value', 'egen');
-        rssRadioLabel.appendChild(rssRadio);
-        rssRadioLabel.appendChild(document.createTextNode('Eget RSS-flöde enligt nedan...'));
-        rssForm.appendChild(rssRadioLabel);
-
-        var rssTextBox = document.createElement('input', 'rssTextBox');
+        rssTextBox = document.createElement('input', 'rssTextBox');
         rssTextBox.setAttribute('type', 'text');
         rssForm.appendChild(rssTextBox);
 
-        var rssFeedSettingButton = document.createElement('button');
+        rssFeedSettingButton = document.createElement('button');
         rssFeedSettingButton.appendChild(document.createTextNode('Välj'));
         rssFeedSettingButton.setAttribute('for', 'rssRadioGroup');
         rssForm.appendChild(rssFeedSettingButton);
@@ -346,7 +316,7 @@ NS1DV403.RssReader = function (height, width) {
             clearInterval(intervalId);
         }
         that.updateRssFeed();
-        intervalId = setInterval( function () {
+        intervalId = setInterval(function () {
             that.updateRssFeed();
         }, parseInt(minutes, 10) * 60000);
     };
