@@ -205,7 +205,7 @@ body {
     word-wrap: break-word;
 }
 
-.rssIntervalSetting, .rssFeedSetting {
+.rssIntervalSetting, .rssFeedSetting, .labbyInterValSetting, .labbyNumberSetting{
     position: absolute;
     width: 100%;
     height: calc(100% - 71px);
@@ -216,7 +216,7 @@ body {
     display: none;
 }
 
-.rssSelect {
+.rssSelect, .labbySelect {
     padding: 2px;
     margin: 20px;
     display: block;
@@ -228,7 +228,7 @@ body {
     margin-top: 2px;
 }
 
-.rssForm {
+.rssForm, .labbyForm {
     display: block;
     padding: 20px;
 }
@@ -277,7 +277,7 @@ body {
     min-width: 340px;
 }
 
-.rssRadioLabel {
+.rssRadioLabel, .labbyRadioLabel {
     display: block;
     /*width: calc(100% - 100px);*/
     /*border: 1px solid black;*/
@@ -513,7 +513,7 @@ textarea:focus {
 {
     content: "";
     position: absolute;
-    top: 24px;
+    top: 24.5px;
     right: -21px;
     border-style: solid;
     border-width: 12px 0 12px 20px;
@@ -540,8 +540,6 @@ textarea:focus {
     content: "";
     position: absolute;
     top: 25px;
-    /*top: 74px;*/
-    /*top: calc(100% - 66px);*/
     left: -18px;
     border-style: solid;
     border-width: 11px 19px 11px 0;
@@ -554,9 +552,7 @@ textarea:focus {
 {
     content: "";
     position: absolute;
-    top: 24px;
-    /*top: calc(100% - 67px);*/
-    /*top: 73px;*/
+    top: 24.5px;
     left: -21px;
     border-style: solid;
     border-width: 12px 20px 12px 0;
