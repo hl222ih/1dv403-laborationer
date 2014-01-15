@@ -12,12 +12,6 @@ NS1DV403.LabbyMezzage = function (height, width) {
 
     NS1DV403.Window.call(this, height, width, 'LabbyMezzage', true, true, 'images/labby64.png', menuElement);
 
-    if (window.localStorage.name) {
-        this.name = window.localStorage.name;
-    } else {
-        this.name = '';
-    }
-
     createSettingsDiv();
 
     this.getType = function () {
@@ -194,6 +188,22 @@ NS1DV403.LabbyMezzage = function (height, width) {
         }, parseFloat(minutes) * 60000);
     };
 
+    if (window.localStorage.labbyName) {
+        this.name = window.localStorage.labbyName;
+    } else {
+        this.name = '';
+    }
+    if (window.localStorage.labbyInterval) {
+        this.startUpdateInterval(window.localStorage.labbyInterval);
+    } else {
+        this.startUpdateInterval(10);
+    }
+    if (window.localStorage.labbyNumberOfMessages) {
+        currentNumberOfMessages = window.localStorage.labbyNumberOfMessages;
+    } else {
+        currentNumberOfMessages = 10;
+    }
+
     function createSettingsDiv() {
         var labbyIntervalSettingDiv = document.createElement('div');
         labbyIntervalSettingDiv.setAttribute('class', 'labbyIntervalSetting');
@@ -222,6 +232,8 @@ NS1DV403.LabbyMezzage = function (height, width) {
             e = e || event;
 
             that.startUpdateInterval(labbySelect.options[labbySelect.selectedIndex].value);
+
+            window.localStorage.labbyInterval = labbySelect.options[labbySelect.selectedIndex].value;
             labbyIntervalSettingDiv.style.display = 'none';
 
             e.stopPropagation();
@@ -311,9 +323,11 @@ NS1DV403.LabbyMezzage = function (height, width) {
 
             for (i; i < radioButtonList.length; i++) {
                 if (radioButtonList[i].checked) {
-                    that.updateMessages(radioButtonList[i].value);
+                    currentNumberOfMessages = radioButtonList[i].value;
                 }
             }
+            window.localStorage.labbyNumberOfMessages = currentNumberOfMessages;
+            that.updateMessages(currentNumberOfMessages);
             labbyNumberSettingDiv.style.display = 'none';
 
         }, false);
@@ -345,7 +359,7 @@ NS1DV403.LabbyMezzage = function (height, width) {
             e.stopPropagation();
             e.preventDefault();
 
-            window.localStorage.name = labbyAliasTextBox.value;
+            window.localStorage.labbyName = labbyAliasTextBox.value;
             labbyAliasSettingDiv.style.display = 'none';
 
         }, false);
@@ -388,13 +402,8 @@ NS1DV403.LabbyMezzage.prototype.render = function () {
     input.appendChild(textArea);
     input.appendChild(sendButton);
 
-//    messageBoardNode.appendChild(input);
-  //  messageBoardNode.appendChild(content);
-    //footer = container.lastElementChild;
-    //container.removeChild(footer);
     var statusBar = container.getElementsByClassName('appStatusBar')[0];
     statusBar.parentNode.insertBefore(input, statusBar);
-    //container.appendChild(footer);
 
     /**
      * Funktion för att skapa och skicka iväg ett meddelande och sedan anropa en uppdatering från servern. Anropas av händelsehanterare.
@@ -407,8 +416,8 @@ NS1DV403.LabbyMezzage.prototype.render = function () {
 
         if (textArea.value.trim() !== "") {
             message = textArea.value.trim();
-            if (window.localStorage.name) {
-                author = window.localStorage.name;
+            if (window.localStorage.labbyName) {
+                author = window.localStorage.labbyName;
             } else {
                 author = 'Anonym';
             }
