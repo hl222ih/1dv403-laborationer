@@ -217,6 +217,7 @@ NS1DV403.RssReader = function (height, width) {
         rssForm.setAttribute('class', 'rssForm');
         rssSelect.setAttribute('class', 'rssSelect');
 
+        rssSelect.options.add(new Option('6 sekunder (för testning)', '0.1'));
         rssSelect.options.add(new Option('5 minuter', '5'));
         rssSelect.options.add(new Option('10 minuter', '10'));
         rssSelect.options.add(new Option('30 minuter', '30'));
@@ -272,7 +273,8 @@ NS1DV403.RssReader = function (height, width) {
         addRadioOptionToRssForm('http://www.aftonbladet.se/senastenytt/ttnyheter/inrikes/rss.xml', 'Aftonbladet');
         addRadioOptionToRssForm('egen', 'Eget RSS-flöde enligt nedan...');
 
-        rssTextBox = document.createElement('input', 'rssTextBox');
+        rssTextBox = document.createElement('input');
+        rssTextBox.setAttribute('class', 'rssTextBox');
         rssTextBox.setAttribute('type', 'text');
         rssForm.appendChild(rssTextBox);
 
@@ -317,6 +319,6 @@ NS1DV403.RssReader = function (height, width) {
         that.updateRssFeed();
         that.intervalId = setInterval(function () {
             that.updateRssFeed();
-        }, parseInt(minutes, 10) * 3000);
+        }, parseFloat(minutes) * 60000);
     };
 };

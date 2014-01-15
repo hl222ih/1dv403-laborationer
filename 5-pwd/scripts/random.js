@@ -17,10 +17,9 @@ NS1DV403.RandomGenerator = {
      [3,4,4,1,2,1,2,3]
      */
 
-    getPictureArray: function(rows, cols)
-    {
-        var numberOfImages = rows*cols;
-        var maxImageNumber = numberOfImages/2;
+    getPictureArray: function (rows, cols) {
+        var numberOfImages = rows * cols,
+            maxImageNumber = numberOfImages / 2;
 
         var imgPlace = [];
 

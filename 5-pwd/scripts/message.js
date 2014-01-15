@@ -93,7 +93,6 @@ NS1DV403.Message.prototype.getMessageNode = function () {
         dateTime = document.createElement("div"),
         author = document.createElement('div'),
         authorName = document.createElement('div');
-        //img = document.createElement('img');
 
     message.setAttribute('class', 'messageSection');
     header.setAttribute('class', 'messageHeader');
