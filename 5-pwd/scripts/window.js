@@ -97,6 +97,7 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         appStatusBarResizeIcon = document.createElement('img');
         appStatusBarResizeIcon.setAttribute('class', 'appStatusBarResizeIcon');
         appStatusBarResizeIcon.setAttribute('src', 'images/expand38x40.png');
+        appStatusBarResizeIcon.draggable = false;
         appStatusBar.appendChild(appStatusBarResizeIcon);
     }
 
@@ -185,7 +186,7 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
             var MinWidth = 240;
             var MinHeight = 240;
             //e.which === 1: kolla att vänster musknapp är nedtryckt, e.buttons === 1 i IE (alltså, Trident. Har inte gjort nån djupdykning här, kollade bara lite på http://www.useragentstring.com/ o försökte se vad som skilde webläsarna åt).
-            if ((/Trident/.test(navigator.userAgent) && e.buttons === 1) || (!/Trident/.test(navigator.userAgent) && (e.which === 1))) {
+            if ((/(?:Trident|Mozilla)/.test(navigator.userAgent) && e.buttons === 1) || (!/(?:Trident|Mozilla)/.test(navigator.userAgent) && (e.which === 1))) {
                 if (oldCursorPositionX && oldCursorPositionY) {
                     if (newLeftPosition < bodyLeft) {
                         newLeftPosition = bodyLeft;
@@ -272,7 +273,7 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
             bottomPosition = appWindow.offsetTop + appWindow.offsetHeight;
 
         e = e || event;
-        if ((/Trident/.test(navigator.userAgent) && e.buttons !== 1) || (e.which !== 1)) {
+        if ((/(?:Trident|Mozilla)/.test(navigator.userAgent) && e.buttons !== 1) || (e.which !== 1)) {
             if (e.clientX >= leftPosition && e.clientX <= leftPosition + 4) {
                 if (e.clientY >= topPosition && e.clientY <= topPosition + 20) {
                     appWindow.style.cursor = 'nw-resize';
@@ -306,7 +307,7 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
                     appWindow.style.cursor = 's-resize';
                 }
             } else if (e.target === appTitleBar || e.target === appLabel || e.target === appTitleBarImage) {
-                if ((/Trident/.test(navigator.userAgent) && e.buttons === 1) || (!/Trident/.test(navigator.userAgent) && (e.which === 1))) {
+                if ((/(Trident|Mozilla)/.test(navigator.userAgent) && e.buttons === 1) || (!/(?:Trident|Mozilla)/.test(navigator.userAgent) && (e.which === 1))) {
                     appWindow.style.cursor = 'move';
                 } else {
                     appWindow.style.cursor = 'pointer';
