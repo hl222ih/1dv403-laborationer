@@ -8,7 +8,6 @@ var NS1DV403 = NS1DV403 || {};
 NS1DV403.LabbyMezzage = function (height, width) {
     var that = this,
         currentNumberOfMessages,
-        intervalId,
         menuElement = createMenu();
 
     NS1DV403.Window.call(this, height, width, 'LabbyMezzage', true, true, 'images/labby64.png', menuElement);
@@ -183,11 +182,11 @@ NS1DV403.LabbyMezzage = function (height, width) {
     };
 
     this.startUpdateInterval = function (minutes) {
-        if (intervalId) {
-            clearInterval(intervalId);
+        if (that.intervalId) {
+            clearInterval(that.intervalId);
         }
         that.updateMessages();
-        intervalId = setInterval( function () {
+        that.intervalId = setInterval( function () {
             that.updateMessages();
         }, parseFloat(minutes) * 60000);
     };

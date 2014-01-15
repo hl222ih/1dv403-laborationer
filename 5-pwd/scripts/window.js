@@ -50,6 +50,8 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         }
         currentNode.parentNode.removeChild(appWindow);
 
+        that.clearInterval();
+
         e.preventDefault(); //förhindra default action (dvs. att gå till den "tomma" länken "#")
         e.stopPropagation(); //förhindra vidare event bubbling
 
@@ -395,5 +397,11 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         }
 
         appWindow.style.zIndex = currentTopZIndex + 1;
+    };
+
+    this.intervalId = null;
+
+    this.clearInterval = function () {
+        clearInterval(that.intervalId);
     };
 };

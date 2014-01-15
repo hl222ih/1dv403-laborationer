@@ -6,8 +6,7 @@ NS1DV403.RssReader = function (height, width) {
     var xhr = new XMLHttpRequest(),
         that = this,
         menuElement,
-        currentRssFeedUrl,
-        intervalId;
+        currentRssFeedUrl;
 
     menuElement = createMenu();
 
@@ -312,11 +311,11 @@ NS1DV403.RssReader = function (height, width) {
     }
 
     this.startUpdateInterval = function (minutes) {
-        if (intervalId) {
-            clearInterval(intervalId);
+        if (that.intervalId) {
+            clearInterval(this.intervalId);
         }
         that.updateRssFeed();
-        intervalId = setInterval(function () {
+        that.intervalId = setInterval(function () {
             that.updateRssFeed();
         }, parseInt(minutes, 10) * 3000);
     };
