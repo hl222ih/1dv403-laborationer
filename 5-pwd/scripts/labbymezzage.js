@@ -419,6 +419,14 @@ NS1DV403.LabbyMezzage.prototype.render = function () {
             formData.append('username', author);
             formData.append('text', message);
             xhr.send(formData);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+                        that.updateMessages();
+                    }
+                }
+            };
         }
 
         textArea.focus(); //sätter fokus till textarea-elementet.
