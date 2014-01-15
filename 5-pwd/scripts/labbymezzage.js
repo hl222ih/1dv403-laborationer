@@ -71,14 +71,17 @@ NS1DV403.LabbyMezzage = function (height, width) {
             }
         }, false);
 
-        menuItemTop.addEventListener('mouseleave', function (e) {
+        function hideMenuDropDown(e) {
             var allMenuItems = menuItemTop.querySelectorAll('.menuItemMiddle, .menuItemBottom'),
                 i;
 
             for (i = 0; i < allMenuItems.length; i++) {
                 allMenuItems[i].style.display = 'none';
             }
-        }, false);
+        }
+
+        menuItemTop.addEventListener('mouseleave', hideMenuDropDown, false);
+        menuItemTop.addEventListener('click', hideMenuDropDown, false);
 
         //uppdateringsintervall
         menuItemMiddle1.addEventListener('click', function (e) {

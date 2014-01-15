@@ -5,10 +5,8 @@ var NS1DV403 = NS1DV403 || {};
 NS1DV403.RssReader = function (height, width) {
     var xhr = new XMLHttpRequest(),
         that = this,
-        menuElement,
+        menuElement = createMenu(),
         currentRssFeedUrl;
-
-    menuElement = createMenu();
 
     NS1DV403.Window.call(this, height, width, 'RSS Reader', true, true, 'images/rss32.png', menuElement);
 
@@ -163,14 +161,17 @@ NS1DV403.RssReader = function (height, width) {
             }
         }, false);
 
-        menuItemTop.addEventListener('mouseleave', function (e) {
+        function hideMenuDropDown(e) {
             var allMenuItems = menuItemTop.querySelectorAll('.menuItemMiddle, .menuItemBottom'),
                 i;
 
             for (i = 0; i < allMenuItems.length; i++) {
                 allMenuItems[i].style.display = 'none';
             }
-        }, false);
+        }
+
+        menuItemTop.addEventListener('mouseleave', hideMenuDropDown, false);
+        menuItemTop.addEventListener('click', hideMenuDropDown, false);
 
         //uppdateringsintervall
         menuItemMiddle1.addEventListener('click', function (e) {
@@ -195,7 +196,6 @@ NS1DV403.RssReader = function (height, width) {
             }
 
         }, false);
-
 
         return menuHead;
     }
