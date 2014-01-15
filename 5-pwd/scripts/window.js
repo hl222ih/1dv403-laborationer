@@ -103,8 +103,9 @@ NS1DV403.Window = function (height, width, name, hasMenuBar, hasStatusBar, iconU
         appStatusBar.appendChild(appStatusBarResizeIcon);
     }
 
+    //får inte detta att se bra ut annat än i 100%-vy i webbläsarfönstret, emellanåt inte ens då. :/
     if (hasStatusBar && hasMenuBar) {
-        appContent.style.height = 'calc(100% - 70px)';
+        appContent.style.height = 'calc(100% - 72px)';
     } else if (hasStatusBar || hasMenuBar) {
         appContent.style.height = 'calc(100% - 48px)';
     } else {
