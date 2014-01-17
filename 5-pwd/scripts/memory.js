@@ -166,7 +166,7 @@ NS1DV403.Memory = function (height, width) {
                             that.setStatusBarText("Grattis! Resultatet blev " + numberOfTries.toString() + " försök!");
                             //"Grattis! Du klarade det på " + numberOfTries.toString() + " försök!";
                         }
-                    }, 1000); //visa brickorna i en sekund efter att båda brickorna vänts upp.
+                    }, 1200); //visa brickorna i 1.2 sekunder efter att båda brickorna vänts upp.
                 }
             }
 
@@ -250,15 +250,17 @@ NS1DV403.Memory = function (height, width) {
                 allMenuItems[i].style.display = 'none';
             }
 
-        }, true);
+        }, false);
 
         return menuHead;
     }
 
     board.addEventListener("mousedown", function (e) {
-        chooseImage(e);
+        if (e.target.tagName === "A" || e.target.tagName === "IMG") {
+            chooseImage(e);
+        }
         e.preventDefault();
-    }, true); //true för att inte agera på klick på board-id:t utan bara children till den noden.
+    }, false);
 
     //Vänder på brickorna eller navigerar mellan dem med piltangenterna.
     board.addEventListener("keydown", function (e) {
@@ -288,7 +290,7 @@ NS1DV403.Memory = function (height, width) {
             }
         }
 
-    }, true); //true för att inte agera på klick på board-id:t utan bara children till den noden.
+    }, false);
 
 
     this.getType = function () {
